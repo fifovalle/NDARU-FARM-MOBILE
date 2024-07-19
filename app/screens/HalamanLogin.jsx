@@ -25,7 +25,7 @@ export default function HalamanLogin() {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => console.log("register")}
+          onPress={() => console.log("Daftar")}
           className="p-4 bg-teal-100 rounded-lg mt-4"
         >
           <Text className="text-teal-600 text-center font-bold text-[18px]">
