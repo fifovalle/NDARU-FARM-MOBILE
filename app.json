@@ -2,7 +2,7 @@
   "expo": {
     "name": "NDARU FARM",
     "slug": "ndaru-farm",
-    "scheme": "your-app-scheme",
+    "scheme": "ndaru-farm",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/Ikon1.png",
