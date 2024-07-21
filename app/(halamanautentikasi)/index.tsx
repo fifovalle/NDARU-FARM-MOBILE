@@ -7,11 +7,10 @@ import {
   Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import KepalaAutentikasi from "../components/KepalaAutentikasi";
-
+import { Link } from "expo-router";
 import React, { useState } from "react";
 
-export default function Bergabung() {
+export default function HalamanGabung() {
   const [email, aturEmail] = useState("");
   const [kataSandi, aturKataSandi] = useState("");
   const [ceklis, aturCeklis] = useState(false);
@@ -19,10 +18,13 @@ export default function Bergabung() {
   const Mata = require("../../assets/images/Ikon2.png");
   const Mata2 = require("../../assets/images/Ikon5.png");
   const Google = require("../../assets/images/Ikon3.png");
+  const Gambar1 = require("../../assets/images/Kepala.png");
 
   return (
     <View className="flex-1">
-      <KepalaAutentikasi />
+      <View className="w-full h-80">
+        <Image source={Gambar1} className="object-cover w-full h-full" />
+      </View>
       <View
         className="w-[330px] h-[440px] mx-auto rounded-2xl mt-3 bg-white"
         style={{
@@ -41,15 +43,25 @@ export default function Bergabung() {
             className="bg-[#275229] px-8 py-3 rounded-full z-10 shadow-md w-[11rem] ml-4"
             activeOpacity={0.7}
           >
-            <Text className="text-white font-bold text-center">Bergabung</Text>
+            <Link
+              href={"/"}
+              className="text-white font-bold text-center"
+              replace={true}
+            >
+              <Text>Bergabung</Text>
+            </Link>
           </TouchableOpacity>
           <TouchableOpacity
             className="bg-white px-8 py-3 rounded-r-full shadow-md border border-l-0 border-[#275229] w-[11rem] mr-4"
             activeOpacity={0.7}
           >
-            <Text className="text-[#275229] font-bold text-center">
-              Mendaftar
-            </Text>
+            <Link
+              className="text-[#275229] font-bold text-center"
+              href={"/daftar"}
+              replace={true}
+            >
+              <Text>Mendaftar</Text>
+            </Link>
           </TouchableOpacity>
         </View>
         <View className="mt-10 px-8">

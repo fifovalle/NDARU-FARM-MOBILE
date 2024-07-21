@@ -2,13 +2,13 @@
   "expo": {
     "name": "NDARU FARM",
     "slug": "ndaru-farm",
-    "scheme": "ndaru-farm",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/Ikon1.png",
-    "userInterfaceStyle": "light",
+    "icon": "./assets/images/Ikon5.png",
+    "scheme": "ndaru-farm",
+    "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/Ikon1.png",
+      "image": "./assets/images/Ikon5.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,13 +17,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/Ikon1.png",
+        "foregroundImage": "./assets/images/Ikon5.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./assets/images/Ikon1.png"
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/Ikon5.png"
     },
-    "plugins": ["expo-router"]
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    }
   }
 }

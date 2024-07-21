@@ -1,12 +1,10 @@
 import "../global.css";
-import React from "react";
-import { View } from "react-native";
-import Bergabung from "./screens/Bergabung";
+import { Stack } from "expo-router";
 
 export default function RootLayout() {
   return (
-    <View className="flex-1 h-full">
-      <Bergabung />
-    </View>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="(halamanautentikasi)" />
+    </Stack>
   );
 }
