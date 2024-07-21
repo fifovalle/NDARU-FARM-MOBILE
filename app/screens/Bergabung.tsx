@@ -7,7 +7,7 @@ import {
   Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import KepalaAutentikasi from "../../components/KepalaAutentikasi";
+import KepalaAutentikasi from "../components/KepalaAutentikasi";
 
 import React, { useState } from "react";
 
