@@ -21,7 +21,8 @@ Jelajahi karya terbaru dan keterampilan saya dalam dunia pengembangan aplikasi m
 
 Berikut adalah beberapa tampilan halaman website :
 
-<!-- LINK SS DISINI -->
+![1](https://github.com/user-attachments/assets/8fb40062-0b8e-41e6-9d09-d4de3157c675)
+![2](https://github.com/user-attachments/assets/aed24734-c2e9-40b4-a89b-9de44d42665c)
 
 ## 📬 Kontak
 
