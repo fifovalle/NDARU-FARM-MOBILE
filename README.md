@@ -21,8 +21,8 @@ Jelajahi karya terbaru dan keterampilan saya dalam dunia pengembangan aplikasi m
 
 Berikut adalah beberapa tampilan halaman website :
 
-![1](https://github.com/user-attachments/assets/8fb40062-0b8e-41e6-9d09-d4de3157c675)
-![2](https://github.com/user-attachments/assets/aed24734-c2e9-40b4-a89b-9de44d42665c)
+![1](https://github.com/user-attachments/assets/e9e643bc-cb12-4cd8-949d-1ac64268594f)
+![2](https://github.com/user-attachments/assets/720bc971-90e8-43ca-ae60-55050cd1871d)
 
 ## 📬 Kontak
 
