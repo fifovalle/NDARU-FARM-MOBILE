@@ -55,7 +55,7 @@ export default function HalamanDaftar() {
             elevation: 16,
           }}
         >
-          <View className="flex-row mt-8 justify-evenly w-80 mx-auto bg-white">
+          <View className="flex-row mt-10 justify-evenly w-80 mx-auto bg-white">
             <TouchableOpacity
               className="bg-white px-8 py-3 rounded-full z-10 shadow-md w-[11rem] ml-4"
               activeOpacity={0.7}
@@ -81,7 +81,7 @@ export default function HalamanDaftar() {
               </Link>
             </TouchableOpacity>
           </View>
-          <View className="mt-5 px-8">
+          <View className="mt-10 px-8">
             <View className="relative">
               <TextInput
                 className="border-gray-300 border-b-2 py-2 focus:outline-none focus:border-[#275229]"
@@ -158,46 +158,18 @@ export default function HalamanDaftar() {
                 />
               </Pressable>
             </View>
-            <View className="flex-row mt-4 justify-between">
-              <View className="flex-row items-center">
-                <Pressable
-                  className={`w-5 h-5 justify-center items-center rounded ${
-                    ceklis ? "bg-[#275229]" : "border-gray-300 border-2"
-                  }`}
-                  onPress={() => aturCeklis(!ceklis)}
-                >
-                  {ceklis && (
-                    <Ionicons name="checkmark" size={12} color="white" />
-                  )}
-                </Pressable>
-                <Text
-                  className="text-center ml-1 text-gray-500"
-                  style={{ fontFamily: "Poppins_600SemiBold" }}
-                >
-                  Ingat Saya
-                </Text>
-              </View>
-              <TouchableOpacity activeOpacity={0.7}>
-                <Text
-                  className="text-gray-500"
-                  style={{ fontFamily: "Poppins_600SemiBold" }}
-                >
-                  Lupa Sandi?
-                </Text>
-              </TouchableOpacity>
-            </View>
             <TouchableOpacity
-              className="bg-[#275229] py-3 rounded-xl mt-4 mx-8 shadow-md"
+              className="bg-[#275229] py-3 rounded-xl mt-6 mx-8 shadow-md"
               activeOpacity={0.7}
             >
               <Text
                 className="text-center text-white font-bold text-xl"
                 style={{ fontFamily: "Poppins_700Bold" }}
               >
-                Bergabung
+                Mendaftar
               </Text>
             </TouchableOpacity>
-            <View className="flex-row justify-center mt-3">
+            <View className="flex-row justify-center mt-4">
               <Text
                 className="text-gray-500"
                 style={{ fontFamily: "Poppins_600SemiBold" }}
@@ -206,7 +178,7 @@ export default function HalamanDaftar() {
               </Text>
             </View>
             <TouchableOpacity
-              className="flex-row justify-center mt-1"
+              className="flex-row justify-center mt-2"
               activeOpacity={0.7}
             >
               <View className="bg-white border rounded-full p-2 shadow-md">
@@ -216,12 +188,12 @@ export default function HalamanDaftar() {
           </View>
         </View>
       </View>
-      <View className="h-[5rem] rounded-t-xl shadow mt-2 bg-[#D9D9D9] p-4 flex-row justify-center">
+      <View className="h-[5rem] rounded-t-xl shadow mt-3 bg-[#D9D9D9] p-4 flex-row justify-center">
         <Text
           className="text-[#7F7F7F] text-center"
           style={{ fontFamily: "Poppins_600SemiBold" }}
         >
-          Hak Cipta {new Date().getFullYear()} Ndaru Farm
+          Hak Cipta {new Date().getFullYear()} Syntax Squads
         </Text>
       </View>
     </ScrollView>

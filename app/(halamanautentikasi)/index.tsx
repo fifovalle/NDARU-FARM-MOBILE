@@ -180,12 +180,12 @@ export default function HalamanGabung() {
           </View>
         </View>
       </View>
-      <View className="h-[5rem] rounded-t-xl shadow mt-2 bg-[#D9D9D9] p-4 flex-row justify-center">
+      <View className="h-[5rem] rounded-t-xl shadow mt-3 bg-[#D9D9D9] p-4 flex-row justify-center">
         <Text
           className="text-[#7F7F7F] text-center"
           style={{ fontFamily: "Poppins_600SemiBold" }}
         >
-          Hak Cipta {new Date().getFullYear()} Ndaru Farm
+          Hak Cipta {new Date().getFullYear()} Syntax Squads
         </Text>
       </View>
     </ScrollView>
