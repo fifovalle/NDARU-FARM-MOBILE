@@ -25,6 +25,7 @@ export default function HalamanGabung() {
   const Mata2 = require("../../assets/images/Ikon5.png");
   const Google = require("../../assets/images/Ikon3.png");
   const Gambar1 = require("../../assets/images/Kepala.png");
+
   let [memuatFont] = useFonts({
     Poppins_700Bold,
     Poppins_600SemiBold,
@@ -57,11 +58,7 @@ export default function HalamanGabung() {
               className="bg-[#275229] px-8 py-3 rounded-full z-10 shadow-md w-[11rem] ml-4"
               activeOpacity={0.7}
             >
-              <Link
-                href={"/"}
-                className="text-white text-center text-lg"
-                replace={true}
-              >
+              <Link href={"/"} className="text-white text-center text-lg">
                 <Text style={{ fontFamily: "Poppins_700Bold" }}>Bergabung</Text>
               </Link>
             </TouchableOpacity>
@@ -72,7 +69,6 @@ export default function HalamanGabung() {
               <Link
                 className="text-[#275229] text-center text-lg"
                 href={"/daftar"}
-                replace={true}
               >
                 <Text style={{ fontFamily: "Poppins_700Bold" }}>Mendaftar</Text>
               </Link>
@@ -183,6 +179,14 @@ export default function HalamanGabung() {
             </TouchableOpacity>
           </View>
         </View>
+      </View>
+      <View className="h-[5rem] rounded-t-xl shadow mt-2 bg-[#D9D9D9] p-4 flex-row justify-center">
+        <Text
+          className="text-[#7F7F7F] text-center"
+          style={{ fontFamily: "Poppins_600SemiBold" }}
+        >
+          Hak Cipta {new Date().getFullYear()} Ndaru Farm
+        </Text>
       </View>
     </ScrollView>
   );
