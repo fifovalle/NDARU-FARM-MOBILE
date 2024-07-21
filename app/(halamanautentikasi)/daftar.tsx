@@ -159,7 +159,7 @@ export default function HalamanDaftar() {
               </Pressable>
             </View>
             <TouchableOpacity
-              className="bg-[#275229] py-3 rounded-xl mt-6 mx-8 shadow-md"
+              className="bg-[#275229] py-3 rounded-xl mt-5 mx-8 shadow-md"
               activeOpacity={0.7}
             >
               <Text
