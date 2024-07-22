@@ -7,7 +7,6 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -15,19 +14,22 @@ import {
   Poppins_700Bold,
   Poppins_600SemiBold,
 } from "@expo-google-fonts/poppins";
+import Spanduk from "./components/spanduk";
+import Kaki from "./components/kaki";
+import KotakFormulir from "./components/kotakFormulir";
+import TombolGabungDaftar from "./components/tombolGabungDaftar";
 
 export default function HalamanDaftar() {
   const [email, aturEmail] = useState("");
   const [kataSandi, aturKataSandi] = useState("");
   const [konfirmasiKataSandi, aturKonfirmasiKataSandi] = useState("");
-  const [ceklis, aturCeklis] = useState(false);
   const [lihatkanKataSandi, aturLihatkanKataSandi] = useState(false);
   const [lihatkanKonfirmasiKataSandi, aturLihatkanKonfirmasiKataSandi] =
     useState(false);
+  const [layarSekarang, aturLayarSekarang] = useState("daftar");
   const Mata = require("../../assets/images/Ikon2.png");
   const Mata2 = require("../../assets/images/Ikon5.png");
   const Google = require("../../assets/images/Ikon3.png");
-  const Gambar1 = require("../../assets/images/Kepala.png");
   let [memuatFont] = useFonts({
     Poppins_700Bold,
     Poppins_600SemiBold,
@@ -39,48 +41,12 @@ export default function HalamanDaftar() {
   return (
     <ScrollView className="flex-1" keyboardShouldPersistTaps="handled">
       <View className="flex-1">
-        <View className="w-full h-80">
-          <Image source={Gambar1} className="object-cover w-full h-full" />
-        </View>
-        <View
-          className="w-[330px] h-[440px] mx-auto rounded-2xl mt-3 bg-white"
-          style={{
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 8,
-            },
-            shadowOpacity: 0.44,
-            shadowRadius: 10.32,
-            elevation: 16,
-          }}
-        >
-          <View className="flex-row mt-10 justify-evenly w-80 mx-auto bg-white">
-            <TouchableOpacity
-              className="bg-white px-8 py-3 rounded-full z-10 shadow-md w-[11rem] ml-4"
-              activeOpacity={0.7}
-            >
-              <Link
-                className="text-[#275229] text-center text-lg"
-                href={"/"}
-                replace={true}
-              >
-                <Text style={{ fontFamily: "Poppins_700Bold" }}>Bergabung</Text>
-              </Link>
-            </TouchableOpacity>
-            <TouchableOpacity
-              className="bg-[#275229] px-8 py-3 rounded-r-full shadow-md border border-l-0 border-[#275229] w-[11rem] mr-4"
-              activeOpacity={0.7}
-            >
-              <Link
-                className="text-white font-bold text-center text-lg"
-                href={"/daftar"}
-                replace={true}
-              >
-                <Text style={{ fontFamily: "Poppins_700Bold" }}>Mendaftar</Text>
-              </Link>
-            </TouchableOpacity>
-          </View>
+        <Spanduk />
+        <KotakFormulir>
+          <TombolGabungDaftar
+            layarSekarang={layarSekarang}
+            aturLayarSekarang={aturLayarSekarang}
+          />
           <View className="mt-10 px-8">
             <View className="relative">
               <TextInput
@@ -186,16 +152,9 @@ export default function HalamanDaftar() {
               </View>
             </TouchableOpacity>
           </View>
-        </View>
+        </KotakFormulir>
       </View>
-      <View className="h-[5rem] rounded-t-xl shadow mt-3 bg-[#D9D9D9] p-4 flex-row justify-center">
-        <Text
-          className="text-[#7F7F7F] text-center"
-          style={{ fontFamily: "Poppins_600SemiBold" }}
-        >
-          Hak Cipta {new Date().getFullYear()} Syntax Squads
-        </Text>
-      </View>
+      <Kaki />
     </ScrollView>
   );
 }
