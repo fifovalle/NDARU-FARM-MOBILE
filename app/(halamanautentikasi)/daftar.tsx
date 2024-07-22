@@ -7,7 +7,6 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import { Link } from "expo-router";
 import React, { useState } from "react";
 import {
   useFonts,
@@ -153,8 +152,8 @@ export default function HalamanDaftar() {
             </TouchableOpacity>
           </View>
         </KotakFormulir>
+        <Kaki />
       </View>
-      <Kaki />
     </ScrollView>
   );
 }

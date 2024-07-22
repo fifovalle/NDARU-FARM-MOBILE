@@ -6,6 +6,7 @@ export default function TataLetakAutentikasi() {
       <Stack.Screen name="index" />
       <Stack.Screen name="daftar" />
       <Stack.Screen name="lupaSandi" />
+      <Stack.Screen name="cekEmail" />
     </Stack>
   );
 }

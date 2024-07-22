@@ -3,11 +3,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Pressable,
-  Image,
   ScrollView,
 } from "react-native";
 import React, { useState } from "react";
+import { Link } from "expo-router";
 import {
   useFonts,
   Poppins_700Bold,
@@ -33,15 +32,21 @@ export default function LupaSandi() {
         <Spanduk />
         <KotakFormulir>
           <View className="flex-none mt-10 bg-white px-8">
-            <Text className="text-[#275229] font-bold text-[32px]">
+            <Text
+              className="text-[#275229] text-[28px]"
+              style={{ fontFamily: "Poppins_700Bold" }}
+            >
               Jangan Khawatir!
             </Text>
-            <Text className="text-[#7F7F7F] font-bold text-[16px] mt-10">
+            <Text
+              className="text-[#7F7F7F] text-[14px] mt-6"
+              style={{ fontFamily: "Poppins_600SemiBold" }}
+            >
               Kami akan mengirimkan tautan untuk mengatur ulang kata sandi Anda
               ke email yang terdaftar.
             </Text>
           </View>
-          <View className="mt-12 px-8">
+          <View className="mt-10 px-8">
             <View className="relative">
               <TextInput
                 className="border-gray-300 border-b-2 py-2 focus:outline-none focus:border-[#275229]"
@@ -64,17 +69,19 @@ export default function LupaSandi() {
               className="bg-[#275229] py-3 rounded-xl mt-[7.5rem] mx-8 shadow-md"
               activeOpacity={0.7}
             >
-              <Text
+              <Link
+                href="/cekEmail"
                 className="text-center text-white font-bold text-xl"
-                style={{ fontFamily: "Poppins_700Bold" }}
               >
-                Kirim Kode
-              </Text>
+                <Text style={{ fontFamily: "Poppins_700Bold" }}>
+                  Kirim Kode
+                </Text>
+              </Link>
             </TouchableOpacity>
           </View>
         </KotakFormulir>
+        <Kaki />
       </View>
-      <Kaki />
     </ScrollView>
   );
 }

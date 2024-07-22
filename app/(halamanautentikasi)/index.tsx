@@ -157,8 +157,8 @@ export default function HalamanGabung() {
             </TouchableOpacity>
           </View>
         </KotakFormulir>
+        <Kaki />
       </View>
-      <Kaki />
     </ScrollView>
   );
 }
