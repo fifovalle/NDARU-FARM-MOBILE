@@ -23,6 +23,8 @@ Berikut adalah beberapa tampilan halaman website :
 
 ![1](https://github.com/user-attachments/assets/1a73c2a6-4f56-4239-bb23-ededae69d878)
 ![2](https://github.com/user-attachments/assets/465989ae-7c99-4111-ab54-e077befa5c90)
+![3](https://github.com/user-attachments/assets/3dad941b-ddf0-460d-98bf-0a40eea5cf62)
+![4](https://github.com/user-attachments/assets/9183825d-03c9-4528-ad3b-d4f8435badd1)
 
 ## 📬 Kontak
 
