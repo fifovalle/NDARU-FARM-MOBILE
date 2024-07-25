@@ -15,16 +15,16 @@ import {
   Poppins_600SemiBold,
   Poppins_900Black_Italic,
 } from "@expo-google-fonts/poppins";
-import BarPencaharian from "./components/barPencaharian";
-import Spanduk from "./components/spanduk";
+import BarPencaharian from "../components/barPencaharian";
+import Spanduk from "../components/spanduk";
 
 export default function index() {
   const gulirVertikal = useRef(new Animated.Value(0)).current;
-  const ikonPanah = require("../../assets/images/ikon8.png");
-  const ikonKategori1 = require("../../assets/images/ikon9.png");
-  const ikonKategori2 = require("../../assets/images/ikon10.png");
-  const ikonKategori3 = require("../../assets/images/ikon11.png");
-  const brokoli = require("../../assets/images/brokoli.png");
+  const ikonPanah = require("../../../assets/images/ikon8.png");
+  const ikonKategori1 = require("../../../assets/images/ikon9.png");
+  const ikonKategori2 = require("../../../assets/images/ikon10.png");
+  const ikonKategori3 = require("../../../assets/images/ikon11.png");
+  const brokoli = require("../../../assets/images/brokoli.png");
   let [memuatFont] = useFonts({
     Poppins_700Bold,
     Poppins_600SemiBold,
