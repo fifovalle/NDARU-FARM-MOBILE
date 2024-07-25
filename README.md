@@ -25,6 +25,7 @@ Berikut adalah beberapa tampilan halaman website :
 ![2](https://github.com/user-attachments/assets/465989ae-7c99-4111-ab54-e077befa5c90)
 ![3](https://github.com/user-attachments/assets/3dad941b-ddf0-460d-98bf-0a40eea5cf62)
 ![4](https://github.com/user-attachments/assets/9183825d-03c9-4528-ad3b-d4f8435badd1)
+![5](https://github.com/user-attachments/assets/41ae2695-a8cf-4bff-8ef9-3b6ac0e86e15)
 
 ## 📬 Kontak
 

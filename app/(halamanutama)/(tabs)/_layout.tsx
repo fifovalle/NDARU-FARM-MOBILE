@@ -15,7 +15,11 @@ export default function TataLetakTabs() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarStyle: { paddingHorizontal: 25 },
+        tabBarStyle: {
+          paddingHorizontal: 25,
+          borderTopEndRadius: 15,
+          borderTopStartRadius: 15,
+        },
       }}
     >
       <Tabs.Screen
