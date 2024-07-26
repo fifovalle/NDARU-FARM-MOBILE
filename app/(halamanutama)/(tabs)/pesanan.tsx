@@ -19,6 +19,8 @@ import BarPencaharian from "../components/barPencaharian";
 
 export default function Pesanan() {
   const gulirVertikal = useRef(new Animated.Value(0)).current;
+  const brokoli = require("../../../assets/images/brokoli.png");
+  const ikonSilang = require("../../../assets/images/ikon12.png");
   let [memuatFont] = useFonts({
     Poppins_700Bold,
     Poppins_600SemiBold,
@@ -76,6 +78,46 @@ export default function Pesanan() {
                 1 Barang
               </Text>
             </TouchableOpacity>
+          </View>
+        </View>
+        <View
+          className="mb-2 mt-2 bg-white rounded-xl"
+          style={{
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+          }}
+        >
+          <View className="flex-row items-center">
+            <Image className="w-32 h-24" source={brokoli} />
+            <View>
+              <Text
+                className="text-xl text-[#275229] px-4 pt-4"
+                style={{ fontFamily: "Poppins_700Bold" }}
+              >
+                Brokoli
+              </Text>
+              <Text
+                className="text-[#000] px-4"
+                style={{ fontFamily: "Poppins_600SemiBold" }}
+              >
+                Sehat dan berwarna...
+              </Text>
+              <Text
+                className="text-[#275229] px-4"
+                style={{ fontFamily: "Poppins_600SemiBold" }}
+              >
+                Rp300.000
+              </Text>
+              <Text
+                className="text-[#FAA322] px-4 py-2 pb-4"
+                style={{ fontFamily: "Poppins_700Bold" }}
+              >
+                Dikemas
+              </Text>
+            </View>
           </View>
         </View>
       </ScrollView>
