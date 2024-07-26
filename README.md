@@ -10,6 +10,9 @@ Jelajahi karya terbaru dan keterampilan saya dalam dunia pengembangan aplikasi m
 ### 🚀 Fitur Utama
 
 - **User Interface:** Autentikasi Ndaru Farm
+- **User Interface:** Beranda Ndaru Farm
+- **User Interface:** Keranjang Ndaru Farm
+- **User Interface:** Status Pesanan Ndaru Farm
 
 ## 🛠️ Teknologi yang Digunakan
 
@@ -26,6 +29,8 @@ Berikut adalah beberapa tampilan halaman website :
 ![3](https://github.com/user-attachments/assets/3dad941b-ddf0-460d-98bf-0a40eea5cf62)
 ![4](https://github.com/user-attachments/assets/9183825d-03c9-4528-ad3b-d4f8435badd1)
 ![5](https://github.com/user-attachments/assets/41ae2695-a8cf-4bff-8ef9-3b6ac0e86e15)
+![6](https://github.com/user-attachments/assets/1a2e908a-e41a-4bb8-af28-a27948107500)
+![7](https://github.com/user-attachments/assets/a40fa83f-fcdc-49dc-8bd3-605126308226)
 
 ## 📬 Kontak
 
