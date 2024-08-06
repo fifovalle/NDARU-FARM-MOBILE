@@ -52,8 +52,8 @@ Kontribusi dan umpan balik dari komunitas sangat dihargai. Jika Anda ingin berko
 2. Jalankan aplikasi menggunakan Expo.
 
    ```
-   cd NdaruFarmMobile
-   expo start
+   cd NDARU-FARM
+   npx expo start
    ```
 
 Terima kasih atas antusiasme Anda menantikan kehadiran user interface ini! 🙌
