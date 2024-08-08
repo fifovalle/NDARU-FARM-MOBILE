@@ -22,7 +22,7 @@ Jelajahi karya terbaru dan keterampilan saya dalam dunia pengembangan aplikasi m
 
 ## 📷 Preview Halaman
 
-Berikut adalah beberapa tampilan halaman website :
+Berikut adalah beberapa tampilan halaman ndaru farm :
 
 ![1](https://github.com/user-attachments/assets/1a73c2a6-4f56-4239-bb23-ededae69d878)
 ![2](https://github.com/user-attachments/assets/465989ae-7c99-4111-ab54-e077befa5c90)
