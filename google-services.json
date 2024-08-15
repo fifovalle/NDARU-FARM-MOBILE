@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "516938370584",
+    "project_id": "ndaru-farm-801a2",
+    "storage_bucket": "ndaru-farm-801a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516938370584:android:ae1e99764e56e65e82fd6d",
+        "android_client_info": {
+          "package_name": "com.fifovalle.ndarufarm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCQ-8Tgy2sojiWrIlnx4aH-oTolKRtiWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

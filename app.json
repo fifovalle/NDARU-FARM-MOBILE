@@ -16,19 +16,33 @@
       "supportsTablet": true
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/ikonSplash.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.fifovalle.ndarufarm"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/ikonSplash.png"
     },
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth"
+    ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "c4109e77-0c23-4762-af99-a0426c7880c2"
+      }
     }
   }
 }

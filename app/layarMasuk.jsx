@@ -6,13 +6,54 @@ import {
   Image,
   ScrollView,
   Platform,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { router } from "expo-router";
+import auth from "@react-native-firebase/auth";
 
 export default function LayarMasuk() {
+  const [nomorPonsel, setNomorPonsel] = useState("");
+  const [setVerifikasiID] = useState("");
+  const [mengirimOTP, setMengirimOTP] = useState(false);
+
   const gambarOtentikasi = require("../assets/images/gambarMasuk.png");
   const gambarGoogle = require("../assets/images/ikonGoogle.png");
+
+  const validasiNomorPonsel = () => {
+    const polaNomorPonsel = /^[0-9]{10,13}$/;
+    return polaNomorPonsel.test(nomorPonsel);
+  };
+
+  const kirimOTP = async () => {
+    if (nomorPonsel.trim() === "") {
+      Alert.alert("Kesalahan", "Nomor ponsel tidak boleh kosong.");
+      return;
+    }
+
+    if (!validasiNomorPonsel()) {
+      Alert.alert(
+        "Kesalahan",
+        "Nomor ponsel tidak valid. Mohon masukkan nomor yang benar."
+      );
+      return;
+    }
+
+    setMengirimOTP(true);
+
+    try {
+      const nomorLengkap = `+62${nomorPonsel}`;
+      const konfirmasi = await auth().signInWithPhoneNumber(nomorLengkap);
+      setVerifikasiID(konfirmasi.verificationId);
+      setMengirimOTP(false);
+      router.push("/layarOTP");
+    } catch (error) {
+      console.error("Gagal mengirim OTP:", error);
+      setMengirimOTP(false);
+      Alert.alert("Kesalahan", "Gagal mengirim OTP. Mohon coba lagi.");
+    }
+  };
 
   return (
     <ScrollView className="flex-1">
@@ -55,25 +96,32 @@ export default function LayarMasuk() {
             placeholderTextColor={"#626262"}
             className="flex-1 text-md text-[#626262]"
             cursorColor={"#6B8F71"}
+            onChangeText={setNomorPonsel}
+            value={nomorPonsel}
           />
         </View>
 
         <TouchableOpacity
-          onPress={() => router.push("/layarOTP")}
+          onPress={kirimOTP}
           activeOpacity={0.8}
           className="bg-[#3F5D44] py-4 rounded-lg mb-6"
+          disabled={mengirimOTP}
         >
-          <Text
-            style={{
-              fontFamily: Platform.select({
-                android: "Lexend_700Bold",
-                ios: "Lexend_700Bold",
-              }),
-            }}
-            className="text-white text-center text-lg"
-          >
-            Lanjutkan
-          </Text>
+          {mengirimOTP ? (
+            <ActivityIndicator size="small" color="#FFF" />
+          ) : (
+            <Text
+              style={{
+                fontFamily: Platform.select({
+                  android: "Lexend_700Bold",
+                  ios: "Lexend_700Bold",
+                }),
+              }}
+              className="text-white text-center text-lg"
+            >
+              Lanjutkan
+            </Text>
+          )}
         </TouchableOpacity>
 
         <Text
