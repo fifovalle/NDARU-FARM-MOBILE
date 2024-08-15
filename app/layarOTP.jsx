@@ -10,11 +10,11 @@ import {
 } from "react-native";
 
 export default function LayarOtp() {
-  const referensiMasukan = useRef<TextInput[]>([]);
+  const referensiMasukan = useRef([]);
 
-  const [nilaiOtp, aturNilaiOtp] = useState<string[]>(["", "", "", ""]);
+  const [nilaiOtp, aturNilaiOtp] = useState(["", "", "", ""]);
 
-  const ubahNilaiOtp = (teks: string, indeks: number) => {
+  const ubahNilaiOtp = (teks, indeks) => {
     const nilaiOtpBaru = [...nilaiOtp];
     nilaiOtpBaru[indeks] = teks;
     aturNilaiOtp(nilaiOtpBaru);
@@ -24,10 +24,7 @@ export default function LayarOtp() {
     }
   };
 
-  const tekanTombol = (
-    e: NativeSyntheticEvent<TextInputKeyPressEventData>,
-    indeks: number
-  ) => {
+  const tekanTombol = (e, indeks) => {
     if (e.nativeEvent.key === "Backspace" && indeks > 0) {
       referensiMasukan.current[indeks - 1]?.focus();
     }
@@ -74,7 +71,7 @@ export default function LayarOtp() {
           {nilaiOtp.map((_, indeks) => (
             <TextInput
               key={indeks}
-              ref={(el) => (referensiMasukan.current[indeks] = el!)}
+              ref={(el) => (referensiMasukan.current[indeks] = el)}
               cursorColor="#447055"
               style={{
                 backgroundColor: nilaiOtp[indeks] ? "#AFF0D0" : "white",
