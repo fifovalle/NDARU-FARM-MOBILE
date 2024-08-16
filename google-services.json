@@ -1,26 +1,52 @@
 {
   "project_info": {
-    "project_number": "516938370584",
-    "project_id": "ndaru-farm-801a2",
-    "storage_bucket": "ndaru-farm-801a2.appspot.com"
+    "project_number": "650778004656",
+    "project_id": "ndaru-farm-46271",
+    "storage_bucket": "ndaru-farm-46271.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:516938370584:android:ae1e99764e56e65e82fd6d",
+        "mobilesdk_app_id": "1:650778004656:android:6bcf461fd9991dbf7e3f75",
         "android_client_info": {
           "package_name": "com.fifovalle.ndarufarm"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "650778004656-rakbdn75tk4trthp1ld173kba1cnam0b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fifovalle.ndarufarm",
+            "certificate_hash": "e60104cd4a02be74db5827bad2269563974021ff"
+          }
+        },
+        {
+          "client_id": "650778004656-s2vvc6cu8f7tcn4ohacs0is0lb8cmf40.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fifovalle.ndarufarm",
+            "certificate_hash": "f80786c9a795a9d3709cd67ba66e1009479cc762"
+          }
+        },
+        {
+          "client_id": "650778004656-9qu12ca46f089kj9ltt6epocfccpfh2d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDCQ-8Tgy2sojiWrIlnx4aH-oTolKRtiWA"
+          "current_key": "AIzaSyDXKGSE-fWcbZxLARLhixJ1kamgi9n4F_4"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "650778004656-9qu12ca46f089kj9ltt6epocfccpfh2d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

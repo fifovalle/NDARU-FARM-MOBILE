@@ -1,18 +1,10 @@
 import React, { useRef, useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Image,
-  Platform,
-  NativeSyntheticEvent,
-  TextInputKeyPressEventData,
-} from "react-native";
+import { View, Text, TextInput, Image, Platform } from "react-native";
 
 export default function LayarOtp() {
   const referensiMasukan = useRef([]);
 
-  const [nilaiOtp, aturNilaiOtp] = useState(["", "", "", ""]);
+  const [nilaiOtp, aturNilaiOtp] = useState(["", "", "", "", "", ""]);
 
   const ubahNilaiOtp = (teks, indeks) => {
     const nilaiOtpBaru = [...nilaiOtp];
@@ -81,7 +73,7 @@ export default function LayarOtp() {
                   ios: "Lexend_700Bold",
                 }),
               }}
-              className="text-3xl text-center rounded-lg h-16 w-16 mx-4"
+              className="text-3xl text-center rounded-lg h-14 w-14 mx-2"
               maxLength={1}
               keyboardType="number-pad"
               onChangeText={(teks) => ubahNilaiOtp(teks, indeks)}

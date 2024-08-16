@@ -16,11 +16,11 @@
       "supportsTablet": true
     },
     "android": {
-      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/ikonSplash.png",
         "backgroundColor": "#ffffff"
       },
+      "googleServicesFile": "./google-services.json",
       "package": "com.fifovalle.ndarufarm"
     },
     "web": {
@@ -41,7 +41,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "c4109e77-0c23-4762-af99-a0426c7880c2"
+        "projectId": "f28a4033-18ab-45a8-9a96-69560ce70248"
       }
     }
   }

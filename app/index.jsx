@@ -1,30 +1,37 @@
-import { View, Text, Image, TouchableOpacity, Platform } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { router } from "expo-router";
+import useGayaHuruf from "../hooks/useGayaHuruf";
 
 export default function LayarSelamatDatang() {
   const gambarSelamatDatang = require("../assets/images/selamatDatang1.png");
+
+  const gayaHurufRegular = useGayaHuruf({
+    android: "Lexend_400Regular",
+    ios: "Lexend_400Regular",
+  });
+
+  const gayaHurufBlack = useGayaHuruf({
+    android: "Lexend_900Black",
+    ios: "Inter-Black",
+  });
+
+  const gayaHurufBold = useGayaHuruf({
+    android: "Poppins_700Bold",
+    ios: "Poppins_700Bold",
+  });
+
   return (
     <View className="flex-1 justify-center items-center bg-[#E7E8E2]">
       <View className="w-full flex items-center">
         <Text
-          style={{
-            fontFamily: Platform.select({
-              android: "Lexend_400Regular",
-              ios: "Lexend_400Regular",
-            }),
-          }}
+          style={{ fontFamily: gayaHurufRegular }}
           className="text-[#447055] text-2xl"
         >
           Selamat Datang
         </Text>
         <Text
-          style={{
-            fontFamily: Platform.select({
-              android: "Lexend_900Black",
-              ios: "Inter-Black",
-            }),
-          }}
+          style={{ fontFamily: gayaHurufBlack }}
           className="text-[#447055] text-2xl text-center"
         >
           Kami senang Anda ada di sini
@@ -46,12 +53,7 @@ export default function LayarSelamatDatang() {
           className="bg-[#447055] py-3 px-6 rounded-l-xl"
         >
           <Text
-            style={{
-              fontFamily: Platform.select({
-                android: "Poppins_700Bold",
-                ios: "Poppins_700Bold",
-              }),
-            }}
+            style={{ fontFamily: gayaHurufBold }}
             className="text-white text-lg"
           >
             MARI KITA MULAI
