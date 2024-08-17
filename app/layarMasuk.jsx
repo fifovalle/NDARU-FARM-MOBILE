@@ -9,106 +9,18 @@ import {
   ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
-import { useRouter } from "expo-router";
-import auth from "@react-native-firebase/auth";
+import { usePonselAutentikasi } from "../hooks/usePonselAutentikasi";
+import { useGoogleAutentikasi } from "../hooks/useGoogleAutentikasi";
 import Toast from "react-native-toast-message";
-import {
-  GoogleSignin,
-  statusCodes,
-} from "@react-native-google-signin/google-signin";
-
-GoogleSignin.configure({
-  webClientId:
-    "650778004656-9qu12ca46f089kj9ltt6epocfccpfh2d.apps.googleusercontent.com",
-  offlineAccess: false,
-});
 
 export default function LayarMasuk() {
-  const router = useRouter();
-  const gambarOtentikasi = require("../assets/images/gambarMasuk.png");
-  const gambarGoogle = require("../assets/images/ikonGoogle.png");
+  const { sedangMemuat, tanganiLanjutkan } = usePonselAutentikasi();
+  const { sedangMemuat: sedangMemuatGoogle, tanganiMasukGoogle } =
+    useGoogleAutentikasi();
 
   const [nomorPonsel, setNomorPonsel] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const validasiNomorPonsel = (nomor) => {
-    const regex = /^[0-9]{9,12}$/;
-    return regex.test(nomor);
-  };
-
-  const tampilkanToast = (tipe, teks1, teks2) => {
-    Toast.show({
-      type: tipe,
-      position: "top",
-      text1: teks1,
-      text2: teks2,
-    });
-  };
-
-  const handleLanjutkan = () => {
-    if (!validasiNomorPonsel(nomorPonsel)) {
-      tampilkanToast(
-        "error",
-        "Nomor Tidak Valid",
-        "Nomor ponsel harus 9-12 digit."
-      );
-      return;
-    }
-
-    setLoading(true);
-    const nomorLengkap = `+62${nomorPonsel}`;
-
-    auth()
-      .signInWithPhoneNumber(nomorLengkap)
-      .then((konfirmasi) => {
-        setLoading(false);
-        tampilkanToast("success", "OTP Terkirim", "Kode OTP telah dikirim.");
-        router.push({
-          pathname: "/layarOTP",
-          query: { verificationId: konfirmasi.verificationId },
-        });
-      })
-      .catch((error) => {
-        setLoading(false);
-        let pesanError = "Gagal mengirim OTP. Periksa nomor ponsel.";
-
-        if (error.code === "auth/too-many-requests") {
-          pesanError = "Terlalu banyak permintaan. Coba lagi nanti.";
-        } else if (error.code === "auth/network-request-failed") {
-          pesanError = "Kesalahan jaringan. Periksa koneksi.";
-        }
-
-        tampilkanToast("error", "Gagal", pesanError);
-      });
-  };
-
-  const handleGoogleSignIn = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const { idToken } = await GoogleSignin.signIn();
-      const credential = auth.GoogleAuthProvider.credential(idToken);
-      setLoading(true);
-      await auth().signInWithCredential(credential);
-      setLoading(false);
-      router.push("/layarOTP");
-    } catch (error) {
-      setLoading(false);
-      console.error("Google Sign-In Error:", error);
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        tampilkanToast("error", "Gagal", "Sign in dibatalkan.");
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        tampilkanToast("error", "Gagal", "Sedang dalam proses.");
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        tampilkanToast(
-          "error",
-          "Gagal",
-          "Google Play Services tidak tersedia."
-        );
-      } else {
-        tampilkanToast("error", "Gagal", "Terjadi kesalahan. Coba lagi.");
-      }
-    }
-  };
+  const gambarOtentikasi = require("../assets/images/gambarMasuk.png");
+  const gambarGoogle = require("../assets/images/ikonGoogle.png");
 
   return (
     <ScrollView className="flex-1">
@@ -158,21 +70,21 @@ export default function LayarMasuk() {
         </View>
 
         <TouchableOpacity
-          onPress={handleLanjutkan}
+          onPress={() => tanganiLanjutkan(nomorPonsel)}
           activeOpacity={0.8}
           className={`bg-[#3F5D44] py-4 rounded-lg mb-6 ${
-            loading ? "bg-opacity-80" : ""
+            sedangMemuat ? "bg-opacity-80" : ""
           }`}
           style={{
-            transform: loading ? [{ scale: 1 }] : [{ scale: 1 }],
+            transform: sedangMemuat ? [{ scale: 1 }] : [{ scale: 1 }],
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            opacity: loading ? 0.7 : 1,
+            opacity: sedangMemuat ? 0.7 : 1,
           }}
-          disabled={loading}
+          disabled={sedangMemuat}
         >
-          {loading ? (
+          {sedangMemuat ? (
             <>
               <ActivityIndicator color="#fff" className="mr-2" />
               <Text
@@ -215,7 +127,7 @@ export default function LayarMasuk() {
         </Text>
 
         <TouchableOpacity
-          onPress={handleGoogleSignIn}
+          onPress={tanganiMasukGoogle}
           activeOpacity={0.7}
           className="flex-row items-center justify-center border border-gray-400 py-3 rounded-lg"
         >

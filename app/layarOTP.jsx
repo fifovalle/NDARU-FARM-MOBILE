@@ -1,12 +1,24 @@
 import React, { useRef, useState } from "react";
-import { View, Text, TextInput, Image, Platform } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  Platform,
+  ActivityIndicator,
+} from "react-native";
+import { useVerifikasiOTP } from "../hooks/useVerifikasiOTP";
+import { usePenerimaSMS } from "../hooks/usePenerimaSMS";
 
 export default function LayarOtp() {
+  const router = useRouter();
   const referensiMasukan = useRef([]);
+  const verificationId = router.query?.verificationId;
 
   const [nilaiOtp, aturNilaiOtp] = useState(["", "", "", "", "", ""]);
+  const { loading, verifikasiKodeOtp } = useVerifikasiOTP(verificationId);
 
-  const ubahNilaiOtp = (teks, indeks) => {
+  usePenerimaSMS((teks, indeks) => {
     const nilaiOtpBaru = [...nilaiOtp];
     nilaiOtpBaru[indeks] = teks;
     aturNilaiOtp(nilaiOtpBaru);
@@ -14,7 +26,11 @@ export default function LayarOtp() {
     if (teks && indeks < referensiMasukan.current.length - 1) {
       referensiMasukan.current[indeks + 1]?.focus();
     }
-  };
+
+    if (nilaiOtpBaru.join("").length === 6) {
+      verifikasiKodeOtp(nilaiOtpBaru.join(""));
+    }
+  });
 
   const tekanTombol = (e, indeks) => {
     if (e.nativeEvent.key === "Backspace" && indeks > 0) {
@@ -78,9 +94,14 @@ export default function LayarOtp() {
               keyboardType="number-pad"
               onChangeText={(teks) => ubahNilaiOtp(teks, indeks)}
               onKeyPress={(e) => tekanTombol(e, indeks)}
+              editable={!loading}
             />
           ))}
         </View>
+
+        {loading && (
+          <ActivityIndicator size="large" color="#ffffff" className="mt-4" />
+        )}
 
         <Text
           style={{
