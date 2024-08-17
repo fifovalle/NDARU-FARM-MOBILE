@@ -1,6 +1,6 @@
 import React from "react";
 import { Image } from "react-native";
-import { Tabs } from "expo-router";
+import { Stack, Tabs } from "expo-router";
 
 export default function TataLetakUtama() {
   const ikonBeranda = require("../../assets/images/ikonHome.png");
@@ -14,28 +14,32 @@ export default function TataLetakUtama() {
         headerShown: false,
         tabBarStyle: {
           height: 60,
+          backgroundColor: "#fff",
+          borderTopWidth: 1,
+          borderTopColor: "#ddd",
         },
         tabBarLabelStyle: {
           display: "none",
         },
         tabBarIcon: ({ focused }) => {
-          const ikon =
-            route.name === "index"
-              ? focused
-                ? ikonBerandaAktif
-                : ikonBeranda
-              : route.name === "transaksi"
-              ? focused
-                ? ikonTransaksiAktif
-                : ikonTransaksi
-              : null;
-
-          return <Image source={ikon} style={{ width: 24, height: 24 }} />;
+          let ikon;
+          switch (route.name) {
+            case "index":
+              ikon = focused ? ikonBerandaAktif : ikonBeranda;
+              break;
+            case "transaksi":
+              ikon = focused ? ikonTransaksiAktif : ikonTransaksi;
+              break;
+            default:
+              ikon = null;
+          }
+          return ikon ? (
+            <Image source={ikon} style={{ width: 24, height: 24 }} />
+          ) : null;
         },
       })}
     >
-      <Tabs.Screen name="index" />
-      <Tabs.Screen name="transaksi" />
+      <Stack.Screen name="index" />
     </Tabs>
   );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,10 +7,13 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { router } from "expo-router";
 import useGayaHuruf from "../../hooks/useGayaHuruf";
+import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth";
 
 export default function Index() {
+  const [namaPengguna, setNamaPengguna] = useState("");
+
   const ikonKeranjang = require("../../assets/images/ikonKeranjang1.png");
   const ikonCari = require("../../assets/images/ikonCari.png");
   const ikonWortel = require("../../assets/images/ikonWortel.png");
@@ -35,7 +38,6 @@ export default function Index() {
   });
 
   const jamSekarang = new Date().getHours();
-
   const ucapan =
     jamSekarang < 12
       ? "Selamat Pagi"
@@ -45,6 +47,25 @@ export default function Index() {
       ? "Selamat Sore"
       : "Selamat Malam";
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userId = auth().currentUser.uid;
+      try {
+        const userDoc = await firestore()
+          .collection("pengguna")
+          .doc(userId)
+          .get();
+        if (userDoc.exists) {
+          setNamaPengguna(userDoc.data().Nama_Lengkap_Pengguna || "");
+        }
+      } catch (error) {
+        console.error("Error fetching user data: ", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   return (
     <ScrollView className="bg-[#E7E8E2] flex-1">
       <View className="bg-[#556F50] p-4 flex-row items-center justify-between h-56 rounded-b-[35px]">
@@ -53,7 +74,7 @@ export default function Index() {
             style={{ fontFamily: gayaHurufBold }}
             className="text-white text-lg"
           >
-            {ucapan} Nama Pelanggan
+            {ucapan} {namaPengguna || "Nama Pelanggan"}
           </Text>
           <TouchableOpacity activeOpacity={0.6}>
             <View className="relative mr-5">

@@ -1,9 +1,15 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import React from "react";
-import { router } from "expo-router";
+import React, { useEffect } from "react";
+import { router, useNavigation } from "expo-router";
 import useGayaHuruf from "../hooks/useGayaHuruf";
 
-export default function LayarSelamatDatang() {
+export default function awal() {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({ headerShown: false });
+  }, [navigation]);
+
   const gambarSelamatDatang = require("../assets/images/selamatDatang1.png");
 
   const gayaHurufRegular = useGayaHuruf({

@@ -34,7 +34,7 @@ export function useGoogleAutentikasi() {
       setSedangMemuat(true);
       await auth().signInWithCredential(kredensialGoogle);
       setSedangMemuat(false);
-      penunjukArah.push("/layarBeranda");
+      penunjukArah.push("/layarIdentitas");
     } catch (kesalahan) {
       setSedangMemuat(false);
       console.error("Google Sign-In Error:", kesalahan);
