@@ -45,7 +45,7 @@ export default function LayarSelamatDatang2() {
 
       <View className="w-full items-end my-[110px]">
         <TouchableOpacity
-          onPress={() => router.push("/layarMasuk")}
+          onPress={() => router.push("/layarIdentitas")}
           activeOpacity={0.7}
           className="bg-[#365432] py-3 px-8 rounded-l-xl"
         >
