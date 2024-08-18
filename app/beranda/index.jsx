@@ -6,33 +6,40 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import useGayaHuruf from "../../hooks/useGayaHuruf";
-import firestore from "@react-native-firebase/firestore";
-import auth from "@react-native-firebase/auth";
+import useHalamanBeranda from "../../hooks/useHalamanBeranda";
 
 export default function Index() {
-  const [namaPengguna, setNamaPengguna] = useState("");
+  const {
+    namaPengguna,
+    sayuranTersaring,
+    statusGambar,
+    kueriPencarian,
+    setKueriPencarian,
+    handleImageLoad,
+  } = useHalamanBeranda();
 
   const ikonKeranjang = require("../../assets/images/ikonKeranjang1.png");
   const ikonCari = require("../../assets/images/ikonCari.png");
-  const ikonWortel = require("../../assets/images/ikonWortel.png");
-  const gayaHurufRegular = useGayaHuruf({
+
+  const gayaHurufReguler = useGayaHuruf({
     android: "Lexend_400Regular",
     ios: "Lexend_400Regular",
   });
 
-  const gayaHurufBlack = useGayaHuruf({
+  const gayaHurufHitam = useGayaHuruf({
     android: "Lexend_900Black",
     ios: "Lexend_900Black",
   });
 
-  const gayaHurufMedium = useGayaHuruf({
+  const gayaHurufSedang = useGayaHuruf({
     android: "Poppins_500Medium",
     ios: "Poppins_500Medium",
   });
 
-  const gayaHurufBold = useGayaHuruf({
+  const gayaHurufTebal = useGayaHuruf({
     android: "Poppins_700Bold",
     ios: "Poppins_700Bold",
   });
@@ -47,41 +54,56 @@ export default function Index() {
       ? "Selamat Sore"
       : "Selamat Malam";
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const userId = auth().currentUser.uid;
-      try {
-        const userDoc = await firestore()
-          .collection("pengguna")
-          .doc(userId)
-          .get();
-        if (userDoc.exists) {
-          setNamaPengguna(userDoc.data().Nama_Lengkap_Pengguna || "");
-        }
-      } catch (error) {
-        console.error("Error fetching user data: ", error);
-      }
-    };
+  const formatRupiah = (angka) => {
+    return `Rp${angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+  };
 
-    fetchUserData();
-  }, []);
+  const highlightText = (text, query) => {
+    if (!query) {
+      return <Text>{text}</Text>;
+    }
+
+    const parts = text.split(new RegExp(`(${query})`, "gi"));
+    return (
+      <Text>
+        {parts.map((part, index) =>
+          part.toLowerCase() === query.toLowerCase() ? (
+            <Text
+              key={index}
+              style={{
+                fontFamily: gayaHurufTebal,
+                backgroundColor: "yellow",
+                color: "#000",
+              }}
+            >
+              {part}
+            </Text>
+          ) : (
+            <Text key={index} style={{ fontFamily: gayaHurufReguler }}>
+              {part}
+            </Text>
+          )
+        )}
+      </Text>
+    );
+  };
 
   return (
     <ScrollView className="bg-[#E7E8E2] flex-1">
       <View className="bg-[#556F50] p-4 flex-row items-center justify-between h-56 rounded-b-[35px]">
         <View className="mt-11 flex-row justify-between items-center w-full">
-          <Text
-            style={{ fontFamily: gayaHurufBold }}
-            className="text-white text-lg"
-          >
-            {ucapan} {namaPengguna || "Nama Pelanggan"}
+          <Text className="text-white text-lg mx-2">
+            <Text style={{ fontFamily: gayaHurufSedang }}>{ucapan}</Text>{" "}
+            <Text style={{ fontFamily: gayaHurufTebal }}>
+              {namaPengguna || "Nama Pelanggan"}
+            </Text>
           </Text>
           <TouchableOpacity activeOpacity={0.6}>
             <View className="relative mr-5">
               <Image className="w-10 h-10" source={ikonKeranjang}></Image>
               <View className="absolute -top-2 -right-2 bg-red-600 rounded-full w-4 h-4 flex items-center justify-center">
                 <Text
-                  style={{ fontFamily: gayaHurufBold }}
+                  style={{ fontFamily: gayaHurufTebal }}
                   className="text-white text-xs"
                 >
                   1
@@ -96,65 +118,84 @@ export default function Index() {
         <View className="bg-white rounded-2xl flex-row items-center px-3 py-2">
           <Image source={ikonCari} className="w-6 h-6" />
           <TextInput
-            style={{ fontFamily: gayaHurufRegular }}
+            style={{ fontFamily: gayaHurufReguler }}
             placeholder="Silahkan Cari..."
             className="ml-2 w-80 text-gray-700"
+            value={kueriPencarian}
+            onChangeText={setKueriPencarian}
           />
         </View>
       </View>
 
       <View className="p-4">
         <Text
-          style={{ fontFamily: gayaHurufBlack }}
+          style={{ fontFamily: gayaHurufHitam }}
           className="text-[#556F50] text-xl mb-4"
         >
           Sayuran Populer
         </Text>
-        <View className="flex-row justify-between flex-wrap">
-          {Array(4)
-            .fill(null)
-            .map((_, index) => (
+
+        {sayuranTersaring.length === 0 ? (
+          <View className="flex items-center justify-center">
+            <Text
+              style={{ fontFamily: gayaHurufSedang }}
+              className="text-grey-500 text-sm mt-10"
+            >
+              Sayuran yang anda cari tidak ditemukan!
+            </Text>
+          </View>
+        ) : (
+          <View className="flex-row justify-between flex-wrap">
+            {sayuranTersaring.map((item, index) => (
               <View
                 key={index}
                 className="bg-white rounded-xl p-4 mb-4 w-[48%]"
               >
                 <TouchableOpacity activeOpacity={0.5}>
+                  {!statusGambar[item.id] && (
+                    <View className="w-full h-32 flex items-center justify-center">
+                      <ActivityIndicator size="large" color="#556F50" />
+                    </View>
+                  )}
                   <Image
-                    source={ikonWortel}
-                    className="w-full h-32 object-cover"
+                    source={{ uri: item.Foto }}
+                    className={`w-full h-32 object-cover rounded-xl ${
+                      statusGambar[item.id] ? "block" : "hidden"
+                    }`}
+                    onLoad={() => handleImageLoad(item.id)}
                   />
                 </TouchableOpacity>
 
                 <Text
-                  style={{ fontFamily: gayaHurufBold }}
                   className="text-[#556F50] text-lg font-semibold mt-2"
+                  style={{ fontFamily: gayaHurufTebal }}
                 >
-                  Wortel
+                  {highlightText(item.Nama_Sayuran, kueriPencarian)}
                 </Text>
                 <Text
-                  style={{ fontFamily: gayaHurufRegular }}
+                  style={{ fontFamily: gayaHurufReguler }}
                   className="text-gray-500"
                 >
-                  1kg
+                  {item.Kuantitas}kg
                 </Text>
                 <View className="flex-row items-center justify-between mt-2">
                   <Text
-                    style={{ fontFamily: gayaHurufBold }}
+                    style={{ fontFamily: gayaHurufTebal }}
                     className="text-black"
                   >
-                    Rp10.000
+                    {formatRupiah(item.Harga)}
                   </Text>
                   <Text
-                    style={{ fontFamily: gayaHurufMedium }}
+                    style={{ fontFamily: gayaHurufSedang }}
                     className="text-gray-500"
                   >
-                    Stok 10
+                    Stok {item.Stok}
                   </Text>
                 </View>
                 <TouchableOpacity activeOpacity={0.6} className="w-full">
                   <View className="mt-3 flex bg-[#447055] rounded-md p-2">
                     <Text
-                      style={{ fontFamily: gayaHurufMedium }}
+                      style={{ fontFamily: gayaHurufSedang }}
                       className="text-[#ffffff] text-center"
                     >
                       + Keranjang
@@ -163,7 +204,8 @@ export default function Index() {
                 </TouchableOpacity>
               </View>
             ))}
-        </View>
+          </View>
+        )}
       </View>
     </ScrollView>
   );

@@ -7,6 +7,10 @@ export default function TataLetakUtama() {
   const ikonBerandaAktif = require("../../assets/images/ikonHomeActive.png");
   const ikonTransaksi = require("../../assets/images/ikonTransaksi.png");
   const ikonTransaksiAktif = require("../../assets/images/ikonTransaksiActive.png");
+  const ikonPesan = require("../../assets/images/ikonPesan.png");
+  const ikonPesanAktif = require("../../assets/images/ikonPesanActive.png");
+  const ikonProfil = require("../../assets/images/ikonProfil.png");
+  const ikonProfilAktif = require("../../assets/images/ikonProfilActive.png");
 
   return (
     <Tabs
@@ -30,6 +34,12 @@ export default function TataLetakUtama() {
             case "transaksi":
               ikon = focused ? ikonTransaksiAktif : ikonTransaksi;
               break;
+            case "pesan":
+              ikon = focused ? ikonPesanAktif : ikonPesan;
+              break;
+            case "profil":
+              ikon = focused ? ikonProfilAktif : ikonProfil;
+              break;
             default:
               ikon = null;
           }
@@ -40,6 +50,9 @@ export default function TataLetakUtama() {
       })}
     >
       <Stack.Screen name="index" />
+      <Stack.Screen name="transaksi" />
+      <Stack.Screen name="pesan" />
+      <Stack.Screen name="profil" />
     </Tabs>
   );
 }

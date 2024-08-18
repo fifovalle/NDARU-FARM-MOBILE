@@ -4,11 +4,11 @@ import Toast from "react-native-toast-message";
 import { useRouter } from "expo-router";
 
 export function useVerifikasiOTP(verificationId) {
-  const [loading, setLoading] = useState(false);
+  const [memuat, setmemuat] = useState(false);
   const router = useRouter();
 
   const verifikasiKodeOtp = async (kodeOtp) => {
-    setLoading(true);
+    setmemuat(true);
     try {
       if (!verificationId) {
         throw new Error("ID verifikasi tidak ditemukan.");
@@ -31,12 +31,12 @@ export function useVerifikasiOTP(verificationId) {
           "Kode OTP yang Anda masukkan salah atau sudah kadaluarsa.",
       });
     } finally {
-      setLoading(false);
+      setmemuat(false);
     }
   };
 
   return {
-    loading,
+    memuat,
     verifikasiKodeOtp,
   };
 }

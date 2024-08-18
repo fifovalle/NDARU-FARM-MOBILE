@@ -17,11 +17,6 @@ export default function Transaksi() {
     ios: "Lexend_900Black",
   });
 
-  const gayaHurufMedium = useGayaHuruf({
-    android: "Poppins_500Medium",
-    ios: "Poppins_500Medium",
-  });
-
   const gayaHurufBold = useGayaHuruf({
     android: "Poppins_700Bold",
     ios: "Poppins_700Bold",

@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, ScrollView, Image } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { router } from "expo-router";
 import useGayaHuruf from "../../hooks/useGayaHuruf";
 
 export default function DetailTransaksi() {
@@ -19,16 +20,6 @@ export default function DetailTransaksi() {
     ios: "Lexend_400Regular",
   });
 
-  const gayaHurufBlack = useGayaHuruf({
-    android: "Lexend_900Black",
-    ios: "Lexend_900Black",
-  });
-
-  const gayaHurufMedium = useGayaHuruf({
-    android: "Poppins_500Medium",
-    ios: "Poppins_500Medium",
-  });
-
   const gayaHurufBold = useGayaHuruf({
     android: "Poppins_700Bold",
     ios: "Poppins_700Bold",
@@ -36,7 +27,12 @@ export default function DetailTransaksi() {
   return (
     <ScrollView className="flex-1 bg-[#E7E8E2] p-4">
       <View className="flex-row items-center mb-4 mt-12">
-        <FontAwesome name="arrow-left" size={24} color="green" />
+        <TouchableOpacity
+          activeOpacity={0.6}
+          onPress={() => router.push("../beranda/transaksi")}
+        >
+          <FontAwesome name="arrow-left" size={24} color="green" />
+        </TouchableOpacity>
         <Text
           style={{ fontFamily: gayaHurufBold }}
           className="text-lg ml-2 text-[#447055]"
