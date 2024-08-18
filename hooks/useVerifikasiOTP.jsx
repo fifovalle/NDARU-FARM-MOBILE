@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import auth from "@react-native-firebase/auth";
 import Toast from "react-native-toast-message";
 import { useRouter } from "expo-router";
@@ -18,8 +18,9 @@ export function useVerifikasiOTP(verificationId) {
         verificationId,
         kodeOtp
       );
+
       await auth().signInWithCredential(credential);
-      router.push("/layarBeranda");
+      router.push("/layarIdentitas");
     } catch (error) {
       console.error("Kode OTP salah:", error);
       Toast.show({

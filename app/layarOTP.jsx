@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useVerifikasiOTP } from "../hooks/useVerifikasiOTP";
-import { usePenerimaSMS } from "../hooks/usePenerimaSMS";
+import { useRouter } from "expo-router";
 
 export default function LayarOtp() {
   const router = useRouter();
@@ -18,7 +18,7 @@ export default function LayarOtp() {
   const [nilaiOtp, aturNilaiOtp] = useState(["", "", "", "", "", ""]);
   const { loading, verifikasiKodeOtp } = useVerifikasiOTP(verificationId);
 
-  usePenerimaSMS((teks, indeks) => {
+  const ubahNilaiOtp = (teks, indeks) => {
     const nilaiOtpBaru = [...nilaiOtp];
     nilaiOtpBaru[indeks] = teks;
     aturNilaiOtp(nilaiOtpBaru);
@@ -30,7 +30,7 @@ export default function LayarOtp() {
     if (nilaiOtpBaru.join("").length === 6) {
       verifikasiKodeOtp(nilaiOtpBaru.join(""));
     }
-  });
+  };
 
   const tekanTombol = (e, indeks) => {
     if (e.nativeEvent.key === "Backspace" && indeks > 0) {

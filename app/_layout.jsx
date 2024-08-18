@@ -1,18 +1,21 @@
 import "../global.css";
 import React, { useEffect, useState } from "react";
 import { Stack, useRouter } from "expo-router";
+import useHurufKhusus from "../hooks/useHurufKhusus";
 import auth from "@react-native-firebase/auth";
-import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
+import { View, Text, ActivityIndicator, Image } from "react-native";
 
 export default function RootLayout() {
-  const [loading, setLoading] = useState(true);
+  const [memuat, setMemuat] = useState(true);
+  const giftMemuat = require("../assets/video/memuat.gif");
   const [apakahSudahMasuk, aturapakahSudahMasuk] = useState(false);
+  const { hurufTerpasang } = useHurufKhusus();
   const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged((pengguna) => {
       aturapakahSudahMasuk(!!pengguna);
-      setLoading(false);
+      setMemuat(false);
     });
 
     return () => {
@@ -21,20 +24,19 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
-    if (!loading) {
+    if (!memuat && hurufTerpasang) {
       if (apakahSudahMasuk) {
         router.replace("beranda");
       } else {
         router.replace("awal");
       }
     }
-  }, [loading, apakahSudahMasuk, router]);
+  }, [memuat, apakahSudahMasuk, hurufTerpasang, router]);
 
-  if (loading) {
+  if (memuat || !hurufTerpasang) {
     return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text style={styles.text}>Memuat...</Text>
+      <View className="flex-1 items-center justify-center bg-[#fff]">
+        <Image className="w-[70px] h-[70px]" source={giftMemuat} />
       </View>
     );
   }
@@ -51,18 +53,3 @@ export default function RootLayout() {
     </Stack>
   );
 }
-
-// Gaya inline
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
-  text: {
-    marginTop: 10,
-    fontSize: 18,
-    color: "#333",
-  },
-});

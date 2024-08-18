@@ -37,9 +37,8 @@ export function useGoogleAutentikasi() {
       penunjukArah.push("/layarIdentitas");
     } catch (kesalahan) {
       setSedangMemuat(false);
-      console.error("Google Sign-In Error:", kesalahan);
       if (kesalahan.code === statusCodes.SIGN_IN_CANCELLED) {
-        tampilkanPesanToast("error", "Gagal", "Sign in dibatalkan.");
+        tampilkanPesanToast("error", "Gagal", "Masuk dibatalkan.");
       } else if (kesalahan.code === statusCodes.IN_PROGRESS) {
         tampilkanPesanToast("error", "Gagal", "Sedang dalam proses.");
       } else if (kesalahan.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
