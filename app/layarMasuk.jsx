@@ -14,13 +14,12 @@ import { useGoogleAutentikasi } from "../hooks/useGoogleAutentikasi";
 import Toast from "react-native-toast-message";
 
 export default function LayarMasuk() {
-  const { sedangMemuat, tanganiLanjutkan } = usePonselAutentikasi();
-  const { sedangMemuat: sedangMemuatGoogle, tanganiMasukGoogle } =
-    useGoogleAutentikasi();
-
   const [nomorPonsel, setNomorPonsel] = useState("");
   const gambarOtentikasi = require("../assets/images/gambarMasuk.png");
   const gambarGoogle = require("../assets/images/ikonGoogle.png");
+
+  const { sedangMemuat, tanganiLanjutkan } = usePonselAutentikasi();
+  const { tanganiMasukGoogle } = useGoogleAutentikasi();
 
   return (
     <ScrollView className="flex-1">

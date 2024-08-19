@@ -1,9 +1,10 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import React from "react";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import useGayaHuruf from "../hooks/useGayaHuruf";
 
 export default function LayarSelamatDatang2() {
+  const jalur = useRouter();
   const gambarSelamatDatang = require("../assets/images/selamatDatang2.png");
 
   const gayaHurufBlack = useGayaHuruf({
@@ -45,7 +46,7 @@ export default function LayarSelamatDatang2() {
 
       <View className="w-full items-end my-[110px]">
         <TouchableOpacity
-          onPress={() => router.push("/layarMasuk")}
+          onPress={() => jalur.push("/layarMasuk")}
           activeOpacity={0.7}
           className="bg-[#365432] py-3 px-8 rounded-l-xl"
         >

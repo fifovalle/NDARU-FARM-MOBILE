@@ -11,11 +11,11 @@ export default function useHalamanBeranda() {
 
   useEffect(() => {
     const ambilDataPengguna = async () => {
-      const userId = auth().currentUser.uid;
+      const idPengguna = auth().currentUser.uid;
       try {
         const userDoc = await firestore()
           .collection("pengguna")
-          .doc(userId)
+          .doc(idPengguna)
           .get();
         if (userDoc.exists) {
           setNamaPengguna(userDoc.data().Nama_Lengkap_Pengguna || "");

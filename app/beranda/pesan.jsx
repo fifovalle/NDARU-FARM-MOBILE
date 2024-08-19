@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,10 +8,11 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import useGayaHuruf from "../../hooks/useGayaHuruf";
-import firestore from "@react-native-firebase/firestore";
+import useHalamanPesan from "../../hooks/useHalamanPesan";
 
 export default function Pesan() {
   const router = useRouter();
+  const { dataPengguna } = useHalamanPesan();
   const ikonPencarian = require("../../assets/images/ikonCari.png");
   const ikonWortel = require("../../assets/images/ikonWortel.png");
 
@@ -30,23 +30,6 @@ export default function Pesan() {
     android: "Poppins_700Bold",
     ios: "Poppins_700Bold",
   });
-
-  const [dataPengguna, setDataPengguna] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const snapshot = await firestore().collection("pengguna").get();
-        const penggunaData = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setDataPengguna(penggunaData);
-      } catch (error) {}
-    };
-
-    fetchData();
-  }, []);
 
   return (
     <View className="flex-1 bg-[#E7E8E2] px-3">

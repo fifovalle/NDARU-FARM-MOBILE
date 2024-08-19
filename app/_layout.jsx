@@ -1,37 +1,25 @@
 import "../global.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Stack, useRouter } from "expo-router";
+import { View, Image } from "react-native";
 import useHurufKhusus from "../hooks/useHurufKhusus";
-import auth from "@react-native-firebase/auth";
-import { View, Text, ActivityIndicator, Image } from "react-native";
+import useStatusPengguna from "../hooks/useStatusPengguna";
 
 export default function RootLayout() {
-  const [memuat, setMemuat] = useState(true);
   const giftMemuat = require("../assets/video/memuat.gif");
-  const [apakahSudahMasuk, aturapakahSudahMasuk] = useState(false);
   const { hurufTerpasang } = useHurufKhusus();
-  const router = useRouter();
-
-  useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged((pengguna) => {
-      aturapakahSudahMasuk(!!pengguna);
-      setMemuat(false);
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  const { memuat, apakahSudahMasuk } = useStatusPengguna();
+  const jalur = useRouter();
 
   useEffect(() => {
     if (!memuat && hurufTerpasang) {
       if (apakahSudahMasuk) {
-        router.replace("beranda");
+        jalur.replace("beranda");
       } else {
-        router.replace("awal");
+        jalur.replace("awal");
       }
     }
-  }, [memuat, apakahSudahMasuk, hurufTerpasang, router]);
+  }, [memuat, apakahSudahMasuk, hurufTerpasang, jalur]);
 
   if (memuat || !hurufTerpasang) {
     return (

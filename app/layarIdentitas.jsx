@@ -8,13 +8,14 @@ import {
   ActivityIndicator,
 } from "react-native";
 import React from "react";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import { RadioButton } from "react-native-paper";
 import useGayaHuruf from "../hooks/useGayaHuruf";
-import useDataPengguna from "../hooks/useDataPengguna";
+import useHalamanIdentitas from "../hooks/useHalamanIdentitas";
 import Toast from "react-native-toast-message";
 
 export default function LayarIdentitas() {
+  const jalur = useRouter();
   const {
     namaLengkap,
     setNamaLengkap,
@@ -24,7 +25,7 @@ export default function LayarIdentitas() {
     setJenisKelamin,
     memuat,
     simpanDataPengguna,
-  } = useDataPengguna();
+  } = useHalamanIdentitas();
 
   const gayaHurufRegular = useGayaHuruf({
     android: "Lexend_400Regular",
@@ -44,7 +45,7 @@ export default function LayarIdentitas() {
   const simpanData = async () => {
     try {
       await simpanDataPengguna(namaLengkap, umur, jenisKelamin);
-      router.push("/beranda");
+      jalur.push("/beranda");
     } catch (error) {
       Toast.show({
         type: "error",

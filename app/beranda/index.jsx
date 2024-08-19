@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -10,8 +10,12 @@ import {
 } from "react-native";
 import useGayaHuruf from "../../hooks/useGayaHuruf";
 import useHalamanBeranda from "../../hooks/useHalamanBeranda";
+import { formatRupiah } from "../../helpers/formatRupiah";
+import TeksDiSorot from "../../helpers/teksDiSorot";
 
 export default function Index() {
+  const ikonKeranjang = require("../../assets/images/ikonKeranjang1.png");
+  const ikonCari = require("../../assets/images/ikonCari.png");
   const {
     namaPengguna,
     sayuranTersaring,
@@ -20,9 +24,6 @@ export default function Index() {
     setKueriPencarian,
     handleImageLoad,
   } = useHalamanBeranda();
-
-  const ikonKeranjang = require("../../assets/images/ikonKeranjang1.png");
-  const ikonCari = require("../../assets/images/ikonCari.png");
 
   const gayaHurufReguler = useGayaHuruf({
     android: "Lexend_400Regular",
@@ -53,40 +54,6 @@ export default function Index() {
       : jamSekarang < 18
       ? "Selamat Sore"
       : "Selamat Malam";
-
-  const formatRupiah = (angka) => {
-    return `Rp${angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
-  };
-
-  const highlightText = (text, query) => {
-    if (!query) {
-      return <Text>{text}</Text>;
-    }
-
-    const parts = text.split(new RegExp(`(${query})`, "gi"));
-    return (
-      <Text>
-        {parts.map((part, index) =>
-          part.toLowerCase() === query.toLowerCase() ? (
-            <Text
-              key={index}
-              style={{
-                fontFamily: gayaHurufTebal,
-                backgroundColor: "yellow",
-                color: "#000",
-              }}
-            >
-              {part}
-            </Text>
-          ) : (
-            <Text key={index} style={{ fontFamily: gayaHurufReguler }}>
-              {part}
-            </Text>
-          )
-        )}
-      </Text>
-    );
-  };
 
   return (
     <ScrollView className="bg-[#E7E8E2] flex-1">
@@ -170,7 +137,12 @@ export default function Index() {
                   className="text-[#556F50] text-lg font-semibold mt-2"
                   style={{ fontFamily: gayaHurufTebal }}
                 >
-                  {highlightText(item.Nama_Sayuran, kueriPencarian)}
+                  {TeksDiSorot(
+                    item.Nama_Sayuran,
+                    kueriPencarian,
+                    gayaHurufTebal,
+                    gayaHurufReguler
+                  )}
                 </Text>
                 <Text
                   style={{ fontFamily: gayaHurufReguler }}
