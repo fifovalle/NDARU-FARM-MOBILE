@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,15 +8,48 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useVerifikasiOTP } from "../hooks/useVerifikasiOTP";
-import { useRouter } from "expo-router";
+import { useRouter, useGlobalSearchParams } from "expo-router";
+import SmsRetriever from "react-native-sms-retriever";
 
 export default function LayarOtp() {
   const router = useRouter();
   const referensiMasukan = useRef([]);
-  const verificationId = router.query?.verificationId;
+  const params = useGlobalSearchParams();
+  const verificationId = params.verificationId;
 
   const [nilaiOtp, aturNilaiOtp] = useState(["", "", "", "", "", ""]);
   const { loading, verifikasiKodeOtp } = useVerifikasiOTP(verificationId);
+
+  useEffect(() => {
+    const startListening = async () => {
+      try {
+        await SmsRetriever.requestPhoneNumber();
+        await SmsRetriever.startSmsRetriever();
+        SmsRetriever.addSmsListener((event) => {
+          const { message } = event;
+          const otp = extractOtpFromMessage(message);
+          if (otp) {
+            aturNilaiOtp(otp.split(""));
+            verifikasiKodeOtp(otp);
+          }
+        });
+      } catch (error) {
+        console.error("Gagal memulai SMS Retriever:", error);
+      }
+    };
+
+    startListening();
+
+    return () => {
+      SmsRetriever.removeSmsListener();
+    };
+  }, [verificationId]);
+
+  const extractOtpFromMessage = (message) => {
+    // Sesuaikan dengan format SMS OTP Anda
+    const otpMatch = message.match(/\b\d{6}\b/);
+    return otpMatch ? otpMatch[0] : null;
+  };
 
   const ubahNilaiOtp = (teks, indeks) => {
     const nilaiOtpBaru = [...nilaiOtp];

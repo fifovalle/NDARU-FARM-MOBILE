@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import auth from "@react-native-firebase/auth";
 import Toast from "react-native-toast-message";
 import { useRouter } from "expo-router";
 
 export function useVerifikasiOTP(verificationId) {
-  const [memuat, setmemuat] = useState(false);
+  const [memuat, setMemuat] = useState(false);
   const router = useRouter();
 
   const verifikasiKodeOtp = async (kodeOtp) => {
-    setmemuat(true);
+    setMemuat(true);
     try {
       if (!verificationId) {
         throw new Error("ID verifikasi tidak ditemukan.");
@@ -20,7 +20,7 @@ export function useVerifikasiOTP(verificationId) {
       );
 
       await auth().signInWithCredential(credential);
-      router.push("/layarIdentitas");
+      return Promise.resolve();
     } catch (error) {
       console.error("Kode OTP salah:", error);
       Toast.show({
@@ -30,8 +30,9 @@ export function useVerifikasiOTP(verificationId) {
           error.message ||
           "Kode OTP yang Anda masukkan salah atau sudah kadaluarsa.",
       });
+      return Promise.reject(error);
     } finally {
-      setmemuat(false);
+      setMemuat(false);
     }
   };
 

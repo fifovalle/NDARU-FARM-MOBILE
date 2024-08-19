@@ -14,7 +14,6 @@ export default function useHalamanPesan() {
             id: doc.id,
             ...doc.data(),
           }));
-          console.log("Data Pengguna:", penggunaData);
           setDataPengguna(penggunaData);
         },
         (error) => {
