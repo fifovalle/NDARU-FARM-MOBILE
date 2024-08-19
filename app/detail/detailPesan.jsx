@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -15,9 +15,12 @@ import useGayaHuruf from "../../hooks/useGayaHuruf";
 
 export default function DetailPesan() {
   const router = useRouter();
-  const { ID_Pengguna, Nama_Lengkap_Pengguna } = useGlobalSearchParams();
+  const { Target_Pengguna, Pengirim, Nama_Lengkap_Pengguna } =
+    useGlobalSearchParams();
   const [pesan, setPesan] = useState("");
   const [pesanTerkirim, setPesanTerkirim] = useState([]);
+  const [searchQuery] = useState("");
+  const scrollViewRef = useRef(null);
   const ikonWortel = require("../../assets/images/ikonWortel.png");
   const layarPesan = require("../../assets/images/gambarPesan.png");
 
@@ -34,25 +37,68 @@ export default function DetailPesan() {
   useEffect(() => {
     const unsubscribe = firestore()
       .collection("pesan")
+      .where("ID_Pengirim", "in", [Pengirim, Target_Pengguna])
+      .where("ID_Penerima", "in", [Target_Pengguna, Pengirim])
       .orderBy("Waktu_Pengiriman", "asc")
-      .onSnapshot((snapshot) => {
-        const pesanData = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setPesanTerkirim(pesanData);
-      });
+      .onSnapshot(
+        (snapshot) => {
+          if (snapshot && !snapshot.empty) {
+            const pesanData = snapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }));
+            setPesanTerkirim(pesanData);
+          } else {
+            setPesanTerkirim([]);
+          }
+        },
+        (error) => {
+          console.error("Error mengambil data pesan:", error);
+          setPesanTerkirim([]);
+        }
+      );
 
     return () => unsubscribe();
-  }, []);
+  }, [Target_Pengguna, Pengirim]);
+
+  useEffect(() => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollToEnd({ animated: true });
+    }
+  }, [pesanTerkirim]);
+
+  useEffect(() => {
+    const updateStatusBaca = async () => {
+      try {
+        const pesanRef = firestore().collection("pesan");
+        const snapshot = await pesanRef
+          .where("ID_Penerima", "==", Pengirim)
+          .where("ID_Pengirim", "==", Target_Pengguna)
+          .where("Status_Baca", "==", false)
+          .get();
+
+        const batch = firestore().batch();
+        snapshot.docs.forEach((doc) => {
+          batch.update(doc.ref, { Status_Baca: true });
+        });
+        await batch.commit();
+      } catch (error) {
+        console.error("Gagal memperbarui status baca pesan:", error);
+      }
+    };
+
+    updateStatusBaca();
+  }, [Target_Pengguna, Pengirim]);
 
   const kirimPesan = async () => {
     if (pesan.trim()) {
       try {
         await firestore().collection("pesan").add({
-          ID_Pengirim: ID_Pengguna,
+          ID_Penerima: Target_Pengguna,
+          ID_Pengirim: Pengirim,
           ISI_Pesan: pesan,
           Waktu_Pengiriman: firestore.FieldValue.serverTimestamp(),
+          Status_Baca: false,
         });
         setPesan("");
       } catch (error) {
@@ -61,8 +107,22 @@ export default function DetailPesan() {
     }
   };
 
+  const formatWaktu = (waktu) => {
+    if (waktu) {
+      const date = new Date(waktu.seconds * 1000);
+      const hours = date.getHours().toString().padStart(2, "0");
+      const minutes = date.getMinutes().toString().padStart(2, "0");
+      return `${hours}:${minutes}`;
+    }
+    return "Mengirim...";
+  };
+
   const renderPesan = (item) => {
-    const isPengguna = item.ID_Pengirim === ID_Pengguna;
+    const isPengguna = item.ID_Pengirim === Pengirim;
+    const isSearched =
+      searchQuery &&
+      item.ISI_Pesan.toLowerCase().includes(searchQuery.toLowerCase());
+
     return (
       <View
         key={item.id}
@@ -80,9 +140,14 @@ export default function DetailPesan() {
           className={`${
             isPengguna ? "bg-[#447055]" : "bg-gray-300"
           } rounded-lg p-3 max-w-[60%]`}
+          onLongPress={() => hapusPesan(item.id)}
         >
           <Text
-            style={{ fontFamily: gayaHurufMedium }}
+            style={{
+              fontFamily: gayaHurufMedium,
+              fontWeight: isSearched ? "bold" : "normal",
+              backgroundColor: isSearched ? "yellow" : "transparent",
+            }}
             className={`${isPengguna ? "text-white" : "text-gray-700"}`}
           >
             {item.ISI_Pesan}
@@ -94,11 +159,7 @@ export default function DetailPesan() {
                 isPengguna ? "text-white" : "text-gray"
               } text-xs ml-2`}
             >
-              {item.Waktu_Pengiriman
-                ? new Date(
-                    item.Waktu_Pengiriman.seconds * 1000
-                  ).toLocaleTimeString()
-                : "Mengirim..."}
+              {formatWaktu(item.Waktu_Pengiriman)}
             </Text>
           </View>
         </TouchableOpacity>
@@ -108,13 +169,14 @@ export default function DetailPesan() {
 
   return (
     <View className="flex-1 bg-[#E7E8E2] px-2">
-      {/* Header */}
       <View className="flex-row items-center p-4 border-b border-gray-300 mt-12">
         <TouchableOpacity
           onPress={() => router.back("../beranda/pesan")}
           className="mr-4"
         >
-          <FontAwesome name="arrow-left" size={24} color="green" />
+          <View className="w-10 h-10 rounded-full flex justify-center items-center">
+            <FontAwesome name="arrow-left" size={24} color="green" />
+          </View>
         </TouchableOpacity>
         <View className="flex-1 flex-row items-center">
           <View className="w-14 h-14 bg-white rounded-full mr-3 overflow-hidden flex items-center justify-center">
@@ -133,12 +195,14 @@ export default function DetailPesan() {
           </View>
         </View>
         <TouchableOpacity activeOpacity={0.4}>
-          <FontAwesome name="search" size={20} color="green" />
+          <View className="w-10 h-10 rounded-full flex justify-center items-center">
+            <FontAwesome name="search" size={20} color="green" />
+          </View>
         </TouchableOpacity>
       </View>
 
       <ImageBackground className="w-screen flex-1" source={layarPesan}>
-        <ScrollView className="px-4 py-2">
+        <ScrollView className="px-4 py-2" ref={scrollViewRef}>
           <View className="flex items-center">
             <Text
               style={{ fontFamily: gayaHurufMedium }}

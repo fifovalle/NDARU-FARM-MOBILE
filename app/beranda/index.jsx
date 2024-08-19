@@ -12,6 +12,8 @@ import useGayaHuruf from "../../hooks/useGayaHuruf";
 import useHalamanBeranda from "../../hooks/useHalamanBeranda";
 import { formatRupiah } from "../../helpers/formatRupiah";
 import TeksDiSorot from "../../helpers/teksDiSorot";
+import { FontAwesome } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 export default function Index() {
   const ikonKeranjang = require("../../assets/images/ikonKeranjang1.png");
@@ -67,7 +69,12 @@ export default function Index() {
           </Text>
           <TouchableOpacity activeOpacity={0.6}>
             <View className="relative mr-5">
-              <Image className="w-10 h-10" source={ikonKeranjang}></Image>
+              <TouchableOpacity
+                activeOpacity={0.3}
+                onPress={() => router.push("../../detail/detailKeranjang")}
+              >
+                <Image className="w-10 h-10" source={ikonKeranjang}></Image>
+              </TouchableOpacity>
               <View className="absolute -top-2 -right-2 bg-red-600 rounded-full w-4 h-4 flex items-center justify-center">
                 <Text
                   style={{ fontFamily: gayaHurufTebal }}
@@ -95,12 +102,28 @@ export default function Index() {
       </View>
 
       <View className="p-4">
-        <Text
-          style={{ fontFamily: gayaHurufHitam }}
-          className="text-[#556F50] text-xl mb-4"
-        >
-          Sayuran Populer
-        </Text>
+        <View className="p-4 flex-row justify-between items-center">
+          <Text
+            style={{ fontFamily: gayaHurufHitam }}
+            className="text-[#556F50] text-xl"
+          >
+            Sayuran Populer
+          </Text>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() => router.push("../detail/detailSayuranPopuler")}
+          >
+            <View className="flex-row items-center">
+              <Text
+                style={{ fontFamily: gayaHurufSedang }}
+                className="text-[#447055] text-sm mr-[4px] underline"
+              >
+                Lihat Semua
+              </Text>
+              <FontAwesome name="caret-right" size={20} color="#447055" />
+            </View>
+          </TouchableOpacity>
+        </View>
 
         {sayuranTersaring.length === 0 ? (
           <View className="flex items-center justify-center">

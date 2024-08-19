@@ -34,7 +34,7 @@ export default function Transaksi() {
         <Image className="w-7 h-7" source={ikonPencarian} />
         <TextInput
           style={{ fontFamily: gayaHurufRegular }}
-          placeholder="Cari transaksi"
+          placeholder="Cari Transaksi..."
           className="ml-2 flex-1"
           placeholderTextColor="gray"
         />
