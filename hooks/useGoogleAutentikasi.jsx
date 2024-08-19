@@ -9,7 +9,7 @@ import { useRouter } from "expo-router";
 
 GoogleSignin.configure({
   webClientId:
-    "650778004656-9qu12ca46f089kj9ltt6epocfccpfh2d.apps.googleusercontent.com",
+    "584132072957-q4hpstsm3sfetkhtehon4nlios8pshpu.apps.googleusercontent.com",
   offlineAccess: false,
 });
 

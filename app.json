@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "ndaru-farm",
-    "slug": "ndaru-farm",
-    "version": "1.0.0",
+    "name": "Ndaru-Farm",
+    "slug": "Ndaru-Farm",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/ikonSplash.png",
     "scheme": "myapp",
@@ -16,12 +16,12 @@
       "supportsTablet": true
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/ikonSplash.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#447055"
       },
-      "googleServicesFile": "./google-services.json",
-      "package": "com.fifovalle.ndarufarm"
+      "package": "com.fifovalle.NdaruFarm"
     },
     "web": {
       "bundler": "metro",
@@ -31,7 +31,8 @@
     "plugins": [
       "expo-router",
       "@react-native-firebase/app",
-      "@react-native-firebase/auth"
+      "@react-native-firebase/auth",
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
@@ -41,7 +42,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "f28a4033-18ab-45a8-9a96-69560ce70248"
+        "projectId": "1ebbd4c9-e2dd-4cf1-84a8-d3027e93b893"
       }
     }
   }

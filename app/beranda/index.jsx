@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import useGayaHuruf from "../../hooks/useGayaHuruf";
 import useHalamanBeranda from "../../hooks/useHalamanBeranda";
-import { formatRupiah } from "../../helpers/formatRupiah";
-import TeksDiSorot from "../../helpers/teksDiSorot";
+import { formatRupiah } from "../../utils/formatRupiah";
+import TeksDiSorot from "../../utils/teksDiSorot";
 import { FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
 
@@ -136,23 +136,23 @@ export default function Index() {
           </View>
         ) : (
           <View className="flex-row justify-between flex-wrap">
-            {sayuranTersaring.map((item, index) => (
+            {sayuranTersaring.map((sayuran, index) => (
               <View
                 key={index}
                 className="bg-white rounded-xl p-4 mb-4 w-[48%]"
               >
                 <TouchableOpacity activeOpacity={0.5}>
-                  {!statusGambar[item.id] && (
+                  {!statusGambar[sayuran.id] && (
                     <View className="w-full h-32 flex items-center justify-center">
                       <ActivityIndicator size="large" color="#556F50" />
                     </View>
                   )}
                   <Image
-                    source={{ uri: item.Foto }}
+                    source={{ uri: sayuran.Foto_Sayuran }}
                     className={`w-full h-32 object-cover rounded-xl ${
-                      statusGambar[item.id] ? "block" : "hidden"
+                      statusGambar[sayuran.id] ? "block" : "hidden"
                     }`}
-                    onLoad={() => handleImageLoad(item.id)}
+                    onLoad={() => handleImageLoad(sayuran.id)}
                   />
                 </TouchableOpacity>
 
@@ -161,7 +161,7 @@ export default function Index() {
                   style={{ fontFamily: gayaHurufTebal }}
                 >
                   {TeksDiSorot(
-                    item.Nama_Sayuran,
+                    sayuran.Nama_Sayuran,
                     kueriPencarian,
                     gayaHurufTebal,
                     gayaHurufReguler
@@ -171,20 +171,20 @@ export default function Index() {
                   style={{ fontFamily: gayaHurufReguler }}
                   className="text-gray-500"
                 >
-                  {item.Kuantitas}kg
+                  {sayuran.Kuantitas_Sayuran}kg
                 </Text>
                 <View className="flex-row items-center justify-between mt-2">
                   <Text
                     style={{ fontFamily: gayaHurufTebal }}
                     className="text-black"
                   >
-                    {formatRupiah(item.Harga)}
+                    {formatRupiah(sayuran.Harga_Sayuran)}
                   </Text>
                   <Text
                     style={{ fontFamily: gayaHurufSedang }}
                     className="text-gray-500"
                   >
-                    Stok {item.Stok}
+                    Stok {sayuran.Stok_Sayuran}
                   </Text>
                 </View>
                 <TouchableOpacity activeOpacity={0.6} className="w-full">

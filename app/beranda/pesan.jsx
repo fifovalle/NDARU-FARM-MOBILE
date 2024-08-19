@@ -6,13 +6,12 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator,
 } from "react-native";
 import { useRouter } from "expo-router";
 import useGayaHuruf from "../../hooks/useGayaHuruf";
 import useHalamanPesan from "../../hooks/useHalamanPesan";
 import auth from "@react-native-firebase/auth";
-import TeksDiSorot from "../../helpers/teksDiSorot";
+import TeksDiSorot from "../../utils/teksDiSorot";
 
 export default function Pesan() {
   const jalur = useRouter();

@@ -25,9 +25,7 @@ export default function useDetailSayuran() {
 
     const ambilDataSayuran = async () => {
       try {
-        const sayuranCollection = await firestore()
-          .collection("produk_sayuran")
-          .get();
+        const sayuranCollection = await firestore().collection("sayuran").get();
         let dataSayuran = sayuranCollection.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
