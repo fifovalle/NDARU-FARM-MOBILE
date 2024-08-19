@@ -43,7 +43,7 @@ export default function Pesan() {
         <Image className="w-7 h-7" source={ikonPencarian} />
         <TextInput
           style={{ fontFamily: gayaHurufRegular }}
-          placeholder="Cari pesan"
+          placeholder="Cari Kontak..."
           className="ml-2 flex-1"
           placeholderTextColor="gray"
         />
