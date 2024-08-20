@@ -29,16 +29,14 @@ export default function useHalamanPesan() {
             const penggunaIds = dataPengguna.map((p) => p.id);
             const jumlahPesan = {};
 
-            // Hitung jumlah pesan belum terbaca hanya untuk penerima
             await Promise.all(
               penggunaIds.map(async (id) => {
                 const pesanSnapshot = await firestore()
                   .collection("pesan")
-                  .where("ID_Penerima", "==", id)
+                  .where("ID_Pengirim", "==", id)
                   .where("Status_Baca", "==", false)
                   .get();
 
-                // Hanya simpan jumlah pesan untuk penerima
                 if (penggunaIds.includes(id)) {
                   jumlahPesan[id] = pesanSnapshot.size;
                 }

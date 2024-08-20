@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import {
   View,
@@ -11,8 +12,6 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import useGayaHuruf from "../../hooks/useGayaHuruf";
-import MapView, { Marker } from "react-native-maps";
-import Geolocation from "react-native-geolocation-service";
 
 export default function Profil() {
   const fotoProfil = require("../../assets/images/profil.png");
@@ -38,34 +37,21 @@ export default function Profil() {
   });
 
   const [jenisKelamin, setJenisKelamin] = useState("pria");
+  const [lokasi, setLokasi] = useState(null);
+  const [provinsi, setProvinsi] = useState("");
+  const [kota, setKota] = useState("");
+  const [kabupaten, setKabupaten] = useState("");
+  const [alamat, setAlamat] = useState("");
+  const [kodePos, setKodePos] = useState("");
 
   const warnaAktif = "#4C6C52";
   const warnaTidakAktif = "#E7E8E2";
-
-  const [lokasi, setLokasi] = useState(null);
-  const tampilkanPeta = () => {
-    Geolocation.getCurrentPosition(
-      (posisi) => {
-        const koordinat = {
-          latitude: posisi.coords.latitude,
-          longitude: posisi.coords.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        };
-        setLokasi(koordinat);
-      },
-      (error) => {
-        Alert.alert("Error", "Gagal mendapatkan lokasi: " + error.message);
-      },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    );
-  };
 
   const pilihGambar = async () => {
     let permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    if (permissionResult.granted === false) {
+    if (!permissionResult.granted) {
       Alert.alert("Permission Denied", "Izin akses galeri dibutuhkan!");
       return;
     }
@@ -79,6 +65,40 @@ export default function Profil() {
 
     if (!result.canceled) {
       setFotoProfil({ uri: result.assets[0].uri });
+    }
+  };
+
+  const tampilkanPeta = async () => {
+    try {
+      console.log("Mengambil lokasi pengguna...");
+      const response = await axios.get(
+        "https://ipinfo.io/json?token=688e3d4a552666"
+      );
+
+      console.log("Respons dari API:", response.data);
+      const { loc, region, city, postal } = response.data;
+      const [latitude, longitude] = loc.split(",");
+
+      setLokasi({
+        latitude: parseFloat(latitude),
+        longitude: parseFloat(longitude),
+        latitudeDelta: 0.005,
+        longitudeDelta: 0.005,
+      });
+
+      setProvinsi(region || "Tidak Diketahui");
+      setKota(city || "Tidak Diketahui");
+      setKabupaten("Kabupaten " + city || "Tidak Diketahui");
+      setAlamat("Alamat Anda di " + city || "Tidak Diketahui");
+      setKodePos(postal || "Tidak Diketahui");
+
+      console.log("Lokasi yang diambil:", {
+        latitude: parseFloat(latitude),
+        longitude: parseFloat(longitude),
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      Alert.alert("Error", "Gagal mendapatkan lokasi, periksa API token.");
     }
   };
 
@@ -194,11 +214,14 @@ export default function Profil() {
                 color="black"
               />
               <TextInput
+                value={provinsi}
+                onChangeText={setProvinsi}
                 style={{ fontFamily: gayaHurufMedium }}
-                placeholder="Alamat Anda"
+                placeholder="Provinsi Anda"
                 className="flex-1 ml-2 text-gray-700"
               />
             </View>
+
             <Text
               style={{ fontFamily: gayaHurufBold }}
               className="text-lg text-[#447055]"
@@ -213,11 +236,14 @@ export default function Profil() {
                 color="black"
               />
               <TextInput
+                value={kota}
+                onChangeText={setKota}
                 style={{ fontFamily: gayaHurufMedium }}
-                placeholder="Alamat Anda"
+                placeholder="Kota Anda"
                 className="flex-1 ml-2 text-gray-700"
               />
             </View>
+
             <Text
               style={{ fontFamily: gayaHurufBold }}
               className="text-lg text-[#447055]"
@@ -232,11 +258,14 @@ export default function Profil() {
                 color="black"
               />
               <TextInput
+                value={kabupaten}
+                onChangeText={setKabupaten}
                 style={{ fontFamily: gayaHurufMedium }}
-                placeholder="Alamat Anda"
+                placeholder="Kabupaten Anda"
                 className="flex-1 ml-2 text-gray-700"
               />
             </View>
+
             <Text
               style={{ fontFamily: gayaHurufBold }}
               className="text-lg text-[#447055]"
@@ -251,11 +280,14 @@ export default function Profil() {
                 color="black"
               />
               <TextInput
+                value={alamat}
+                onChangeText={setAlamat}
                 style={{ fontFamily: gayaHurufMedium }}
                 placeholder="Alamat Anda"
                 className="flex-1 ml-2 text-gray-700"
               />
             </View>
+
             <Text
               style={{ fontFamily: gayaHurufBold }}
               className="text-lg text-[#447055]"
@@ -270,99 +302,89 @@ export default function Profil() {
                 color="black"
               />
               <TextInput
+                value={kodePos}
+                onChangeText={setKodePos}
                 style={{ fontFamily: gayaHurufMedium }}
-                placeholder="Alamat Anda"
+                placeholder="Kode Pos Anda"
                 className="flex-1 ml-2 text-gray-700"
               />
             </View>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              className="mt-4 bg-[#4C6C52] py-2 px-3 rounded-xl mx-auto"
-              onPress={tampilkanPeta}
+          </View>
+          <TouchableOpacity
+            onPress={tampilkanPeta}
+            className="bg-[#4C6C52] rounded-lg p-2 w-60 mt-4"
+          >
+            <Text
+              style={{ fontFamily: gayaHurufMedium }}
+              className="text-white text-center"
             >
-              <Text
-                style={{ fontFamily: gayaHurufBold }}
-                className="text-white text-md"
-              >
-                Tampilkan Lokasi Saya
-              </Text>
-            </TouchableOpacity>
-
-            {lokasi && (
-              <MapView
-                style={{ height: 200, width: "100%", marginTop: 20 }}
-                region={lokasi}
-              >
-                <Marker coordinate={lokasi} />
-              </MapView>
-            )}
-            <View className="mt-4">
-              <Text
-                style={{ fontFamily: gayaHurufBold }}
-                className="text-lg text-[#447055] -mb-2"
-              >
-                Jenis Kelamin :
-              </Text>
-              <View className="flex-row items-center rounded-lg p-2">
-                <FontAwesome
-                  className="border border-gray-400 rounded-md p-2"
-                  name="venus-mars"
-                  size={22}
-                  color="black"
-                />
-                <View className="flex-row ml-2 w-[82%]">
-                  <TouchableOpacity
-                    className="border border-gray-400 rounded-lg p-3 bg-[#447055] mx-4 w-20 items-center justify-center"
-                    onPress={() => setJenisKelamin("pria")}
+              Tampilkan Lokasi Saya
+            </Text>
+          </TouchableOpacity>
+          <View className="mt-4">
+            <Text
+              style={{ fontFamily: gayaHurufBold }}
+              className="text-lg text-[#447055] -mb-2"
+            >
+              Jenis Kelamin :
+            </Text>
+            <View className="flex-row items-center rounded-lg p-2">
+              <FontAwesome
+                className="border border-gray-400 rounded-md p-2"
+                name="venus-mars"
+                size={22}
+                color="black"
+              />
+              <View className="flex-row ml-2 w-[82%]">
+                <TouchableOpacity
+                  className="border border-gray-400 rounded-lg p-3 bg-[#447055] mx-4 w-20 items-center justify-center"
+                  onPress={() => setJenisKelamin("pria")}
+                  style={{
+                    backgroundColor:
+                      jenisKelamin === "pria" ? warnaAktif : warnaTidakAktif,
+                  }}
+                >
+                  <Text
                     style={{
-                      backgroundColor:
-                        jenisKelamin === "pria" ? warnaAktif : warnaTidakAktif,
+                      fontFamily: gayaHurufMedium,
+                      color: jenisKelamin === "pria" ? "#FFF" : "#000",
                     }}
                   >
-                    <Text
-                      style={{
-                        fontFamily: gayaHurufMedium,
-                        color: jenisKelamin === "pria" ? "#FFF" : "#000",
-                      }}
-                    >
-                      Pria
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    className="border border-gray-400 rounded-lg p-3 bg-[#447055] w-22 items-center justify-center"
-                    onPress={() => setJenisKelamin("wanita")}
+                    Pria
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className="border border-gray-400 rounded-lg p-3 bg-[#447055] w-22 items-center justify-center"
+                  onPress={() => setJenisKelamin("wanita")}
+                  style={{
+                    backgroundColor:
+                      jenisKelamin === "wanita" ? warnaAktif : warnaTidakAktif,
+                  }}
+                >
+                  <Text
                     style={{
-                      backgroundColor:
-                        jenisKelamin === "wanita"
-                          ? warnaAktif
-                          : warnaTidakAktif,
+                      fontFamily: gayaHurufMedium,
+                      color: jenisKelamin === "wanita" ? "#FFF" : "#000",
                     }}
                   >
-                    <Text
-                      style={{
-                        fontFamily: gayaHurufMedium,
-                        color: jenisKelamin === "wanita" ? "#FFF" : "#000",
-                      }}
-                    >
-                      Wanita
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+                    Wanita
+                  </Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            className="bg-[#4C6C52] py-3 w-56 rounded-xl items-center self-center mt-10 -mb-6"
-          >
-            <Text
-              style={{ fontFamily: gayaHurufBold }}
-              className="text-white text-lg"
-            >
-              Simpan Perubahan
-            </Text>
-          </TouchableOpacity>
         </View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          className="bg-[#4C6C52] py-3 w-56 rounded-xl items-center self-center -mt-10 mb-10"
+        >
+          <Text
+            style={{ fontFamily: gayaHurufBold }}
+            className="text-white text-lg"
+          >
+            Simpan Perubahan
+          </Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );

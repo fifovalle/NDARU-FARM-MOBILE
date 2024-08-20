@@ -2,7 +2,7 @@
   "expo": {
     "name": "Ndaru-Farm",
     "slug": "Ndaru-Farm",
-    "version": "1.0.2",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/ikonSplash.png",
     "scheme": "myapp",
@@ -17,6 +17,7 @@
     },
     "android": {
       "googleServicesFile": "./google-services.json",
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/ikonSplash.png",
         "backgroundColor": "#447055"
@@ -42,7 +43,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "1ebbd4c9-e2dd-4cf1-84a8-d3027e93b893"
+        "projectId": "c48e9bf2-ade5-4567-bfe7-bce0cb82952b"
       }
     }
   }

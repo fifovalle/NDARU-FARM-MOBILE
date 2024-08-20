@@ -14,19 +14,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "584132072957-rfbmu9bniqjv2693m6b9pqoerj7qvjg7.apps.googleusercontent.com",
+          "client_id": "584132072957-ourm2568703scknmm23plihtolh1l2bc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.fifovalle.NdaruFarm",
-            "certificate_hash": "82f0d4f4557081f6d0da448861521912525ab39e"
+            "certificate_hash": "740a02225d76ddc7e86f448dcda42ac188dfd45f"
           }
         },
         {
-          "client_id": "584132072957-tpfr0l7701vvr36368kunngt751mmgv8.apps.googleusercontent.com",
+          "client_id": "584132072957-tvmeglhf935l1raj78f09tds0uc1dh4g.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.fifovalle.NdaruFarm",
-            "certificate_hash": "ef6e513ac74d6148b9e60db14ea818c2a1934993"
+            "certificate_hash": "109bbff43e24745bb764b64f09e3ebd17e0a1509"
           }
         },
         {
