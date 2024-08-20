@@ -309,22 +309,20 @@ export default function Profil() {
                 className="flex-1 ml-2 text-gray-700"
               />
             </View>
-          </View>
-          <TouchableOpacity
-            onPress={tampilkanPeta}
-            className="bg-[#4C6C52] rounded-lg p-2 w-60 mt-4"
-          >
-            <Text
-              style={{ fontFamily: gayaHurufMedium }}
-              className="text-white text-center"
+            <TouchableOpacity
+              onPress={tampilkanPeta}
+              className="bg-[#4C6C52] rounded-lg p-2 w-60 mt-4 mx-auto"
             >
-              Tampilkan Lokasi Saya
-            </Text>
-          </TouchableOpacity>
-          <View className="mt-4">
+              <Text
+                style={{ fontFamily: gayaHurufMedium }}
+                className="text-white text-center"
+              >
+                Tampilkan Lokasi Saya
+              </Text>
+            </TouchableOpacity>
             <Text
               style={{ fontFamily: gayaHurufBold }}
-              className="text-lg text-[#447055] -mb-2"
+              className="text-lg text-[#447055] -mb-2 mt-4"
             >
               Jenis Kelamin :
             </Text>
@@ -373,18 +371,18 @@ export default function Profil() {
               </View>
             </View>
           </View>
-        </View>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          className="bg-[#4C6C52] py-3 w-56 rounded-xl items-center self-center -mt-10 mb-10"
-        >
-          <Text
-            style={{ fontFamily: gayaHurufBold }}
-            className="text-white text-lg"
+          <TouchableOpacity
+            activeOpacity={0.8}
+            className="bg-[#4C6C52] py-3 w-56 rounded-xl items-center self-center mt-5 -mb-5"
           >
-            Simpan Perubahan
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={{ fontFamily: gayaHurufBold }}
+              className="text-white text-lg"
+            >
+              Simpan Perubahan
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </ScrollView>
   );
