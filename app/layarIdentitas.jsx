@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -5,78 +6,41 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  ActivityIndicator,
 } from "react-native";
-import React, { useRef } from "react";
 import { useRouter } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
-import useGayaHuruf from "../hooks/useGayaHuruf";
-import useHalamanIdentitas from "../hooks/useHalamanIdentitas";
-import Toast from "react-native-toast-message";
+// MODUL KAMI
+import useHurufResponsif from "../hooks/useHurufResponsif";
 
 export default function LayarIdentitas() {
-  const jalur = useRouter();
-  const segeraBergulir = useRef(null);
-  const {
-    namaLengkap,
-    setNamaLengkap,
-    umur,
-    setUmur,
-    noTelepon,
-    setNoTelepon,
-    jenisKelamin,
-    setJenisKelamin,
-    memuat,
-    simpanDataPengguna,
-  } = useHalamanIdentitas();
-
-  const gayaHurufRegular = useGayaHuruf({
+  const pengarah = useRouter();
+  const warnaAktif = "#4C6C52";
+  const warnaTidakAktif = "#E7E8E2";
+  const [jenisKelamin, setJenisKelamin] = useState("");
+  const gambarIdentitasPengguna = require("../assets/images/gambarIdentitas.png");
+  const gayaHurufLexend400 = useHurufResponsif({
     android: "Lexend_400Regular",
     ios: "Lexend_400Regular",
   });
-
-  const gayaHurufBlack = useGayaHuruf({
-    android: "Lexend_900Black",
-    ios: "Lexend_900Black",
-  });
-
-  const gayaHurufMedium = useGayaHuruf({
+  const gayaHurufLexend500 = useHurufResponsif({
     android: "Poppins_500Medium",
     ios: "Poppins_500Medium",
   });
-
-  const gayaHurufBold = useGayaHuruf({
+  const gayaHurufLexend900 = useHurufResponsif({
+    android: "Lexend_900Black",
+    ios: "Lexend_900Black",
+  });
+  const gayaHurufPoppins700 = useHurufResponsif({
     android: "Poppins_700Bold",
     ios: "Poppins_700Bold",
   });
 
-  const warnaAktif = "#4C6C52";
-  const warnaTidakAktif = "#E7E8E2";
-
-  const simpanData = async () => {
-    try {
-      await simpanDataPengguna(namaLengkap, umur, noTelepon, jenisKelamin);
-      jalur.push("/beranda");
-    } catch (error) {
-      Toast.show({
-        type: "error",
-        position: "top",
-        text1: "Error",
-        text2: error.message || "Gagal menyimpan data. Coba lagi nanti.",
-        onShow: () => {
-          segeraBergulir.current?.scrollTo({ y: 0, animated: true });
-        },
-      });
-    }
-  };
-
   return (
-    <ScrollView ref={segeraBergulir} className="flex-1 bg-[#E7E8E2]">
-      <Toast />
+    <ScrollView className="flex-1 bg-[#E7E8E2]">
       <View className="p-6 mt-[70px]">
         <View className="flex-1 items-center justify-center">
           <Image
-            source={require("../assets/images/gambarIdentitas.png")}
+            source={gambarIdentitasPengguna}
             className="h-[350px] w-[350px]"
             style={{ resizeMode: "contain" }}
           />
@@ -85,7 +49,7 @@ export default function LayarIdentitas() {
         <View className="mt-8">
           <View className="mb-4">
             <Text
-              style={{ fontFamily: gayaHurufBlack }}
+              style={{ fontFamily: gayaHurufLexend900 }}
               className="text-lg text-[#447055]"
             >
               Nama Lengkap :
@@ -97,19 +61,16 @@ export default function LayarIdentitas() {
                 style={{ resizeMode: "contain" }}
               />
               <TextInput
-                style={{ fontFamily: gayaHurufRegular }}
+                style={{ fontFamily: gayaHurufLexend400 }}
                 placeholder="Masukan Nama Lengkap Anda"
                 className="ml-2 flex-1 text-gray-600"
-                value={namaLengkap}
-                onChangeText={setNamaLengkap}
-                editable={!memuat}
               />
             </View>
           </View>
 
           <View className="mb-4">
             <Text
-              style={{ fontFamily: gayaHurufBlack }}
+              style={{ fontFamily: gayaHurufLexend900 }}
               className="text-lg text-[#447055]"
             >
               Umur :
@@ -122,19 +83,16 @@ export default function LayarIdentitas() {
               />
               <TextInput
                 inputMode="numeric"
-                style={{ fontFamily: gayaHurufRegular }}
+                style={{ fontFamily: gayaHurufLexend400 }}
                 placeholder="Masukan Umur Anda"
                 className="ml-2 flex-1 text-gray-600"
-                value={umur}
-                onChangeText={setUmur}
-                editable={!memuat}
               />
             </View>
           </View>
 
           <View className="mb-4">
             <Text
-              style={{ fontFamily: gayaHurufBlack }}
+              style={{ fontFamily: gayaHurufLexend900 }}
               className="text-lg text-[#447055]"
             >
               Nomor Telepon :
@@ -142,7 +100,7 @@ export default function LayarIdentitas() {
             <View className="flex-row items-center border border-gray-400 rounded-lg p-2 mt-2">
               <View className="h-10 w-10 border border-gray-400 rounded">
                 <Text
-                  style={{ fontFamily: gayaHurufRegular }}
+                  style={{ fontFamily: gayaHurufLexend400 }}
                   className="m-auto"
                 >
                   +62
@@ -150,19 +108,16 @@ export default function LayarIdentitas() {
               </View>
               <TextInput
                 inputMode="numeric"
-                style={{ fontFamily: gayaHurufRegular }}
+                style={{ fontFamily: gayaHurufLexend400 }}
                 placeholder="Masukan nomor telepon Anda"
                 className="ml-2 flex-1 text-gray-600"
-                value={noTelepon}
-                onChangeText={setNoTelepon}
-                editable={!memuat}
               />
             </View>
           </View>
 
           <View className="mb-8">
             <Text
-              style={{ fontFamily: gayaHurufBlack }}
+              style={{ fontFamily: gayaHurufLexend900 }}
               className="text-lg text-[#447055]"
             >
               Jenis Kelamin :
@@ -185,7 +140,7 @@ export default function LayarIdentitas() {
                 >
                   <Text
                     style={{
-                      fontFamily: gayaHurufMedium,
+                      fontFamily: gayaHurufLexend500,
                       color: jenisKelamin === "pria" ? "#FFF" : "#000",
                     }}
                   >
@@ -202,7 +157,7 @@ export default function LayarIdentitas() {
                 >
                   <Text
                     style={{
-                      fontFamily: gayaHurufMedium,
+                      fontFamily: gayaHurufLexend500,
                       color: jenisKelamin === "wanita" ? "#FFF" : "#000",
                     }}
                   >
@@ -214,23 +169,18 @@ export default function LayarIdentitas() {
           </View>
 
           <TouchableOpacity
-            onPress={simpanData}
             activeOpacity={0.8}
-            className={`bg-[#447055] rounded-lg p-4 flex-row items-center justify-center ${
-              memuat ? "opacity-50" : ""
-            }`}
-            disabled={memuat}
+            onPress={() => {
+              pengarah.replace("/beranda");
+            }}
+            className="bg-[#447055] rounded-lg p-4 flex-row items-center justify-center"
           >
-            {memuat ? (
-              <ActivityIndicator size="small" color="#fff" />
-            ) : (
-              <Text
-                style={{ fontFamily: gayaHurufBold }}
-                className="text-white text-center text-lg"
-              >
-                Simpan
-              </Text>
-            )}
+            <Text
+              style={{ fontFamily: gayaHurufPoppins700 }}
+              className="text-white text-center text-lg"
+            >
+              Simpan
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
