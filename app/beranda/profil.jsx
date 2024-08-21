@@ -5,8 +5,8 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
   ScrollView,
-  Alert,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -14,14 +14,25 @@ import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
 import useGayaHuruf from "../../hooks/useGayaHuruf";
 import Toast from "react-native-toast-message";
+import storage from "@react-native-firebase/storage";
 
 export default function Profil() {
   const gambarBawaan = require("../../assets/images/pengguna-bawaan.png");
-
-  const gayaHurufRegular = useGayaHuruf({
-    android: "Lexend_400Regular",
-    ios: "Lexend_400Regular",
-  });
+  const [loading, setLoading] = useState(false);
+  const [fotoProfil, setFotoProfil] = useState(null);
+  const [namaLengkap, setNamaLengkap] = useState("");
+  const [umur, setUmur] = useState("");
+  const [noTelepon, setNoTelepon] = useState("");
+  const [provinsi, setProvinsi] = useState("");
+  const [kota, setKota] = useState("");
+  const [kabupaten, setKabupaten] = useState("");
+  const [alamat, setAlamat] = useState("");
+  const [kodePos, setKodePos] = useState("");
+  const [jenisKelamin, setJenisKelamin] = useState("pria");
+  const [memuat, setMemuat] = useState(false);
+  const warnaAktif = "#4C6C52";
+  const warnaTidakAktif = "#fff";
+  const layarBergulir = useRef(null);
 
   const gayaHurufBlack = useGayaHuruf({
     android: "Lexend_900Black",
@@ -38,23 +49,6 @@ export default function Profil() {
     ios: "Poppins_700Bold",
   });
 
-  const [fotoProfil, setFotoProfil] = useState(gambarBawaan);
-  const [namaLengkap, setNamaLengkap] = useState("");
-  const [umur, setUmur] = useState("");
-  const [noTelepon, setNoTelepon] = useState("");
-  const [provinsi, setProvinsi] = useState("");
-  const [kota, setKota] = useState("");
-  const [kabupaten, setKabupaten] = useState("");
-  const [alamat, setAlamat] = useState("");
-  const [kodePos, setKodePos] = useState("");
-  const [jenisKelamin, setJenisKelamin] = useState("pria");
-  const [memuat, setMemuat] = useState(true);
-
-  const warnaAktif = "#4C6C52";
-  const warnaTidakAktif = "#E7E8E2";
-
-  const layarBergulir = useRef(null);
-
   useEffect(() => {
     const fetchData = async () => {
       setMemuat(true);
@@ -67,6 +61,7 @@ export default function Profil() {
 
         if (penggunaDoc.exists) {
           const data = penggunaDoc.data();
+          const fotoProfilURL = data.Foto_Profil_Pengguna || gambarBawaan;
           setNamaLengkap(data.Nama_Lengkap_Pengguna || "");
           setUmur(data.Umur_Pengguna || "");
           setNoTelepon(data.No_Telepon_Pengguna || "");
@@ -76,6 +71,7 @@ export default function Profil() {
           setAlamat(data.Alamat_Pengguna || "");
           setKodePos(data.Kode_Pos_Pengguna || "");
           setJenisKelamin(data.Jenis_Kelamin_Pengguna || "pria");
+          setFotoProfil({ uri: fotoProfilURL });
         }
       } catch (error) {
         Toast.show({
@@ -119,8 +115,8 @@ export default function Profil() {
       quality: 1,
     });
 
-    if (!result.canceled) {
-      setFotoProfil({ uri: result.assets[0].uri });
+    if (!result.canceled && result.assets.length > 0) {
+      setFotoProfil({ uri: result.assets[0].uri }); // Mengambil URI gambar
     }
   };
 
@@ -148,7 +144,16 @@ export default function Profil() {
     }
 
     const idPengguna = auth().currentUser.uid;
+    const uploadUri = fotoProfil.uri;
+    const fileName = `${idPengguna}/profile.jpg`;
+    setLoading(true);
+
     try {
+      const task = storage().ref(fileName).putFile(uploadUri);
+      await task;
+
+      const url = await storage().ref(fileName).getDownloadURL();
+
       await firestore().collection("pengguna").doc(idPengguna).update({
         Nama_Lengkap_Pengguna: namaLengkap,
         Umur_Pengguna: umur,
@@ -159,7 +164,9 @@ export default function Profil() {
         Alamat_Pengguna: alamat,
         Kode_Pos_Pengguna: kodePos,
         Jenis_Kelamin_Pengguna: jenisKelamin,
+        Foto_Profil_Pengguna: url,
       });
+
       Toast.show({
         type: "success",
         position: "top",
@@ -179,6 +186,8 @@ export default function Profil() {
           layarBergulir.current?.scrollTo({ y: 0, animated: true });
         },
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -204,10 +213,19 @@ export default function Profil() {
               className="w-28 h-28 rounded-full"
               onPress={pilihGambar}
             >
-              <Image
-                source={fotoProfil}
-                className="w-full h-full object-cover rounded-full"
-              />
+              {memuat ? (
+                <ActivityIndicator size="large" color="#447055" />
+              ) : (
+                <Image
+                  source={fotoProfil ? fotoProfil : gambarBawaan}
+                  style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: 50,
+                    marginBottom: 20,
+                  }}
+                />
+              )}
             </TouchableOpacity>
           </View>
           <Text
@@ -446,19 +464,25 @@ export default function Profil() {
                 </TouchableOpacity>
               </View>
             </View>
-          </View>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={simpanPerubahan}
-            className="bg-[#4C6C52] py-3 w-56 rounded-xl items-center self-center mt-5 -mb-5"
-          >
-            <Text
-              style={{ fontFamily: gayaHurufBold }}
-              className="text-white text-lg"
+            <TouchableOpacity
+              className={`bg-[#447055] rounded-lg p-4 w-full mt-4 mx-auto ${
+                loading ? "opacity-50" : ""
+              }`}
+              onPress={simpanPerubahan}
+              disabled={loading}
             >
-              Simpan Perubahan
-            </Text>
-          </TouchableOpacity>
+              {loading ? (
+                <ActivityIndicator size="small" color="#fff" />
+              ) : (
+                <Text
+                  style={{ fontFamily: gayaHurufBold }}
+                  className="text-center text-white text-lg"
+                >
+                  Simpan Perubahan
+                </Text>
+              )}
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </ScrollView>
