@@ -121,7 +121,12 @@ export default function Index() {
                     key={indeks}
                     className="bg-white rounded-xl p-4 mb-4 w-[48%]"
                   >
-                    <TouchableOpacity activeOpacity={0.5}>
+                    <TouchableOpacity
+                      activeOpacity={0.5}
+                      onPress={() =>
+                        router.push("/detail/detailPerSayuranPopuler/")
+                      }
+                    >
                       {!statusGambar[sayuran.id] && (
                         <View className="w-full h-32 flex items-center justify-center">
                           <ActivityIndicator size="large" color="#556F50" />

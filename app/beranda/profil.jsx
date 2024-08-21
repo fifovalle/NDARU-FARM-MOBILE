@@ -187,7 +187,7 @@ export default function Profil() {
   }
 
   return (
-    <ScrollView ref={layarBergulir} className="flex-1 bg-white">
+    <ScrollView ref={layarBergulir} className="flex-1 bg-[#E7E8E2]">
       <Toast />
       <View className="w-full mt pt-32 items-center justify-center">
         <Text
@@ -197,7 +197,7 @@ export default function Profil() {
           Profil Saya
         </Text>
       </View>
-      <View className="bg-[#E7E8E2] mx-auto p-2 w-[90%] rounded-[30px] mt-24 mb-10">
+      <View className="bg-white mx-auto p-2 w-[90%] rounded-[30px] mt-24 mb-10">
         <View className="items-center transform translate-y-[-60px]">
           <View className="w-32 h-32 bg-white rounded-full flex items-center justify-center mb-4 border-[1.5px] border-[#447055]">
             <TouchableOpacity

@@ -22,7 +22,7 @@ export default function LayarMasuk() {
   const { tanganiMasukGoogle } = useGoogleAutentikasi();
 
   return (
-    <ScrollView className="flex-1">
+    <ScrollView className="flex-1 bg-[#E7E8E2]">
       <Toast />
       <View className="flex p-6">
         <Image source={gambarOtentikasi} className="h-[350px] w-full mt-24" />
