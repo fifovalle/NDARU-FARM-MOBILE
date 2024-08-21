@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -11,10 +10,13 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth";
 import useGayaHuruf from "../../hooks/useGayaHuruf";
+import Toast from "react-native-toast-message";
 
 export default function Profil() {
-  const fotoProfil = require("../../assets/images/pengguna-bawaan.png");
+  const gambarBawaan = require("../../assets/images/pengguna-bawaan.png");
 
   const gayaHurufRegular = useGayaHuruf({
     android: "Lexend_400Regular",
@@ -36,24 +38,77 @@ export default function Profil() {
     ios: "Poppins_700Bold",
   });
 
-  const [fotoProfil2, setFotoProfil] = useState(fotoProfil);
-  const [jenisKelamin, setJenisKelamin] = useState("pria");
-  const [setLokasi] = useState(null);
+  const [fotoProfil, setFotoProfil] = useState(gambarBawaan);
+  const [namaLengkap, setNamaLengkap] = useState("");
+  const [umur, setUmur] = useState("");
+  const [noTelepon, setNoTelepon] = useState("");
   const [provinsi, setProvinsi] = useState("");
   const [kota, setKota] = useState("");
   const [kabupaten, setKabupaten] = useState("");
   const [alamat, setAlamat] = useState("");
   const [kodePos, setKodePos] = useState("");
+  const [jenisKelamin, setJenisKelamin] = useState("pria");
+  const [memuat, setMemuat] = useState(true);
 
   const warnaAktif = "#4C6C52";
   const warnaTidakAktif = "#E7E8E2";
+
+  const layarBergulir = useRef(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setMemuat(true);
+      try {
+        const idPengguna = auth().currentUser.uid;
+        const penggunaDoc = await firestore()
+          .collection("pengguna")
+          .doc(idPengguna)
+          .get();
+
+        if (penggunaDoc.exists) {
+          const data = penggunaDoc.data();
+          setNamaLengkap(data.Nama_Lengkap_Pengguna || "");
+          setUmur(data.Umur_Pengguna || "");
+          setNoTelepon(data.No_Telepon_Pengguna || "");
+          setProvinsi(data.Provinsi_Pengguna || "");
+          setKota(data.Kota_Pengguna || "");
+          setKabupaten(data.Kabupaten_Pengguna || "");
+          setAlamat(data.Alamat_Pengguna || "");
+          setKodePos(data.Kode_Pos_Pengguna || "");
+          setJenisKelamin(data.Jenis_Kelamin_Pengguna || "pria");
+        }
+      } catch (error) {
+        Toast.show({
+          type: "error",
+          position: "top",
+          text1: "Error",
+          text2: "Gagal mengambil data pengguna.",
+          onShow: () => {
+            layarBergulir.current?.scrollTo({ y: 0, animated: true });
+          },
+        });
+      } finally {
+        setMemuat(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const pilihGambar = async () => {
     let permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (!permissionResult.granted) {
-      Alert.alert("Permission Denied", "Izin akses galeri dibutuhkan!");
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Permission Denied",
+        text2: "Izin akses galeri dibutuhkan!",
+        onShow: () => {
+          layarBergulir.current?.scrollTo({ y: 0, animated: true });
+        },
+      });
       return;
     }
 
@@ -69,43 +124,72 @@ export default function Profil() {
     }
   };
 
-  const tampilkanPeta = async () => {
-    try {
-      console.log("Mengambil lokasi pengguna...");
-      const response = await axios.get(
-        "https://ipinfo.io/json?token=688e3d4a552666"
-      );
-
-      console.log("Respons dari API:", response.data);
-      const { loc, region, city, postal } = response.data;
-      const [latitude, longitude] = loc.split(",");
-
-      setLokasi({
-        latitude: parseFloat(latitude),
-        longitude: parseFloat(longitude),
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005,
+  const simpanPerubahan = async () => {
+    if (
+      !namaLengkap ||
+      !umur ||
+      !noTelepon ||
+      !provinsi ||
+      !kota ||
+      !kabupaten ||
+      !alamat ||
+      !kodePos
+    ) {
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Error",
+        text2: "Semua field harus diisi!",
+        onShow: () => {
+          layarBergulir.current?.scrollTo({ y: 0, animated: true });
+        },
       });
+      return;
+    }
 
-      setProvinsi(region || "Tidak Diketahui");
-      setKota(city || "Tidak Diketahui");
-      setKabupaten("Kabupaten " + city || "Tidak Diketahui");
-      setAlamat("Alamat Anda di " + city || "Tidak Diketahui");
-      setKodePos(postal || "Tidak Diketahui");
-
-      console.log("Lokasi yang diambil:", {
-        latitude: parseFloat(latitude),
-        longitude: parseFloat(longitude),
+    const idPengguna = auth().currentUser.uid;
+    try {
+      await firestore().collection("pengguna").doc(idPengguna).update({
+        Nama_Lengkap_Pengguna: namaLengkap,
+        Umur_Pengguna: umur,
+        No_Telepon_Pengguna: noTelepon,
+        Provinsi_Pengguna: provinsi,
+        Kota_Pengguna: kota,
+        Kabupaten_Pengguna: kabupaten,
+        Alamat_Pengguna: alamat,
+        Kode_Pos_Pengguna: kodePos,
+        Jenis_Kelamin_Pengguna: jenisKelamin,
+      });
+      Toast.show({
+        type: "success",
+        position: "top",
+        text1: "Sukses",
+        text2: "Data berhasil diperbarui.",
+        onShow: () => {
+          layarBergulir.current?.scrollTo({ y: 0, animated: true });
+        },
       });
     } catch (error) {
-      console.error("Error:", error);
-      Alert.alert("Error", "Gagal mendapatkan lokasi, periksa API token.");
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Error",
+        text2: "Gagal menyimpan data.",
+        onShow: () => {
+          layarBergulir.current?.scrollTo({ y: 0, animated: true });
+        },
+      });
     }
   };
 
+  if (memuat) {
+    return <Text>Memuat...</Text>;
+  }
+
   return (
-    <ScrollView className="flex-1 bg-white">
-      <View className=" w-full mt-12 items-center justify-center">
+    <ScrollView ref={layarBergulir} className="flex-1 bg-white">
+      <Toast />
+      <View className="w-full mt pt-32 items-center justify-center">
         <Text
           style={{ fontFamily: gayaHurufBlack }}
           className="text-xl text-[#447055]"
@@ -121,7 +205,7 @@ export default function Profil() {
               onPress={pilihGambar}
             >
               <Image
-                source={fotoProfil2}
+                source={fotoProfil}
                 className="w-full h-full object-cover rounded-full"
               />
             </TouchableOpacity>
@@ -130,13 +214,13 @@ export default function Profil() {
             style={{ fontFamily: gayaHurufBold }}
             className="text-[#447055] text-xl"
           >
-            Nama Saya
+            {namaLengkap}
           </Text>
           <Text
             style={{ fontFamily: gayaHurufMedium }}
             className="text-[#447055] text-base"
           >
-            +62-888-888-88
+            {noTelepon}
           </Text>
           <View className="py-3 px-4 items-start mt-5">
             <Text
@@ -155,6 +239,8 @@ export default function Profil() {
               <TextInput
                 style={{ fontFamily: gayaHurufMedium }}
                 placeholder="Nama Lengkap Anda"
+                value={namaLengkap}
+                onChangeText={setNamaLengkap}
                 className="flex-1 ml-2 text-gray-700"
               />
             </View>
@@ -176,6 +262,8 @@ export default function Profil() {
                   <TextInput
                     style={{ fontFamily: gayaHurufMedium }}
                     placeholder="Umur Anda"
+                    value={umur}
+                    onChangeText={setUmur}
                     className="flex-1 ml-2 text-gray-700"
                   />
                 </View>
@@ -198,6 +286,8 @@ export default function Profil() {
               <TextInput
                 style={{ fontFamily: gayaHurufMedium }}
                 placeholder="Nomor telepon Anda"
+                value={noTelepon}
+                onChangeText={setNoTelepon}
                 className="flex-1 ml-2 text-gray-700"
               />
             </View>
@@ -218,11 +308,10 @@ export default function Profil() {
                 value={provinsi}
                 onChangeText={setProvinsi}
                 style={{ fontFamily: gayaHurufMedium }}
-                placeholder="Provinsi Anda"
+                placeholder="Provinsi"
                 className="flex-1 ml-2 text-gray-700"
               />
             </View>
-
             <Text
               style={{ fontFamily: gayaHurufBold }}
               className="text-lg text-[#447055]"
@@ -240,11 +329,10 @@ export default function Profil() {
                 value={kota}
                 onChangeText={setKota}
                 style={{ fontFamily: gayaHurufMedium }}
-                placeholder="Kota Anda"
+                placeholder="Kota"
                 className="flex-1 ml-2 text-gray-700"
               />
             </View>
-
             <Text
               style={{ fontFamily: gayaHurufBold }}
               className="text-lg text-[#447055]"
@@ -253,20 +341,19 @@ export default function Profil() {
             </Text>
             <View className="flex-row items-center border border-gray-400 rounded-lg p-2 mb-4">
               <FontAwesome
-                className="border border-gray-400 rounded-md py-2 px-4"
+                className="border border-gray-400 rounded-md py-2 px-3"
                 name="map-marker"
-                size={24}
+                size={20}
                 color="black"
               />
               <TextInput
                 value={kabupaten}
                 onChangeText={setKabupaten}
                 style={{ fontFamily: gayaHurufMedium }}
-                placeholder="Kabupaten Anda"
+                placeholder="Kabupaten"
                 className="flex-1 ml-2 text-gray-700"
               />
             </View>
-
             <Text
               style={{ fontFamily: gayaHurufBold }}
               className="text-lg text-[#447055]"
@@ -277,50 +364,38 @@ export default function Profil() {
               <FontAwesome
                 className="border border-gray-400 rounded-md py-2 px-3"
                 name="home"
-                size={24}
+                size={20}
                 color="black"
               />
               <TextInput
                 value={alamat}
                 onChangeText={setAlamat}
                 style={{ fontFamily: gayaHurufMedium }}
-                placeholder="Alamat Anda"
+                placeholder="Alamat"
                 className="flex-1 ml-2 text-gray-700"
               />
             </View>
-
             <Text
               style={{ fontFamily: gayaHurufBold }}
               className="text-lg text-[#447055]"
             >
               Kode Pos :
             </Text>
-            <View className="flex-row items-center border border-gray-400 rounded-lg p-2">
+            <View className="flex-row items-center border border-gray-400 rounded-lg p-2 mb-4">
               <FontAwesome
                 className="border border-gray-400 rounded-md py-2 px-3"
                 name="envelope-open"
-                size={24}
+                size={20}
                 color="black"
               />
               <TextInput
                 value={kodePos}
                 onChangeText={setKodePos}
                 style={{ fontFamily: gayaHurufMedium }}
-                placeholder="Kode Pos Anda"
+                placeholder="Kode Pos"
                 className="flex-1 ml-2 text-gray-700"
               />
             </View>
-            <TouchableOpacity
-              onPress={tampilkanPeta}
-              className="bg-[#4C6C52] rounded-lg p-2 w-60 mt-4 mx-auto"
-            >
-              <Text
-                style={{ fontFamily: gayaHurufMedium }}
-                className="text-white text-center"
-              >
-                Tampilkan Lokasi Saya
-              </Text>
-            </TouchableOpacity>
             <Text
               style={{ fontFamily: gayaHurufBold }}
               className="text-lg text-[#447055] -mb-2 mt-4"
@@ -374,6 +449,7 @@ export default function Profil() {
           </View>
           <TouchableOpacity
             activeOpacity={0.8}
+            onPress={simpanPerubahan}
             className="bg-[#4C6C52] py-3 w-56 rounded-xl items-center self-center mt-5 -mb-5"
           >
             <Text

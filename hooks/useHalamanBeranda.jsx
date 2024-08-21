@@ -10,22 +10,20 @@ export default function useHalamanBeranda() {
   const [sayuranTersaring, setSayuranTersaring] = useState([]);
 
   useEffect(() => {
-    const ambilDataPengguna = async () => {
-      const idPengguna = auth().currentUser.uid;
-      try {
-        const userDoc = await firestore()
-          .collection("pengguna")
-          .doc(idPengguna)
-          .get();
+    const idPengguna = auth().currentUser.uid;
+
+    const unsubscribeUser = firestore()
+      .collection("pengguna")
+      .doc(idPengguna)
+      .onSnapshot((userDoc) => {
         if (userDoc.exists) {
           setNamaPengguna(userDoc.data().Nama_Lengkap_Pengguna || "");
         }
-      } catch (error) {}
-    };
+      });
 
-    const ambilDataSayuran = async () => {
-      try {
-        const sayuranCollection = await firestore().collection("sayuran").get();
+    const unsubscribeVegetables = firestore()
+      .collection("sayuran")
+      .onSnapshot((sayuranCollection) => {
         let dataSayuran = sayuranCollection.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -41,11 +39,12 @@ export default function useHalamanBeranda() {
         setStatusGambar(statusGambarBaru);
         setSayuran(dataSayuran);
         setSayuranTersaring(dataSayuran);
-      } catch (error) {}
-    };
+      });
 
-    ambilDataPengguna();
-    ambilDataSayuran();
+    return () => {
+      unsubscribeUser();
+      unsubscribeVegetables();
+    };
   }, []);
 
   useEffect(() => {

@@ -23,6 +23,8 @@ Jelajahi karya terbaru dan keterampilan saya dalam dunia pengembangan aplikasi m
 - **User Interface:** Layar Profil
 - **User Interface:** Layar Detail Sayuran Populer
 - **User Interface:** Layar Keranjang
+- **User Interface:** Layar Detail Sayuran
+- **User Interface:** Layar Checkout
 - **Sistem Autentikasi:** Login Google dan Verifikasi Nomor Ponsel
 - **Sistem Realtime Database:** Fitur chat secara realtime
 - **Sistem CRUD:** Mengedit profil, identitas
@@ -52,6 +54,8 @@ Berikut adalah beberapa tampilan halaman ndaru farm :
 ![12](https://github.com/user-attachments/assets/6ad86a43-d739-431f-a6c5-711db99539e0)
 ![13](https://github.com/user-attachments/assets/8796829d-0eb5-4e4c-9b1b-f71fe5b39c08)
 ![14](https://github.com/user-attachments/assets/e01a4a45-4935-4e84-ba51-136eaafea47b)
+![15](https://github.com/user-attachments/assets/53e33d0d-5147-43b7-a5e9-2c8445f04171)
+![16](https://github.com/user-attachments/assets/3fd86d06-1e63-405b-912b-d778159b41fa)
 
 ## 📬 Kontak
 

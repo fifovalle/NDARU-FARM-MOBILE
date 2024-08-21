@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -16,8 +16,10 @@ import { FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
 
 export default function Index() {
+  const dataTIdakAda = require("../../assets/images/dataTidakAda.png");
   const ikonKeranjang = require("../../assets/images/ikonKeranjang1.png");
   const ikonCari = require("../../assets/images/ikonCari.png");
+  const [loading, setLoading] = useState(true);
   const {
     namaPengguna,
     sayuranTersaring,
@@ -57,6 +59,33 @@ export default function Index() {
       ? "Selamat Sore"
       : "Selamat Malam";
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <View className="flex-1 items-center justify-center bg-[#E7E8E2]">
+        <ActivityIndicator size="large" color="#556F50" />
+        <Text
+          style={{ fontFamily: gayaHurufSedang }}
+          className="mt-4 text-gray-500"
+        >
+          Memuat...
+        </Text>
+      </View>
+    );
+  }
   return (
     <ScrollView className="bg-[#E7E8E2] flex-1">
       <View className="bg-[#556F50] p-4 flex-row items-center justify-between h-56 rounded-b-[35px]">
@@ -67,14 +96,12 @@ export default function Index() {
               {namaPengguna || "Nama Pelanggan"}
             </Text>
           </Text>
-          <TouchableOpacity activeOpacity={0.6}>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() => router.push("../../detail/checkout")}
+          >
             <View className="relative mr-5">
-              <TouchableOpacity
-                activeOpacity={0.3}
-                onPress={() => router.push("../../detail/detailKeranjang")}
-              >
-                <Image className="w-10 h-10" source={ikonKeranjang}></Image>
-              </TouchableOpacity>
+              <Image className="w-10 h-10" source={ikonKeranjang}></Image>
               <View className="absolute -top-2 -right-2 bg-red-600 rounded-full w-4 h-4 flex items-center justify-center">
                 <Text
                   style={{ fontFamily: gayaHurufTebal }}
@@ -127,11 +154,12 @@ export default function Index() {
 
         {sayuranTersaring.length === 0 ? (
           <View className="flex items-center justify-center">
+            <Image className="w-80 h-80" source={dataTIdakAda} />
             <Text
               style={{ fontFamily: gayaHurufSedang }}
-              className="text-grey-500 text-sm mt-10"
+              className="text-grey text-center text-gray-500 text-sm mt-10 font-bold"
             >
-              Sayuran yang anda cari tidak ditemukan!
+              Tidak ada sayuran!
             </Text>
           </View>
         ) : (
@@ -141,7 +169,14 @@ export default function Index() {
                 key={index}
                 className="bg-white rounded-xl p-4 mb-4 w-[48%]"
               >
-                <TouchableOpacity activeOpacity={0.5}>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  onPress={() =>
+                    router.push(
+                      `../detail/detailPerSayuranPopuler?id=${sayuran.id}`
+                    )
+                  }
+                >
                   {!statusGambar[sayuran.id] && (
                     <View className="w-full h-32 flex items-center justify-center">
                       <ActivityIndicator size="large" color="#556F50" />

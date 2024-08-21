@@ -86,7 +86,7 @@ export default function DetailTransaksi() {
               size={12}
               color="green"
             />
-            <View className="h-28 border border-green-700 -mt-3" />
+            <View className="h-28 border border-green-700 -mt-3 -mb-2" />
           </View>
           <View className="ml-2">
             <View className="flex-row justify-between">

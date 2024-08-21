@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { useRouter } from "expo-router";
 import useGayaHuruf from "../../hooks/useGayaHuruf";
@@ -15,12 +16,14 @@ import TeksDiSorot from "../../utils/teksDiSorot";
 
 export default function Pesan() {
   const jalur = useRouter();
+  const dataTIdakAda = require("../../assets/images/dataTidakAda.png");
   const penggunaSekarang = auth().currentUser?.uid;
   const { dataPengguna, jumlahPesanBelumTerbaca } = useHalamanPesan();
   const ikonPencarian = require("../../assets/images/ikonCari.png");
   const ikonWortel = require("../../assets/images/ikonWortel.png");
-
-  const [searchText, setSearchText] = useState(""); // State untuk teks pencarian
+  const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState("");
+  const [saringDataPengguna, setSaringDataPengguna] = useState([]);
 
   const gayaHurufRegular = useGayaHuruf({
     android: "Lexend_400Regular",
@@ -42,12 +45,42 @@ export default function Pesan() {
     ios: "Poppins_500Medium",
   });
 
-  const filteredData = dataPengguna.filter((pengguna) =>
-    pengguna.Nama_Lengkap_Pengguna.toLowerCase().includes(
-      searchText.toLowerCase()
-    )
-  );
+  useEffect(() => {
+    const dataTersaring = dataPengguna.filter((item) =>
+      item.Nama_Lengkap_Pengguna.toLowerCase().includes(
+        searchText.toLowerCase()
+      )
+    );
+    setSaringDataPengguna(dataTersaring);
+  }, [searchText, dataPengguna]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <View className="flex-1 items-center justify-center bg-[#E7E8E2]">
+        <ActivityIndicator size="large" color="#556F50" />
+        <Text
+          style={{ fontFamily: gayaHurufSedang }}
+          className="mt-4 text-gray-500"
+        >
+          Memuat...
+        </Text>
+      </View>
+    );
+  }
   return (
     <View className="flex-1 bg-[#E7E8E2] px-3">
       <View className="flex-row items-center p-4 mt-12 mb-3">
@@ -69,8 +102,11 @@ export default function Pesan() {
       </View>
 
       <ScrollView className="px-4">
-        {filteredData.length > 0 ? (
-          filteredData
+        {saringDataPengguna.length > 0 &&
+        saringDataPengguna.some(
+          (pengguna) => pengguna.id !== penggunaSekarang
+        ) ? (
+          saringDataPengguna
             .filter((pengguna) => pengguna.id !== penggunaSekarang)
             .map((pengguna) => {
               const isMatch =
@@ -122,7 +158,7 @@ export default function Pesan() {
                         style={{ fontFamily: gayaHurufBold }}
                         className="text-white text-xs"
                       >
-                        {jumlahPesanBelumTerbaca}
+                        {jumlahPesanBelumTerbaca[pengguna.id]}
                       </Text>
                     </View>
                   )}
@@ -139,7 +175,6 @@ export default function Pesan() {
             </Text>
           </View>
         )}
-        <View className="border-b border-gray-300" />
       </ScrollView>
     </View>
   );

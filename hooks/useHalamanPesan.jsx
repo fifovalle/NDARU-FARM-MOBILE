@@ -16,9 +16,7 @@ export default function useHalamanPesan() {
           }));
           setDataPengguna(penggunaData);
         },
-        (error) => {
-          console.error("Error fetching data pengguna:", error);
-        }
+        (error) => {}
       );
 
     const unsubscribePesan = firestore()
@@ -44,13 +42,9 @@ export default function useHalamanPesan() {
             );
 
             setJumlahPesanBelumTerbaca(jumlahPesan);
-          } catch (error) {
-            console.error("Error fetching jumlah pesan belum terbaca:", error);
-          }
+          } catch (error) {}
         },
-        (error) => {
-          console.error("Error fetching data pesan:", error);
-        }
+        (error) => {}
       );
 
     return () => {
