@@ -40,9 +40,6 @@ export default function useHalamanPesan() {
                 if (penggunaIds.includes(id)) {
                   jumlahPesan[id] = pesanSnapshot.size;
                 }
-                console.log(
-                  `Jumlah pesan belum terbaca untuk ${id}: ${jumlahPesan[id]}`
-                );
               })
             );
 

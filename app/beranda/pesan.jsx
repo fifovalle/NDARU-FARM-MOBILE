@@ -116,14 +116,16 @@ export default function Pesan() {
                       )}
                     </Text>
                   </View>
-                  <View className="bg-red-600 w-6 h-6 rounded-full justify-center items-center">
-                    <Text
-                      style={{ fontFamily: gayaHurufBold }}
-                      className="text-white text-xs"
-                    >
-                      {jumlahPesanBelumTerbaca[pengguna.id] || 0}
-                    </Text>
-                  </View>
+                  {jumlahPesanBelumTerbaca[pengguna.id] > 0 && (
+                    <View className="bg-red-600 w-6 h-6 rounded-full justify-center items-center">
+                      <Text
+                        style={{ fontFamily: gayaHurufBold }}
+                        className="text-white text-xs"
+                      >
+                        {jumlahPesanBelumTerbaca}
+                      </Text>
+                    </View>
+                  )}
                 </TouchableOpacity>
               );
             })

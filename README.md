@@ -18,7 +18,16 @@ Jelajahi karya terbaru dan keterampilan saya dalam dunia pengembangan aplikasi m
 - **User Interface:** Layar Beranda
 - **User Interface:** Layar Transaksi
 - **User Interface:** Layar Rincian Pesanan
+- **User Interface:** Layar Pesan
+- **User Interface:** Layar Detail Pesan
+- **User Interface:** Layar Profil
+- **User Interface:** Layar Detail Sayuran Populer
+- **User Interface:** Layar Keranjang
 - **Sistem Autentikasi:** Login Google dan Verifikasi Nomor Ponsel
+- **Sistem Realtime Database:** Fitur chat secara realtime
+- **Sistem CRUD:** Mengedit profil, identitas
+- **Sistem Search Live:** Mencari produk tanpa harus mengklik enter
+- **Sistem Rendering:** Loading data ketika sinyal buruk
 
 ## 🛠️ Teknologi yang Digunakan
 
@@ -34,10 +43,15 @@ Berikut adalah beberapa tampilan halaman ndaru farm :
 ![3](https://github.com/user-attachments/assets/d4d41231-6ac4-4b86-a3b0-607522775c33)
 ![4](https://github.com/user-attachments/assets/639bf15d-f5f5-49bc-8d59-2b0b57455742)
 ![5](https://github.com/user-attachments/assets/cc7024cb-d577-4b03-bb6d-b0da658888b8)
-![7](https://github.com/user-attachments/assets/3ad83f45-8375-435b-b63e-5de224480b84)
 ![6](https://github.com/user-attachments/assets/b2665d25-0467-41da-84a0-4ffd023a4fe9)
-![8](https://github.com/user-attachments/assets/958733b0-f334-4f7b-afc0-574b11b9eb2c)
-![9](https://github.com/user-attachments/assets/45d68af7-6bce-4bf8-b7a9-5809761cc1d6)
+![7](https://github.com/user-attachments/assets/6d4e355f-3bd5-4a2b-bf3c-63034a89f04e)
+![8](https://github.com/user-attachments/assets/a895c577-0afd-4ff1-9d18-167fcc7ecb59)
+![9](https://github.com/user-attachments/assets/eca199c6-3388-4978-93e3-2c1005fa0a63)
+![10](https://github.com/user-attachments/assets/fba427b3-5352-42f2-8968-15af8e1a550a)
+![11](https://github.com/user-attachments/assets/e003c1ee-c2a7-481a-bc68-332a153d5212)
+![12](https://github.com/user-attachments/assets/6ad86a43-d739-431f-a6c5-711db99539e0)
+![13](https://github.com/user-attachments/assets/8796829d-0eb5-4e4c-9b1b-f71fe5b39c08)
+![14](https://github.com/user-attachments/assets/e01a4a45-4935-4e84-ba51-136eaafea47b)
 
 ## 📬 Kontak
 

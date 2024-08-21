@@ -14,7 +14,7 @@ import * as ImagePicker from "expo-image-picker";
 import useGayaHuruf from "../../hooks/useGayaHuruf";
 
 export default function Profil() {
-  const fotoProfil = require("../../assets/images/profil.png");
+  const fotoProfil = require("../../assets/images/pengguna-bawaan.png");
 
   const gayaHurufRegular = useGayaHuruf({
     android: "Lexend_400Regular",
@@ -36,8 +36,9 @@ export default function Profil() {
     ios: "Poppins_700Bold",
   });
 
+  const [fotoProfil2, setFotoProfil] = useState(fotoProfil);
   const [jenisKelamin, setJenisKelamin] = useState("pria");
-  const [lokasi, setLokasi] = useState(null);
+  const [setLokasi] = useState(null);
   const [provinsi, setProvinsi] = useState("");
   const [kota, setKota] = useState("");
   const [kabupaten, setKabupaten] = useState("");
@@ -114,13 +115,13 @@ export default function Profil() {
       </View>
       <View className="bg-[#E7E8E2] mx-auto p-2 w-[90%] rounded-[30px] mt-24 mb-10">
         <View className="items-center transform translate-y-[-60px]">
-          <View className="w-32 h-32 bg-gray-300 rounded-full mb-4 flex overflow-hidden border-[1.5px] border-[#447055]">
+          <View className="w-32 h-32 bg-white rounded-full flex items-center justify-center mb-4 border-[1.5px] border-[#447055]">
             <TouchableOpacity
-              className="w-32 h-32 bg-gray-300 rounded-full mb-4 flex overflow-hidden border-[1.5px] border-[#447055]"
+              className="w-28 h-28 rounded-full"
               onPress={pilihGambar}
             >
               <Image
-                source={fotoProfil}
+                source={fotoProfil2}
                 className="w-full h-full object-cover rounded-full"
               />
             </TouchableOpacity>
