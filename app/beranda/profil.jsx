@@ -16,7 +16,7 @@ export default function Profil() {
   const gambarBawaan = require("../../assets/images/pengguna-bawaan.png");
   const [jenisKelamin, setJenisKelamin] = useState("");
   const warnaAktif = "#4C6C52";
-  const warnaTidakAktif = "#E7E8E2";
+  const warnaTidakAktif = "#fff";
 
   return (
     <ScrollView className="flex-1 bg-[#E7E8E2]">

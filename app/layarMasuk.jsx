@@ -11,11 +11,13 @@ import { useRouter } from "expo-router";
 
 // MODUL KAMI
 import { gayaHuruf } from "../constants/huruf";
+import useMasukDenganGoogle from "../hooks/useMasukDenganGoogle";
 
 export default function LayarMasuk() {
   const pengarah = useRouter();
   const gambarPenggunaMasuk = require("../assets/images/gambarMasuk.png");
   const ikonGoogle = require("../assets/images/ikonGoogle.png");
+  const masukDenganGoogle = useMasukDenganGoogle();
 
   return (
     <ScrollView className="flex-1 bg-[#E7E8E2]">
@@ -63,6 +65,7 @@ export default function LayarMasuk() {
 
         <Text
           style={{ fontFamily: gayaHuruf.lexend700 }}
+          class
           className="text-[#6B8F71] text-center mb-6"
         >
           ATAU
@@ -70,9 +73,7 @@ export default function LayarMasuk() {
 
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => {
-            pengarah.push("/layarIdentitas");
-          }}
+          onPress={masukDenganGoogle}
           className="flex-row items-center justify-center border border-gray-400 py-3 rounded-lg"
         >
           <Image

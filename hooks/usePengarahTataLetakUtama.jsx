@@ -1,12 +1,16 @@
 import { useEffect } from "react";
 import { useRouter } from "expo-router";
 
-export default function usePengarahTataLetakUtama(apakahHurufTerpasang) {
+export default function usePengarahTataLetakUtama(
+  apakahLogin,
+  apakahHurufTerpasang,
+  memuatData
+) {
   const pengarah = useRouter();
 
   useEffect(() => {
-    if (apakahHurufTerpasang) {
-      pengarah.replace("layarPertama");
+    if (!memuatData && apakahHurufTerpasang) {
+      pengarah.replace(apakahLogin ? "beranda" : "layarPertama");
     }
-  }, [apakahHurufTerpasang, pengarah]);
+  }, [apakahLogin, apakahHurufTerpasang, memuatData, pengarah]);
 }

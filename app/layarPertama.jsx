@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { SkypeIndicator } from "react-native-indicators";
+import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 
 // MODUL KAMI
 import { gayaHuruf } from "../constants/huruf";
-import useMemuat from "../hooks/useMemuat";
 
 export default function LayarPertama() {
   const pengarah = useRouter();
-  const [memuat, setMemuat] = useState(true);
   const gambarPetani = require("../assets/images/selamatDatang1.png");
-
-  useMemuat(setMemuat);
 
   return (
     <View className="flex-1 justify-center items-center bg-[#E7E8E2]">
@@ -32,14 +27,11 @@ export default function LayarPertama() {
       </View>
 
       <View className="my-6">
-        {memuat && <SkypeIndicator size={120} color="#447055" />}
-        {!memuat && (
-          <Image
-            source={gambarPetani}
-            className="w-[500px] h-[500px]"
-            style={{ resizeMode: "contain" }}
-          />
-        )}
+        <Image
+          source={gambarPetani}
+          className="w-[500px] h-[500px]"
+          style={{ resizeMode: "contain" }}
+        />
       </View>
 
       <View className="w-full items-end">

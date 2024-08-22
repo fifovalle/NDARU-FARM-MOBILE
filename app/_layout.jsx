@@ -6,19 +6,22 @@ import { Stack } from "expo-router";
 import useGayaHuruf from "../hooks/useGayaHuruf";
 import usePengarahTataLetakUtama from "../hooks/usePengarahTataLetakUtama";
 import IndikatorMuatan from "../components/IndikatorMuatan";
+import usePenggunaTerdaftar from "../hooks/usePenggunaTerdaftar";
 
 export default function TataLetakUtama() {
   const { apakahHurufTerpasang } = useGayaHuruf();
+  const { apakahLogin, memuatData } = usePenggunaTerdaftar();
 
-  usePengarahTataLetakUtama(apakahHurufTerpasang);
+  usePenggunaTerdaftar();
+  usePengarahTataLetakUtama(apakahLogin, apakahHurufTerpasang, memuatData);
 
-  if (!apakahHurufTerpasang) {
+  if (memuatData || !apakahHurufTerpasang) {
     return <IndikatorMuatan />;
   }
 
   return (
     <Stack screenOptions={{ headerShown: false, animation: "fade" }}>
-      <Stack.Screen name="layarPertama" />
+      <Stack.Screen name={apakahLogin ? "beranda" : "layarPertama"} />
     </Stack>
   );
 }

@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "Ndaru Farm",
-    "slug": "Ndaru Farm",
-    "version": "1.0.0",
+    "slug": "Ndaru-Farm",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/ikonSplash.png",
     "scheme": "myapp",
@@ -16,19 +16,33 @@
       "supportsTablet": true
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/ikonSplash.png",
         "backgroundColor": "#447055"
-      }
+      },
+      "package": "com.fifovalle.NdaruFarm"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/ikonSplash.png"
     },
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth"
+    ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "65421e4d-a496-4d4a-86ca-933e8e2237ac"
+      }
     }
   }
 }

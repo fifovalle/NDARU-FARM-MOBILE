@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import {
   View,
   Text,
@@ -6,22 +6,36 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
-import { useRouter } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
+import Toast from "react-native-toast-message";
 
 // MODUL KAMI
 import { gayaHuruf } from "../constants/huruf";
+import useIdentitasPengguna from "../hooks/useIdentitasPengguna";
 
 export default function LayarIdentitas() {
-  const pengarah = useRouter();
+  const segeraBergulirKeAtas = useRef(null);
   const warnaAktif = "#4C6C52";
   const warnaTidakAktif = "#E7E8E2";
-  const [jenisKelamin, setJenisKelamin] = useState("");
   const gambarIdentitasPengguna = require("../assets/images/gambarIdentitas.png");
+  const {
+    namaLengkapPengguna,
+    setNamaLengkapPengguna,
+    umurPengguna,
+    setUmurPengguna,
+    nomorTeleponPengguna,
+    setNomorTeleponPengguna,
+    jenisKelaminPengguna,
+    setJenisKelaminPengguna,
+    simpanIdentitas,
+    memuat,
+  } = useIdentitasPengguna(segeraBergulirKeAtas);
 
   return (
-    <ScrollView className="flex-1 bg-[#E7E8E2]">
+    <ScrollView ref={segeraBergulirKeAtas} className="flex-1 bg-[#E7E8E2]">
+      <Toast />
       <View className="p-6 mt-[70px]">
         <View className="flex-1 items-center justify-center">
           <Image
@@ -49,6 +63,8 @@ export default function LayarIdentitas() {
                 style={{ fontFamily: gayaHuruf.lexend400 }}
                 placeholder="Masukan Nama Lengkap Anda"
                 className="ml-2 flex-1 text-gray-600"
+                value={namaLengkapPengguna}
+                onChangeText={setNamaLengkapPengguna}
               />
             </View>
           </View>
@@ -71,6 +87,8 @@ export default function LayarIdentitas() {
                 style={{ fontFamily: gayaHuruf.lexend400 }}
                 placeholder="Masukan Umur Anda"
                 className="ml-2 flex-1 text-gray-600"
+                value={umurPengguna}
+                onChangeText={setUmurPengguna}
               />
             </View>
           </View>
@@ -96,6 +114,8 @@ export default function LayarIdentitas() {
                 style={{ fontFamily: gayaHuruf.lexend400 }}
                 placeholder="Masukan nomor telepon Anda"
                 className="ml-2 flex-1 text-gray-600"
+                value={nomorTeleponPengguna}
+                onChangeText={setNomorTeleponPengguna}
               />
             </View>
           </View>
@@ -117,16 +137,18 @@ export default function LayarIdentitas() {
               <View className="flex-row ml-2 w-[82%]">
                 <TouchableOpacity
                   className="border border-gray-400 rounded-lg p-3 bg-[#447055] mx-4 w-20 items-center justify-center"
-                  onPress={() => setJenisKelamin("pria")}
+                  onPress={() => setJenisKelaminPengguna("Pria")}
                   style={{
                     backgroundColor:
-                      jenisKelamin === "pria" ? warnaAktif : warnaTidakAktif,
+                      jenisKelaminPengguna === "Pria"
+                        ? warnaAktif
+                        : warnaTidakAktif,
                   }}
                 >
                   <Text
                     style={{
                       fontFamily: gayaHuruf.lexend500,
-                      color: jenisKelamin === "pria" ? "#FFF" : "#000",
+                      color: jenisKelaminPengguna === "Pria" ? "#FFF" : "#000",
                     }}
                   >
                     Pria
@@ -134,16 +156,19 @@ export default function LayarIdentitas() {
                 </TouchableOpacity>
                 <TouchableOpacity
                   className="border border-gray-400 rounded-lg p-3 bg-[#447055] w-22 items-center justify-center"
-                  onPress={() => setJenisKelamin("wanita")}
+                  onPress={() => setJenisKelaminPengguna("Wanita")}
                   style={{
                     backgroundColor:
-                      jenisKelamin === "wanita" ? warnaAktif : warnaTidakAktif,
+                      jenisKelaminPengguna === "Wanita"
+                        ? warnaAktif
+                        : warnaTidakAktif,
                   }}
                 >
                   <Text
                     style={{
                       fontFamily: gayaHuruf.lexend500,
-                      color: jenisKelamin === "wanita" ? "#FFF" : "#000",
+                      color:
+                        jenisKelaminPengguna === "Wanita" ? "#FFF" : "#000",
                     }}
                   >
                     Wanita
@@ -152,21 +177,35 @@ export default function LayarIdentitas() {
               </View>
             </View>
           </View>
-
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => {
-              pengarah.replace("/beranda");
-            }}
-            className="bg-[#447055] rounded-lg p-4 flex-row items-center justify-center"
-          >
-            <Text
-              style={{ fontFamily: gayaHuruf.poppins700 }}
-              className="text-white text-center text-lg"
+        </View>
+        <View className="flex items-center justify-center">
+          {memuat ? (
+            <TouchableOpacity
+              className="border border-gray-400 rounded-lg p-3 bg-[#447055] w-[100%] items-center justify-center"
+              style={{ opacity: 0.5 }}
+              disabled={true}
             >
-              Simpan
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{ fontFamily: gayaHuruf.lexend500 }}
+                className="text-white text-lg"
+              >
+                <ActivityIndicator size="small" color="#FFF" />
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              activeOpacity={0.7}
+              className="border border-gray-400 rounded-lg p-3 bg-[#447055] w-[100%] items-center justify-center"
+              onPress={simpanIdentitas}
+            >
+              <Text
+                style={{ fontFamily: gayaHuruf.lexend500 }}
+                className="text-white text-lg"
+              >
+                Simpan
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </ScrollView>

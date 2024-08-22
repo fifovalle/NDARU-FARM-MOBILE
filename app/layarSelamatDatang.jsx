@@ -1,30 +1,22 @@
-import React, { useState } from "react";
-import { SkypeIndicator } from "react-native-indicators";
+import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { useRouter } from "expo-router";
 
 // MODUL KAMI
 import { gayaHuruf } from "../constants/huruf";
-import useMemuat from "../hooks/useMemuat";
 
 export default function LayarSelamatDatang() {
   const pengarah = useRouter();
-  const [memuat, setMemuat] = useState(true);
   const gambarBungaPot = require("../assets/images/selamatDatang2.png");
-
-  useMemuat(setMemuat);
 
   return (
     <View className="flex-1 items-center justify-center bg-[#E7E8E2]">
       <View className="my-[50px]">
-        {memuat && <SkypeIndicator size={120} color="#365432" />}
-        {!memuat && (
-          <Image
-            source={gambarBungaPot}
-            className="w-[350px] h-[350px] mb-4 mx-auto"
-            resizeMode="contain"
-          />
-        )}
+        <Image
+          source={gambarBungaPot}
+          className="w-[350px] h-[350px] mb-4 mx-auto"
+          resizeMode="contain"
+        />
         <Text
           style={{ fontFamily: gayaHuruf.lexend900 }}
           className="text-2xl text-center text-[#365432] mb-2"

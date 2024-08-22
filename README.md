@@ -25,7 +25,7 @@ Jelajahi karya terbaru dan keterampilan saya dalam dunia pengembangan aplikasi m
 - **User Interface:** Layar Keranjang
 - **User Interface:** Layar Detail Sayuran
 - **User Interface:** Layar Checkout
-- **Sistem Autentikasi:** Login Google dan Verifikasi Nomor Ponsel
+- **Sistem Autentikasi:** Login Google
 - **Sistem Realtime Database:** Fitur chat secara realtime
 - **Sistem CRUD:** Mengedit profil, identitas
 - **Sistem Search Live:** Mencari produk tanpa harus mengklik enter
