@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  Platform,
 } from "react-native";
 import { useRouter } from "expo-router";
 // MODUL KAMI
