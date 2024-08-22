@@ -61,9 +61,7 @@ export default function SemuaSayuranPopuler() {
             <View className="bg-white rounded-xl p-4 mb-4 w-[48%]">
               <TouchableOpacity
                 activeOpacity={0.5}
-                onPress={() =>
-                  pengarah.push("/detail/detailPerSayuranPopuler/")
-                }
+                onPress={() => pengarah.push("/detail/sayuranPopuler")}
               >
                 <Image
                   source={dataTidakAda}
