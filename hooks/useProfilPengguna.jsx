@@ -46,13 +46,16 @@ export default function useProfilPengguna(segeraBergulirKeAtas) {
     const pengguna = auth().currentUser;
     if (pengguna) {
       const penggunaRef = firestore().collection("pengguna").doc(pengguna.uid);
+      const nomorTeleponBersih = nomorTelepon.startsWith("+62")
+        ? nomorTelepon
+        : "+62" + nomorTelepon;
       penggunaRef
         .set(
           {
             Nama_Lengkap_Pengguna: namaLengkap,
             Jenis_Kelamin_Pengguna: jenisKelamin,
             Umur_Pengguna: umur,
-            No_Telepon_Pengguna: nomorTelepon,
+            No_Telepon_Pengguna: nomorTeleponBersih,
             Provinsi_Pengguna: provinsi,
             Kota_Pengguna: kota,
             Kabupaten_Pengguna: kabupaten,
