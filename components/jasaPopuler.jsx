@@ -29,7 +29,7 @@ const JasaPopuler = ({
         </Text>
         <TouchableOpacity
           activeOpacity={0.6}
-          onPress={() => pengarah.push("../detail/semuaSayuranPopuler")}
+          onPress={() => pengarah.push("../detail/semuaJasaPopuler")}
         >
           <View className="flex-row items-center">
             <Text
