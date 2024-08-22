@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter, useGlobalSearchParams } from "expo-router";
 import formatRupiah from "../../utils/formatRupiah";
-import firestore from "@react-native-firebase/firestore";
+import useDetailSayuranPopuler from "../../hooks/useDetailSayuranPopuler";
 
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
@@ -18,38 +18,10 @@ import { tambahKuantitas, kurangiKuantitas } from "../../utils/sayuranPopuler";
 
 export default function SayuranPopuler() {
   const { id } = useGlobalSearchParams();
-  const [sayuran, setSayuran] = useState(null);
-  const [loading, setLoading] = useState(true);
   const pengarah = useRouter();
-  const ikonWortel = require("../../assets/images/ikonWortel.png");
   const [kuantitas, setKuantitas] = useState(1);
 
-  useEffect(() => {
-    const fetchSayuran = async () => {
-      try {
-        const doc = await firestore().collection("sayuran").doc(id).get();
-        if (doc.exists) {
-          setSayuran(doc.data());
-        } else {
-          console.log("Sayuran tidak ditemukan");
-        }
-      } catch (error) {
-        console.error("Error fetching sayuran: ", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSayuran();
-  }, [id]);
-
-  if (loading) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" color="#447055" />
-      </View>
-    );
-  }
+  const { sayuran, statusStok, memuat } = useDetailSayuranPopuler(id);
 
   return (
     <View className="flex-1 bg-[#E7E8E2]">
@@ -76,68 +48,82 @@ export default function SayuranPopuler() {
         </View>
       </View>
 
-      <ScrollView className="bg-[#E7E8E2] rounded-lg">
-        <View className="bg-[#E7E8E2] mb-4 flex items-center justify-center">
-          <View className="w-full h-80">
-            <Image
-              source={{ uri: sayuran.Gambar_Sayuran }}
-              className="w-full h-full object-cover"
-            />
-          </View>
+      {memuat ? (
+        <View className="flex-1 justify-center items-center">
+          <ActivityIndicator size="large" color="#447055" />
         </View>
-
-        <View className="rounded-t-[30px] bg-white">
-          <Text
-            style={{ fontFamily: gayaHuruf.poppins700 }}
-            className="text-xl ml-2 p-4 mt-3 text-[#447055]"
-          >
-            {sayuran.Nama_Sayuran}
-          </Text>
-          <Text
-            style={{ fontFamily: gayaHuruf.lexend400 }}
-            className="text-md ml-6 text-black"
-          >
-            {sayuran.Sayuran_Per_Kilo}kg
-          </Text>
-          <View className="mx-auto w-[90%]">
-            <Text
-              style={{ fontFamily: gayaHuruf.lexend400 }}
-              className="text-sm mt-4 text-gray-500 text-justify"
-            >
-              {sayuran.Deskripsi_Sayuran}
-            </Text>
+      ) : (
+        <ScrollView className="bg-[#E7E8E2] rounded-lg">
+          <View className="bg-[#E7E8E2] mb-4 flex items-center justify-center">
+            <View className="w-full h-80">
+              <Image
+                source={{ uri: sayuran.Gambar_Sayuran }}
+                className="w-full h-full object-cover"
+              />
+            </View>
           </View>
 
-          <View className="flex-row items-center justify-between mx-7 mt-6 mb-4">
-            <View className="flex-row items-center">
-              <TouchableOpacity
-                className="w-10 h-10 rounded-full items-center justify-center bg-gray-300"
-                onPress={() => kurangiKuantitas(kuantitas, setKuantitas)}
-              >
-                <FontAwesome name="minus" size={20} color="black" />
-              </TouchableOpacity>
-              <Text
-                style={{ fontFamily: gayaHuruf.poppins700 }}
-                className="text-lg mx-6"
-              >
-                {kuantitas}
-              </Text>
-              <TouchableOpacity
-                className="w-10 h-10 rounded-full items-center justify-center bg-gray-300"
-                onPress={() => tambahKuantitas(kuantitas, setKuantitas)}
-              >
-                <FontAwesome name="plus" size={20} color="black" />
-              </TouchableOpacity>
-            </View>
+          <View className="rounded-t-[30px] bg-white">
             <Text
               style={{ fontFamily: gayaHuruf.poppins700 }}
-              className="text-lg text-[#447055]"
+              className="text-xl ml-2 p-4 mt-3 text-[#447055]"
             >
-              {formatRupiah(sayuran.Harga_Sayuran * kuantitas)}
+              {sayuran.Nama_Sayuran}
             </Text>
+            <Text
+              style={{ fontFamily: gayaHuruf.lexend400 }}
+              className="text-md ml-6 text-black"
+            >
+              {sayuran.Sayuran_Per_Kilo}kg
+            </Text>
+            <View className="mx-auto w-[90%]">
+              <Text
+                style={{ fontFamily: gayaHuruf.lexend400 }}
+                className="text-sm mt-4 text-gray-500 text-justify"
+              >
+                {sayuran.Deskripsi_Sayuran}
+              </Text>
+              {statusStok ? (
+                <Text
+                  style={{ fontFamily: gayaHuruf.lexend700 }}
+                  className="text-red-500 text-sm mt-5 text-center"
+                >
+                  {statusStok}
+                </Text>
+              ) : null}
+            </View>
+
+            <View className="flex-row items-center justify-between mx-7 mt-6 mb-4">
+              <View className="flex-row items-center">
+                <TouchableOpacity
+                  className="w-10 h-10 rounded-full items-center justify-center bg-gray-300"
+                  onPress={() => kurangiKuantitas(kuantitas, setKuantitas)}
+                >
+                  <FontAwesome name="minus" size={20} color="black" />
+                </TouchableOpacity>
+                <Text
+                  style={{ fontFamily: gayaHuruf.poppins700 }}
+                  className="text-lg mx-6"
+                >
+                  {kuantitas}
+                </Text>
+                <TouchableOpacity
+                  className="w-10 h-10 rounded-full items-center justify-center bg-gray-300"
+                  onPress={() => tambahKuantitas(kuantitas, setKuantitas)}
+                >
+                  <FontAwesome name="plus" size={20} color="black" />
+                </TouchableOpacity>
+              </View>
+              <Text
+                style={{ fontFamily: gayaHuruf.poppins700 }}
+                className="text-lg text-[#447055]"
+              >
+                {formatRupiah(sayuran.Harga_Sayuran * kuantitas)}
+              </Text>
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      )}
 
       <View className="w-full h-20 bg-white justify-evenly items-center flex-row">
         <TouchableOpacity
