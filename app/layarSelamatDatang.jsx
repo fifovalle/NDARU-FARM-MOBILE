@@ -3,24 +3,12 @@ import { SkypeIndicator } from "react-native-indicators";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { useRouter } from "expo-router";
 // MODUL KAMI
-import useHurufResponsif from "../hooks/useHurufResponsif";
+import { gayaHuruf } from "../constants/huruf";
 
 export default function LayarSelamatDatang() {
   const pengarah = useRouter();
   const [memuat, setMemuat] = useState(true);
   const gambarBungaPot = require("../assets/images/selamatDatang2.png");
-  const gayaHurufLexend400 = useHurufResponsif({
-    android: "Lexend_400Regular",
-    ios: "Lexend_900Black",
-  });
-  const gayaHurufLexend700 = useHurufResponsif({
-    android: "Poppins_700Bold",
-    ios: "Poppins_700Bold",
-  });
-  const gayaHurufLexend900 = useHurufResponsif({
-    android: "Lexend_900Black",
-    ios: "Lexend_900Black",
-  });
 
   return (
     <View className="flex-1 items-center justify-center bg-[#E7E8E2]">
@@ -33,13 +21,13 @@ export default function LayarSelamatDatang() {
           onLoad={() => setMemuat(false)}
         />
         <Text
-          style={{ fontFamily: gayaHurufLexend900 }}
+          style={{ fontFamily: gayaHuruf.lexend900 }}
           className="text-2xl text-center text-[#365432] mb-2"
         >
           Temukan Jenis Sayuran Anda
         </Text>
         <Text
-          style={{ fontFamily: gayaHurufLexend400 }}
+          style={{ fontFamily: gayaHuruf.lexend400 }}
           className="text-base text-center text-[#365432]"
         >
           Beli Sayuran Segar Disini Tempatnya
@@ -53,7 +41,7 @@ export default function LayarSelamatDatang() {
           className="bg-[#365432] py-3 px-8 rounded-l-xl"
         >
           <Text
-            style={{ fontFamily: gayaHurufLexend700 }}
+            style={{ fontFamily: gayaHuruf.lexend700 }}
             className="text-white text-xl text-center"
           >
             BUAT AKUN

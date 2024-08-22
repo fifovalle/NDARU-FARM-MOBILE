@@ -10,7 +10,7 @@ import {
 import { useRouter } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
 // MODUL KAMI
-import useHurufResponsif from "../hooks/useHurufResponsif";
+import { gayaHuruf } from "../constants/huruf";
 
 export default function LayarIdentitas() {
   const pengarah = useRouter();
@@ -18,22 +18,6 @@ export default function LayarIdentitas() {
   const warnaTidakAktif = "#E7E8E2";
   const [jenisKelamin, setJenisKelamin] = useState("");
   const gambarIdentitasPengguna = require("../assets/images/gambarIdentitas.png");
-  const gayaHurufLexend400 = useHurufResponsif({
-    android: "Lexend_400Regular",
-    ios: "Lexend_400Regular",
-  });
-  const gayaHurufLexend500 = useHurufResponsif({
-    android: "Poppins_500Medium",
-    ios: "Poppins_500Medium",
-  });
-  const gayaHurufLexend900 = useHurufResponsif({
-    android: "Lexend_900Black",
-    ios: "Lexend_900Black",
-  });
-  const gayaHurufPoppins700 = useHurufResponsif({
-    android: "Poppins_700Bold",
-    ios: "Poppins_700Bold",
-  });
 
   return (
     <ScrollView className="flex-1 bg-[#E7E8E2]">
@@ -49,7 +33,7 @@ export default function LayarIdentitas() {
         <View className="mt-8">
           <View className="mb-4">
             <Text
-              style={{ fontFamily: gayaHurufLexend900 }}
+              style={{ fontFamily: gayaHuruf.lexend900 }}
               className="text-lg text-[#447055]"
             >
               Nama Lengkap :
@@ -61,7 +45,7 @@ export default function LayarIdentitas() {
                 style={{ resizeMode: "contain" }}
               />
               <TextInput
-                style={{ fontFamily: gayaHurufLexend400 }}
+                style={{ fontFamily: gayaHuruf.lexend400 }}
                 placeholder="Masukan Nama Lengkap Anda"
                 className="ml-2 flex-1 text-gray-600"
               />
@@ -70,7 +54,7 @@ export default function LayarIdentitas() {
 
           <View className="mb-4">
             <Text
-              style={{ fontFamily: gayaHurufLexend900 }}
+              style={{ fontFamily: gayaHuruf.lexend900 }}
               className="text-lg text-[#447055]"
             >
               Umur :
@@ -83,7 +67,7 @@ export default function LayarIdentitas() {
               />
               <TextInput
                 inputMode="numeric"
-                style={{ fontFamily: gayaHurufLexend400 }}
+                style={{ fontFamily: gayaHuruf.lexend400 }}
                 placeholder="Masukan Umur Anda"
                 className="ml-2 flex-1 text-gray-600"
               />
@@ -92,7 +76,7 @@ export default function LayarIdentitas() {
 
           <View className="mb-4">
             <Text
-              style={{ fontFamily: gayaHurufLexend900 }}
+              style={{ fontFamily: gayaHuruf.lexend900 }}
               className="text-lg text-[#447055]"
             >
               Nomor Telepon :
@@ -100,7 +84,7 @@ export default function LayarIdentitas() {
             <View className="flex-row items-center border border-gray-400 rounded-lg p-2 mt-2">
               <View className="h-10 w-10 border border-gray-400 rounded">
                 <Text
-                  style={{ fontFamily: gayaHurufLexend400 }}
+                  style={{ fontFamily: gayaHuruf.lexend400 }}
                   className="m-auto"
                 >
                   +62
@@ -108,7 +92,7 @@ export default function LayarIdentitas() {
               </View>
               <TextInput
                 inputMode="numeric"
-                style={{ fontFamily: gayaHurufLexend400 }}
+                style={{ fontFamily: gayaHuruf.lexend400 }}
                 placeholder="Masukan nomor telepon Anda"
                 className="ml-2 flex-1 text-gray-600"
               />
@@ -117,7 +101,7 @@ export default function LayarIdentitas() {
 
           <View className="mb-8">
             <Text
-              style={{ fontFamily: gayaHurufLexend900 }}
+              style={{ fontFamily: gayaHuruf.lexend900 }}
               className="text-lg text-[#447055]"
             >
               Jenis Kelamin :
@@ -140,7 +124,7 @@ export default function LayarIdentitas() {
                 >
                   <Text
                     style={{
-                      fontFamily: gayaHurufLexend500,
+                      fontFamily: gayaHuruf.lexend500,
                       color: jenisKelamin === "pria" ? "#FFF" : "#000",
                     }}
                   >
@@ -157,7 +141,7 @@ export default function LayarIdentitas() {
                 >
                   <Text
                     style={{
-                      fontFamily: gayaHurufLexend500,
+                      fontFamily: gayaHuruf.lexend500,
                       color: jenisKelamin === "wanita" ? "#FFF" : "#000",
                     }}
                   >
@@ -176,7 +160,7 @@ export default function LayarIdentitas() {
             className="bg-[#447055] rounded-lg p-4 flex-row items-center justify-center"
           >
             <Text
-              style={{ fontFamily: gayaHurufPoppins700 }}
+              style={{ fontFamily: gayaHuruf.poppins700 }}
               className="text-white text-center text-lg"
             >
               Simpan

@@ -9,24 +9,12 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 // MODUL KAMI
-import useHurufResponsif from "../hooks/useHurufResponsif";
+import { gayaHuruf } from "../constants/huruf";
 
 export default function LayarMasuk() {
   const pengarah = useRouter();
   const gambarPenggunaMasuk = require("../assets/images/gambarMasuk.png");
   const ikonGoogle = require("../assets/images/ikonGoogle.png");
-  const gayaHurufLexend400 = useHurufResponsif({
-    android: "Lexend_400Regular",
-    ios: "Lexend_400Regular",
-  });
-  const gayaHurufLexend500 = useHurufResponsif({
-    android: "Lexend_500Medium",
-    ios: "Lexend_500Medium",
-  });
-  const gayaHurufLexend700 = useHurufResponsif({
-    android: "Poppins_700Bold",
-    ios: "Poppins_700Bold",
-  });
 
   return (
     <ScrollView className="flex-1 bg-[#E7E8E2]">
@@ -36,7 +24,7 @@ export default function LayarMasuk() {
           className="h-[350px] w-full mt-24"
         />
         <Text
-          style={{ fontFamily: gayaHurufLexend700 }}
+          style={{ fontFamily: gayaHuruf.lexend700 }}
           className="text-[#6B8F71] text-lg mb-2"
         >
           Nomor Ponsel:
@@ -44,13 +32,13 @@ export default function LayarMasuk() {
 
         <View className="flex-row items-center border border-gray-400 rounded-lg p-3 mb-4">
           <Text
-            style={{ fontFamily: gayaHurufLexend400 }}
+            style={{ fontFamily: gayaHuruf.lexend400 }}
             className="text-lg text-[#626262] mr-2 border w-12 h-8 text-center rounded-md border-gray-400"
           >
             +62
           </Text>
           <TextInput
-            style={{ fontFamily: gayaHurufLexend400 }}
+            style={{ fontFamily: gayaHuruf.lexend400 }}
             placeholder="Masukan Nomor Ponsel Anda"
             keyboardType="phone-pad"
             placeholderTextColor={"#626262"}
@@ -65,7 +53,7 @@ export default function LayarMasuk() {
           className="bg-[#3F5D44] py-4 rounded-lg mb-6"
         >
           <Text
-            style={{ fontFamily: gayaHurufLexend700 }}
+            style={{ fontFamily: gayaHuruf.lexend700 }}
             className="text-white text-center text-lg"
           >
             Lanjutkan
@@ -73,7 +61,7 @@ export default function LayarMasuk() {
         </TouchableOpacity>
 
         <Text
-          style={{ fontFamily: gayaHurufLexend700 }}
+          style={{ fontFamily: gayaHuruf.lexend700 }}
           className="text-[#6B8F71] text-center mb-6"
         >
           ATAU
@@ -92,7 +80,7 @@ export default function LayarMasuk() {
             style={{ resizeMode: "contain" }}
           />
           <Text
-            style={{ fontFamily: gayaHurufLexend500 }}
+            style={{ fontFamily: gayaHuruf.lexend500 }}
             className="text-lg text-gray-700"
           >
             Masuk Dengan Google
