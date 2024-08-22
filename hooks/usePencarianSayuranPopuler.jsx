@@ -1,14 +1,14 @@
 import { Text } from "react-native";
 import { useMemo } from "react";
 
-export default function usePencarianSayuran(dataSayuran, kataPencarian) {
-  const hasilPencarian = useMemo(() => {
+export default function usePencarianSayuranPopuler(dataSayuran, kataPencarian) {
+  const hasilPencarianSayuranPopuler = useMemo(() => {
     return dataSayuran.filter((sayur) =>
       sayur.Nama_Sayuran.toLowerCase().includes(kataPencarian.toLowerCase())
     );
   }, [dataSayuran, kataPencarian]);
 
-  const menyorotiKata = (kata, sorot) => {
+  const menyorotiKataSayuranPopuler = (kata, sorot) => {
     if (!sorot) return kata;
 
     const bagian = kata.split(new RegExp(`(${sorot})`, "gi"));
@@ -23,5 +23,5 @@ export default function usePencarianSayuran(dataSayuran, kataPencarian) {
     );
   };
 
-  return { hasilPencarian, menyorotiKata };
+  return { hasilPencarianSayuranPopuler, menyorotiKataSayuranPopuler };
 }

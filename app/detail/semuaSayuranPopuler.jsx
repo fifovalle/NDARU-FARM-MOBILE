@@ -8,25 +8,23 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { useRouter, useGlobalSearchParams } from "expo-router";
+import { useRouter } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
 
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
 import useDataSemuaSayuranPopuler from "../../hooks/useDataSemuaSayuranPopuler";
 import formatRupiah from "../../utils/formatRupiah";
-import usePencarianSayuran from "../../hooks/usePencarianSayuran";
+import usePencarianSayuranPopuler from "../../hooks/usePencarianSayuranPopuler";
 
 export default function SemuaSayuranPopuler() {
-  const { dataSayuran, memuat } = useDataSemuaSayuranPopuler();
+  const { semuaDataSayuranPopuler, memuat } = useDataSemuaSayuranPopuler();
   const [kataPencarian, setKataPencarian] = useState("");
   const pengarah = useRouter();
   const dataTidakAda = require("../../assets/images/dataTidakAda.png");
   const ikonCari = require("../../assets/images/ikonCari.png");
-  const { hasilPencarian, menyorotiKata } = usePencarianSayuran(
-    dataSayuran,
-    kataPencarian
-  );
+  const { hasilPencarianSayuranPopuler, menyorotiKataSayuranPopuler } =
+    usePencarianSayuranPopuler(semuaDataSayuranPopuler, kataPencarian);
 
   return (
     <View className="flex-1 bg-[#E7E8E2]">
@@ -73,7 +71,7 @@ export default function SemuaSayuranPopuler() {
             <ActivityIndicator size="large" color="#556F50" />
           ) : (
             <View className="flex-1">
-              {kataPencarian && hasilPencarian.length === 0 ? (
+              {kataPencarian && hasilPencarianSayuranPopuler.length === 0 ? (
                 <View className="flex-1 items-center justify-center">
                   <Image source={dataTidakAda} className="w-72 h-72 mb-4" />
                   <Text
@@ -85,70 +83,71 @@ export default function SemuaSayuranPopuler() {
                 </View>
               ) : (
                 <View className="flex-row flex-wrap justify-between">
-                  {(kataPencarian ? hasilPencarian : dataSayuran).map(
-                    (sayuran) => (
-                      <View
-                        key={sayuran.id}
-                        className="bg-white rounded-xl p-4 mb-4 w-[48%]"
+                  {(kataPencarian
+                    ? hasilPencarianSayuranPopuler
+                    : semuaDataSayuranPopuler
+                  ).map((sayuran) => (
+                    <View
+                      key={sayuran.id}
+                      className="bg-white rounded-xl p-4 mb-4 w-[48%]"
+                    >
+                      <TouchableOpacity
+                        activeOpacity={0.5}
+                        onPress={() =>
+                          pengarah.push(
+                            `/detail/sayuranPopuler?id=${sayuran.id}`
+                          )
+                        }
                       >
-                        <TouchableOpacity
-                          activeOpacity={0.5}
-                          onPress={() =>
-                            pengarah.push(
-                              `/detail/sayuranPopuler?id=${sayuran.id}`
-                            )
-                          }
-                        >
-                          <Image
-                            source={{ uri: sayuran.Gambar_Sayuran }}
-                            className="w-full h-32 object-cover rounded-xl"
-                          />
-                        </TouchableOpacity>
+                        <Image
+                          source={{ uri: sayuran.Gambar_Sayuran }}
+                          className="w-full h-32 object-cover rounded-xl"
+                        />
+                      </TouchableOpacity>
 
+                      <Text
+                        className="text-xl mt-2 text-[#556F50]"
+                        style={{ fontFamily: gayaHuruf.poppins700 }}
+                      >
+                        {menyorotiKataSayuranPopuler(
+                          sayuran.Nama_Sayuran,
+                          kataPencarian
+                        )}
+                      </Text>
+                      <Text
+                        style={{ fontFamily: gayaHuruf.lexend400 }}
+                        className="text-gray-500"
+                      >
+                        {sayuran.Sayuran_Per_Kilo} Kg
+                      </Text>
+
+                      <View className="flex-row items-center justify-between mt-2">
                         <Text
-                          className="text-xl mt-2 text-[#556F50]"
                           style={{ fontFamily: gayaHuruf.poppins700 }}
+                          className="text-black"
                         >
-                          {menyorotiKata(sayuran.Nama_Sayuran, kataPencarian)}
+                          {formatRupiah(sayuran.Harga_Sayuran)}
                         </Text>
                         <Text
-                          style={{ fontFamily: gayaHuruf.lexend400 }}
+                          style={{ fontFamily: gayaHuruf.poppins500 }}
                           className="text-gray-500"
                         >
-                          {sayuran.Sayuran_Per_Kilo} Kg
+                          Stok {sayuran.Stok_Sayuran}
                         </Text>
+                      </View>
 
-                        <View className="flex-row items-center justify-between mt-2">
-                          <Text
-                            style={{ fontFamily: gayaHuruf.poppins700 }}
-                            className="text-black"
-                          >
-                            {formatRupiah(sayuran.Harga_Sayuran)}
-                          </Text>
+                      <TouchableOpacity activeOpacity={0.7} className="w-full">
+                        <View className="mt-3 flex bg-[#447055] rounded-md p-2">
                           <Text
                             style={{ fontFamily: gayaHuruf.poppins500 }}
-                            className="text-gray-500"
+                            className="text-[#ffffff] text-center"
                           >
-                            Stok {sayuran.Stok_Sayuran}
+                            + Keranjang
                           </Text>
                         </View>
-
-                        <TouchableOpacity
-                          activeOpacity={0.7}
-                          className="w-full"
-                        >
-                          <View className="mt-3 flex bg-[#447055] rounded-md p-2">
-                            <Text
-                              style={{ fontFamily: gayaHuruf.poppins500 }}
-                              className="text-[#ffffff] text-center"
-                            >
-                              + Keranjang
-                            </Text>
-                          </View>
-                        </TouchableOpacity>
-                      </View>
-                    )
-                  )}
+                      </TouchableOpacity>
+                    </View>
+                  ))}
                 </View>
               )}
             </View>

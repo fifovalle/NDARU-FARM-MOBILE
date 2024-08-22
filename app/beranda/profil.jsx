@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import {
   View,
   Text,
@@ -8,18 +8,43 @@ import {
   ScrollView,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-
-// MODUL KAMI
+import useProfilPengguna from "../../hooks/useProfilPengguna";
 import { gayaHuruf } from "../../constants/huruf";
+import Toast from "react-native-toast-message";
 
 export default function Profil() {
+  const segeraBergulirKeAtas = useRef(null);
   const gambarBawaan = require("../../assets/images/pengguna-bawaan.png");
-  const [jenisKelamin, setJenisKelamin] = useState("");
-  const warnaAktif = "#4C6C52";
-  const warnaTidakAktif = "#fff";
+
+  const {
+    jenisKelamin,
+    setJenisKelamin,
+    namaLengkap,
+    setNamaLengkap,
+    umur,
+    setUmur,
+    nomorTelepon,
+    setNomorTelepon,
+    provinsi,
+    setProvinsi,
+    kota,
+    setKota,
+    kabupaten,
+    setKabupaten,
+    alamat,
+    setAlamat,
+    kodePos,
+    setKodePos,
+    gambarProfil,
+    warnaAktif,
+    warnaTidakAktif,
+    simpanProfil,
+    pilihGambar,
+  } = useProfilPengguna(segeraBergulirKeAtas);
 
   return (
-    <ScrollView className="flex-1 bg-[#E7E8E2]">
+    <ScrollView ref={segeraBergulirKeAtas} className="flex-1 bg-[#E7E8E2]">
+      <Toast />
       <View className="w-full mt pt-32 items-center justify-center">
         <Text
           style={{ fontFamily: gayaHuruf.lexend900 }}
@@ -32,11 +57,12 @@ export default function Profil() {
         <View className="items-center transform translate-y-[-60px]">
           <View className="w-32 h-32 bg-white rounded-full flex items-center justify-center mb-4 border-[1.5px] border-[#447055]">
             <TouchableOpacity
+              onPress={pilihGambar}
               activeOpacity={0.7}
               className="w-28 h-28 rounded-full"
             >
               <Image
-                source={gambarBawaan}
+                source={gambarProfil ? { uri: gambarProfil } : gambarBawaan}
                 className="w-full h-full rounded-full mb-20"
               />
             </TouchableOpacity>
@@ -45,13 +71,13 @@ export default function Profil() {
             style={{ fontFamily: gayaHuruf.poppins700 }}
             className="text-[#447055] text-xl"
           >
-            Naufal FIFA
+            {namaLengkap || "Nama Lengkap"}
           </Text>
           <Text
             style={{ fontFamily: gayaHuruf.poppins500 }}
             className="text-[#447055] text-base"
           >
-            6288234561212
+            {nomorTelepon || "Nomor Telepon"}
           </Text>
           <View className="py-3 px-4 items-start mt-5">
             <Text
@@ -68,6 +94,8 @@ export default function Profil() {
                 color="black"
               />
               <TextInput
+                value={namaLengkap}
+                onChangeText={setNamaLengkap}
                 style={{ fontFamily: gayaHuruf.poppins500 }}
                 placeholder="Nama Lengkap Anda"
                 className="flex-1 ml-2 text-gray-700"
@@ -89,6 +117,8 @@ export default function Profil() {
                     color="black"
                   />
                   <TextInput
+                    value={umur}
+                    onChangeText={setUmur}
                     style={{ fontFamily: gayaHuruf.poppins500 }}
                     placeholder="Umur Anda"
                     className="flex-1 ml-2 text-gray-700"
@@ -111,6 +141,8 @@ export default function Profil() {
                 color="black"
               />
               <TextInput
+                value={nomorTelepon}
+                onChangeText={setNomorTelepon}
                 inputMode="numeric"
                 style={{ fontFamily: gayaHuruf.poppins500 }}
                 placeholder="Nomor telepon Anda"
@@ -131,6 +163,8 @@ export default function Profil() {
                 color="black"
               />
               <TextInput
+                value={provinsi}
+                onChangeText={setProvinsi}
                 style={{ fontFamily: gayaHuruf.poppins500 }}
                 placeholder="Provinsi"
                 className="flex-1 ml-2 text-gray-700"
@@ -150,6 +184,8 @@ export default function Profil() {
                 color="black"
               />
               <TextInput
+                value={kota}
+                onChangeText={setKota}
                 style={{ fontFamily: gayaHuruf.poppins500 }}
                 placeholder="Kota"
                 className="flex-1 ml-2 text-gray-700"
@@ -169,6 +205,8 @@ export default function Profil() {
                 color="black"
               />
               <TextInput
+                value={kabupaten}
+                onChangeText={setKabupaten}
                 style={{ fontFamily: gayaHuruf.poppins500 }}
                 placeholder="Kabupaten"
                 className="flex-1 ml-2 text-gray-700"
@@ -188,6 +226,8 @@ export default function Profil() {
                 color="black"
               />
               <TextInput
+                value={alamat}
+                onChangeText={setAlamat}
                 style={{ fontFamily: gayaHuruf.poppins500 }}
                 placeholder="Alamat"
                 className="flex-1 ml-2 text-gray-700"
@@ -207,6 +247,8 @@ export default function Profil() {
                 color="black"
               />
               <TextInput
+                value={kodePos}
+                onChangeText={setKodePos}
                 inputMode="numeric"
                 style={{ fontFamily: gayaHuruf.poppins500 }}
                 placeholder="Kode Pos"
@@ -270,6 +312,7 @@ export default function Profil() {
               </View>
 
               <TouchableOpacity
+                onPress={simpanProfil}
                 activeOpacity={0.7}
                 className="bg-[#447055] rounded-lg p-4 w-full mt-10 -mb-20 mx-auto"
               >

@@ -6,32 +6,35 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  ActivityIndicator,
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
 import { ucapanSalam } from "../../constants/ucapanSalam";
 import useNamaPelanggan from "../../hooks/useNamaPelanggan";
-import useDataSayuran from "../../hooks/useDataSayuran";
-import usePencarianSayuran from "../../hooks/usePencarianSayuran";
+import useDataSayuranPopuler from "../../hooks/useDataSayuranPopuler";
+import useDataJasaPopuler from "../../hooks/useDataJasaPopuler";
+import usePencarianSayuranPopuler from "../../hooks/usePencarianSayuranPopuler";
+import usePencarianJasaPopuler from "../../hooks/usePencarianJasaPopuler";
 import formatRupiah from "../../utils/formatRupiah";
+import SayuranPopuler from "../../components/sayuranPopuler";
+import JasaPopuler from "../../components/jasaPopuler";
 
 export default function Index() {
   const pengarah = useRouter();
   const ucapan = ucapanSalam();
   const dataTidakAda = require("../../assets/images/dataTidakAda.png");
   const { namaPelanggan } = useNamaPelanggan();
-  const { dataSayuran, memuat } = useDataSayuran();
+  const { dataSayuranPopuler, memuatSayuranPopuler } = useDataSayuranPopuler();
+  const { dataJasaPopuler, memuatJasaPopuler } = useDataJasaPopuler();
   const [kataPencarian, setKataPencarian] = useState("");
   const ikonKeranjang = require("../../assets/images/ikonKeranjang1.png");
   const ikonCari = require("../../assets/images/ikonCari.png");
-  const { hasilPencarian, menyorotiKata } = usePencarianSayuran(
-    dataSayuran,
-    kataPencarian
-  );
+  const { hasilPencarianSayuranPopuler, menyorotiKataSayuranPopuler } =
+    usePencarianSayuranPopuler(dataSayuranPopuler, kataPencarian);
+  const { hasilPencarianJasaPopuler, menyorotiKataJasaPopuler } =
+    usePencarianJasaPopuler(dataJasaPopuler, kataPencarian);
 
   return (
     <ScrollView className="bg-[#E7E8E2] flex-1">
@@ -76,99 +79,27 @@ export default function Index() {
       </View>
 
       <View className="p-4">
-        <View className="p-4 flex-row justify-between items-center">
-          <Text
-            style={{ fontFamily: gayaHuruf.lexend900 }}
-            className="text-[#556F50] text-xl"
-          >
-            Sayuran Populer
-          </Text>
-          <TouchableOpacity
-            activeOpacity={0.6}
-            onPress={() => pengarah.push("../detail/semuaSayuranPopuler")}
-          >
-            <View className="flex-row items-center">
-              <Text
-                style={{ fontFamily: gayaHuruf.poppins500 }}
-                className="text-[#447055] text-sm mr-[4px] underline"
-              >
-                Lihat Semua
-              </Text>
-              <FontAwesome name="caret-right" size={20} color="#447055" />
-            </View>
-          </TouchableOpacity>
-        </View>
-        {memuat ? (
-          <ActivityIndicator size="large" color="#556F50" />
-        ) : hasilPencarian.length === 0 ? (
-          <View className="flex items-center justify-center mt-10">
-            <Image source={dataTidakAda} className="w-72 h-72 mb-4" />
-            <Text
-              style={{ fontFamily: gayaHuruf.lexend700 }}
-              className="text-gray-500 text-[1.3rem] text-center"
-            >
-              Tidak ada hasil untuk "{kataPencarian}"
-            </Text>
-          </View>
-        ) : (
-          <View className="flex-row justify-between flex-wrap">
-            {hasilPencarian.map((sayuran) => (
-              <View
-                key={sayuran.id}
-                className="bg-white rounded-xl p-4 mb-4 w-[48%]"
-              >
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  onPress={() =>
-                    pengarah.push(`../detail/sayuranPopuler?id=${sayuran.id}`)
-                  }
-                >
-                  <Image
-                    source={{ uri: sayuran.Gambar_Sayuran }}
-                    className="w-full h-32 object-cover rounded-xl"
-                  />
-                </TouchableOpacity>
+        <SayuranPopuler
+          memuat={memuatSayuranPopuler}
+          hasilPencarian={hasilPencarianSayuranPopuler}
+          kataPencarian={kataPencarian}
+          pengarah={pengarah}
+          gayaHuruf={gayaHuruf}
+          dataTidakAda={dataTidakAda}
+          formatRupiah={formatRupiah}
+          menyorotiKata={menyorotiKataSayuranPopuler}
+        />
 
-                <Text
-                  className="text-xl mt-2 text-[#556F50]"
-                  style={{ fontFamily: gayaHuruf.poppins700 }}
-                >
-                  {menyorotiKata(sayuran.Nama_Sayuran, kataPencarian)}
-                </Text>
-                <Text
-                  style={{ fontFamily: gayaHuruf.lexend400 }}
-                  className="text-gray-500"
-                >
-                  {sayuran.Sayuran_Per_Kilo}Kg
-                </Text>
-                <View className="flex-row items-center justify-between mt-2">
-                  <Text
-                    style={{ fontFamily: gayaHuruf.poppins700 }}
-                    className="text-black"
-                  >
-                    {formatRupiah(sayuran.Harga_Sayuran)}
-                  </Text>
-                  <Text
-                    style={{ fontFamily: gayaHuruf.poppins500 }}
-                    className="text-gray-500"
-                  >
-                    Stok {sayuran.Stok_Sayuran}
-                  </Text>
-                </View>
-                <TouchableOpacity activeOpacity={0.7} className="w-full">
-                  <View className="mt-3 flex bg-[#447055] rounded-md p-2">
-                    <Text
-                      style={{ fontFamily: gayaHuruf.poppins500 }}
-                      className="text-[#ffffff] text-center"
-                    >
-                      + Keranjang
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            ))}
-          </View>
-        )}
+        <JasaPopuler
+          memuat={memuatSayuranPopuler}
+          hasilPencarian={hasilPencarianJasaPopuler}
+          kataPencarian={kataPencarian}
+          pengarah={pengarah}
+          gayaHuruf={gayaHuruf}
+          dataTidakAda={dataTidakAda}
+          formatRupiah={formatRupiah}
+          menyorotiKata={menyorotiKataJasaPopuler}
+        />
       </View>
     </ScrollView>
   );

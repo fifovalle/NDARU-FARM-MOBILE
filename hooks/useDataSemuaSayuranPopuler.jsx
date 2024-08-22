@@ -2,27 +2,28 @@ import { useState, useEffect } from "react";
 import firestore from "@react-native-firebase/firestore";
 
 export default function useDataSemuaSayuranPopuler() {
-  const [dataSayuran, setDataSayuran] = useState([]);
-  const [memuat, setMemuat] = useState(true);
+  const [semuaDataSayuranPopuler, setSemuaDataSayuranPopuler] = useState([]);
+  const [memuatSemuaSayuranPopuler, setMemuatDataSayuranPopuler] =
+    useState(true);
 
   useEffect(() => {
-    const tampilkanDataSayuran = async () => {
+    const tampilkanSemuaDataSayuranPopuler = async () => {
       try {
         const snapshot = await firestore().collection("sayuran").get();
-        const sayuranList = snapshot.docs.map((doc) => ({
+        const daftarSemuaSayuranPopuler = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        setDataSayuran(sayuranList);
+        setSemuaDataSayuranPopuler(daftarSemuaSayuranPopuler);
       } catch (error) {
         console.error("Error fetching data sayuran: ", error);
       } finally {
-        setMemuat(false);
+        setMemuatDataSayuranPopuler(false);
       }
     };
 
-    tampilkanDataSayuran();
+    tampilkanSemuaDataSayuranPopuler();
   }, []);
 
-  return { dataSayuran, memuat };
+  return { semuaDataSayuranPopuler, memuatSemuaSayuranPopuler };
 }
