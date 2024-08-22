@@ -36,7 +36,7 @@ export default function useProfilPengguna(segeraBergulirKeAtas) {
           setKabupaten(dataPengguna.Kabupaten_Pengguna || "");
           setAlamat(dataPengguna.Alamat_Pengguna || "");
           setKodePos(dataPengguna.Kode_Pos_Pengguna || "");
-          setGambarProfil(dataPengguna.Gambar_Profil_Pengguna || "");
+          setGambarProfil(dataPengguna.Foto_Pengguna || "");
         }
       });
     }
@@ -58,7 +58,7 @@ export default function useProfilPengguna(segeraBergulirKeAtas) {
             Kabupaten_Pengguna: kabupaten,
             Alamat_Pengguna: alamat,
             Kode_Pos_Pengguna: kodePos,
-            Gambar_Profil_Pengguna: gambarProfil,
+            Foto_Pengguna: gambarProfil,
           },
           { merge: true }
         )
