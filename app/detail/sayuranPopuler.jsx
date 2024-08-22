@@ -1,23 +1,62 @@
-import React, { useState } from "react";
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { useRouter, useGlobalSearchParams } from "expo-router";
+import formatRupiah from "../../utils/formatRupiah";
+import firestore from "@react-native-firebase/firestore";
 
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
 import { tambahKuantitas, kurangiKuantitas } from "../../utils/sayuranPopuler";
 
 export default function SayuranPopuler() {
+  const { id } = useGlobalSearchParams();
+  const [sayuran, setSayuran] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const pengarah = useRouter();
   const ikonWortel = require("../../assets/images/ikonWortel.png");
   const [kuantitas, setKuantitas] = useState(1);
-  const hargaPerKilo = 20000;
+
+  useEffect(() => {
+    const fetchSayuran = async () => {
+      try {
+        const doc = await firestore().collection("sayuran").doc(id).get();
+        if (doc.exists) {
+          setSayuran(doc.data());
+        } else {
+          console.log("Sayuran tidak ditemukan");
+        }
+      } catch (error) {
+        console.error("Error fetching sayuran: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSayuran();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color="#447055" />
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 bg-[#E7E8E2]">
       <View className="flex-row items-center mb-4 mt-12">
         <TouchableOpacity
           className="w-10 h-10 rounded-full items-center justify-center"
-          onPress={() => router.back()}
+          onPress={() => pengarah.back()}
         >
           <FontAwesome name="arrow-left" size={24} color="green" />
         </TouchableOpacity>
@@ -40,7 +79,10 @@ export default function SayuranPopuler() {
       <ScrollView className="bg-[#E7E8E2] rounded-lg">
         <View className="bg-[#E7E8E2] mb-4 flex items-center justify-center">
           <View className="w-full h-80">
-            <Image source={ikonWortel} className="w-full h-full object-cover" />
+            <Image
+              source={{ uri: sayuran.Gambar_Sayuran }}
+              className="w-full h-full object-cover"
+            />
           </View>
         </View>
 
@@ -49,28 +91,20 @@ export default function SayuranPopuler() {
             style={{ fontFamily: gayaHuruf.poppins700 }}
             className="text-xl ml-2 p-4 mt-3 text-[#447055]"
           >
-            Iphone 12 Pro Max
+            {sayuran.Nama_Sayuran}
           </Text>
           <Text
             style={{ fontFamily: gayaHuruf.lexend400 }}
             className="text-md ml-6 text-black"
           >
-            1kg (per bungkus)
+            {sayuran.Sayuran_Per_Kilo}kg
           </Text>
           <View className="mx-auto w-[90%]">
             <Text
               style={{ fontFamily: gayaHuruf.lexend400 }}
               className="text-sm mt-4 text-gray-500 text-justify"
             >
-              Wortel segar pilihan, kaya akan nutrisi dan vitamin A yang baik
-              untuk kesehatan mata dan kulit. Wortel ini ditanam secara organik,
-              bebas dari pestisida, dan dipanen langsung dari kebun setiap hari
-              untuk memastikan kesegarannya. Dengan warna oranye yang cerah dan
-              tekstur yang renyah, wortel ini sangat cocok untuk dikonsumsi
-              langsung, dijadikan jus, atau digunakan sebagai bahan dalam
-              berbagai hidangan seperti sup, salad, dan tumisan. Selain itu,
-              wortel juga dikenal memiliki kandungan antioksidan tinggi yang
-              baik untuk menjaga daya tahan tubuh.
+              {sayuran.Deskripsi_Sayuran}
             </Text>
           </View>
 
@@ -99,7 +133,7 @@ export default function SayuranPopuler() {
               style={{ fontFamily: gayaHuruf.poppins700 }}
               className="text-lg text-[#447055]"
             >
-              Rp{(hargaPerKilo * kuantitas).toLocaleString("id-ID")}
+              {formatRupiah(sayuran.Harga_Sayuran * kuantitas)}
             </Text>
           </View>
         </View>
@@ -107,7 +141,7 @@ export default function SayuranPopuler() {
 
       <View className="w-full h-20 bg-white justify-evenly items-center flex-row">
         <TouchableOpacity
-          onPress={() => router.push("/detail/detailPesan")}
+          onPress={() => pengarah.push("/detail/detailPesan")}
           activeOpacity={0.5}
           className="w-[45px] h-12 border-2 border-[#447055] rounded-lg"
         >
@@ -117,7 +151,7 @@ export default function SayuranPopuler() {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.5}
-          onPress={() => router.push("/detail/detailKeranjang")}
+          onPress={() => pengarah.push("/detail/detailKeranjang")}
           className="w-[45px] h-12 border-2 border-[#447055] rounded-lg"
         >
           <View className="items-center my-auto">
@@ -126,7 +160,7 @@ export default function SayuranPopuler() {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => router.push("../detail/checkout")}
+          onPress={() => pengarah.push("../detail/checkout")}
           className="bg-[#447055] rounded-lg w-72 items-center justify-center p-3"
         >
           <Text

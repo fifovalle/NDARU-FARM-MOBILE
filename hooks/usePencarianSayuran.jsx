@@ -1,7 +1,7 @@
 import { Text } from "react-native";
 import { useMemo } from "react";
 
-export default function usePencarianProduk1(dataSayuran, kataPencarian) {
+export default function usePencarianSayuran(dataSayuran, kataPencarian) {
   const hasilPencarian = useMemo(() => {
     return dataSayuran.filter((sayur) =>
       sayur.Nama_Sayuran.toLowerCase().includes(kataPencarian.toLowerCase())

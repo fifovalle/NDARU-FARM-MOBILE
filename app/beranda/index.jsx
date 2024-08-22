@@ -16,7 +16,7 @@ import { gayaHuruf } from "../../constants/huruf";
 import { ucapanSalam } from "../../constants/ucapanSalam";
 import useNamaPelanggan from "../../hooks/useNamaPelanggan";
 import useDataSayuran from "../../hooks/useDataSayuran";
-import usePencarianProduk1 from "../../hooks/usePencarianProduk1";
+import usePencarianSayuran from "../../hooks/usePencarianSayuran";
 import formatRupiah from "../../utils/formatRupiah";
 
 export default function Index() {
@@ -28,7 +28,7 @@ export default function Index() {
   const [kataPencarian, setKataPencarian] = useState("");
   const ikonKeranjang = require("../../assets/images/ikonKeranjang1.png");
   const ikonCari = require("../../assets/images/ikonCari.png");
-  const { hasilPencarian, menyorotiKata } = usePencarianProduk1(
+  const { hasilPencarian, menyorotiKata } = usePencarianSayuran(
     dataSayuran,
     kataPencarian
   );
@@ -102,27 +102,29 @@ export default function Index() {
           <ActivityIndicator size="large" color="#556F50" />
         ) : hasilPencarian.length === 0 ? (
           <View className="flex items-center justify-center mt-10">
-            <Image source={dataTidakAda} className="w-72 h-72" />
+            <Image source={dataTidakAda} className="w-72 h-72 mb-4" />
             <Text
               style={{ fontFamily: gayaHuruf.lexend700 }}
               className="text-gray-500 text-[1.3rem] text-center"
             >
-              Tidak Ada Sayuran!
+              Tidak ada hasil untuk "{kataPencarian}"
             </Text>
           </View>
         ) : (
           <View className="flex-row justify-between flex-wrap">
-            {hasilPencarian.map((sayur) => (
+            {hasilPencarian.map((sayuran) => (
               <View
-                key={sayur.id}
+                key={sayuran.id}
                 className="bg-white rounded-xl p-4 mb-4 w-[48%]"
               >
                 <TouchableOpacity
                   activeOpacity={0.5}
-                  onPress={() => pengarah.push(`../detail/sayuranPopuler`)}
+                  onPress={() =>
+                    pengarah.push(`../detail/sayuranPopuler?id=${sayuran.id}`)
+                  }
                 >
                   <Image
-                    source={{ uri: sayur.Gambar_Sayuran }}
+                    source={{ uri: sayuran.Gambar_Sayuran }}
                     className="w-full h-32 object-cover rounded-xl"
                   />
                 </TouchableOpacity>
@@ -131,26 +133,26 @@ export default function Index() {
                   className="text-xl mt-2 text-[#556F50]"
                   style={{ fontFamily: gayaHuruf.poppins700 }}
                 >
-                  {menyorotiKata(sayur.Nama_Sayuran, kataPencarian)}
+                  {menyorotiKata(sayuran.Nama_Sayuran, kataPencarian)}
                 </Text>
                 <Text
                   style={{ fontFamily: gayaHuruf.lexend400 }}
                   className="text-gray-500"
                 >
-                  {sayur.Sayuran_Per_Kilo}Kg
+                  {sayuran.Sayuran_Per_Kilo}Kg
                 </Text>
                 <View className="flex-row items-center justify-between mt-2">
                   <Text
                     style={{ fontFamily: gayaHuruf.poppins700 }}
                     className="text-black"
                   >
-                    {formatRupiah(sayur.Harga_Sayuran)}
+                    {formatRupiah(sayuran.Harga_Sayuran)}
                   </Text>
                   <Text
                     style={{ fontFamily: gayaHuruf.poppins500 }}
                     className="text-gray-500"
                   >
-                    Stok {sayur.Stok_Sayuran}
+                    Stok {sayuran.Stok_Sayuran}
                   </Text>
                 </View>
                 <TouchableOpacity activeOpacity={0.7} className="w-full">
