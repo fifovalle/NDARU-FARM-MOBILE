@@ -91,7 +91,7 @@ export default function Index() {
         />
 
         <JasaPopuler
-          memuat={memuatSayuranPopuler}
+          memuat={memuatJasaPopuler}
           hasilPencarian={hasilPencarianJasaPopuler}
           kataPencarian={kataPencarian}
           pengarah={pengarah}

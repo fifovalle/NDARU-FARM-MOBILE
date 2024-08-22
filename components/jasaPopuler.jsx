@@ -65,7 +65,7 @@ const JasaPopuler = ({
               <TouchableOpacity
                 activeOpacity={0.5}
                 onPress={() =>
-                  pengarah.push(`../detail/sayuranPopuler?id=${jasa.id}`)
+                  pengarah.push(`../detail/jasaPopuler?id=${jasa.id}`)
                 }
               >
                 <Image

@@ -10,7 +10,7 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter, useGlobalSearchParams } from "expo-router";
 import formatRupiah from "../../utils/formatRupiah";
-import useDetailSayuranPopuler from "../../hooks/useDetailSayuranPopuler";
+import useDetailJasaPopuler from "../../hooks/useDetailJasaPopuler";
 
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
@@ -19,10 +19,9 @@ import { tambahKuantitas, kurangiKuantitas } from "../../utils/sayuranPopuler";
 export default function SayuranPopuler() {
   const { id } = useGlobalSearchParams();
   const pengarah = useRouter();
-  const [kuantitasSayuranPopuler, setKuantitasSayuranPopuler] = useState(1);
+  const [kuantitasJasaPopuler, setKuantitasJasaPopuler] = useState(1);
 
-  const { sayuranPopuler, statusStokPopuler, memuatSayuranPopuler } =
-    useDetailSayuranPopuler(id);
+  const { jasaPopuler, memuatJasaPopuler } = useDetailJasaPopuler(id);
 
   return (
     <View className="flex-1 bg-[#E7E8E2]">
@@ -38,7 +37,7 @@ export default function SayuranPopuler() {
             style={{ fontFamily: gayaHuruf.lexend900 }}
             className="text-lg ml-4 text-[#447055]"
           >
-            Detail Sayuran Populer
+            Detail Jasa Populer
           </Text>
           <TouchableOpacity
             activeOpacity={0.5}
@@ -49,7 +48,7 @@ export default function SayuranPopuler() {
         </View>
       </View>
 
-      {memuatSayuranPopuler ? (
+      {memuatJasaPopuler ? (
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="#447055" />
         </View>
@@ -58,7 +57,7 @@ export default function SayuranPopuler() {
           <View className="bg-[#E7E8E2] mb-4 flex items-center justify-center">
             <View className="w-full h-80">
               <Image
-                source={{ uri: sayuranPopuler.Gambar_Sayuran }}
+                source={{ uri: jasaPopuler.Gambar_Jasa }}
                 className="w-full h-full object-cover"
               />
             </View>
@@ -69,29 +68,21 @@ export default function SayuranPopuler() {
               style={{ fontFamily: gayaHuruf.poppins700 }}
               className="text-xl ml-2 p-4 mt-3 text-[#447055]"
             >
-              {sayuranPopuler.Nama_Sayuran}
+              {jasaPopuler.Nama_Jasa}
             </Text>
             <Text
               style={{ fontFamily: gayaHuruf.lexend400 }}
               className="text-md ml-6 text-black"
             >
-              {sayuranPopuler.Sayuran_Per_Kilo}kg
+              {jasaPopuler.Jangka_Waktu_Jasa} Bulan
             </Text>
             <View className="mx-auto w-[90%]">
               <Text
                 style={{ fontFamily: gayaHuruf.lexend400 }}
                 className="text-sm mt-4 text-gray-500 text-justify"
               >
-                {sayuranPopuler.Deskripsi_Sayuran}
+                {jasaPopuler.Deskripsi_Jasa}
               </Text>
-              {statusStokPopuler ? (
-                <Text
-                  style={{ fontFamily: gayaHuruf.lexend700 }}
-                  className="text-red-500 text-sm mt-5 text-center"
-                >
-                  {statusStokPopuler}
-                </Text>
-              ) : null}
             </View>
 
             <View className="flex-row items-center justify-between mx-7 mt-6 mb-4">
@@ -100,8 +91,8 @@ export default function SayuranPopuler() {
                   className="w-10 h-10 rounded-full items-center justify-center bg-gray-300"
                   onPress={() =>
                     kurangiKuantitas(
-                      kuantitasSayuranPopuler,
-                      setKuantitasSayuranPopuler
+                      kuantitasJasaPopuler,
+                      setKuantitasJasaPopuler
                     )
                   }
                 >
@@ -111,14 +102,14 @@ export default function SayuranPopuler() {
                   style={{ fontFamily: gayaHuruf.poppins700 }}
                   className="text-lg mx-6"
                 >
-                  {kuantitasSayuranPopuler}
+                  {kuantitasJasaPopuler}
                 </Text>
                 <TouchableOpacity
                   className="w-10 h-10 rounded-full items-center justify-center bg-gray-300"
                   onPress={() =>
                     tambahKuantitas(
-                      kuantitasSayuranPopuler,
-                      setKuantitasSayuranPopuler
+                      kuantitasJasaPopuler,
+                      setKuantitasJasaPopuler
                     )
                   }
                 >
@@ -129,9 +120,7 @@ export default function SayuranPopuler() {
                 style={{ fontFamily: gayaHuruf.poppins700 }}
                 className="text-lg text-[#447055]"
               >
-                {formatRupiah(
-                  sayuranPopuler.Harga_Sayuran * kuantitasSayuranPopuler
-                )}
+                {formatRupiah(jasaPopuler.Harga_Jasa * kuantitasJasaPopuler)}
               </Text>
             </View>
           </View>

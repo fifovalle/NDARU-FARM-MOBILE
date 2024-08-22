@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import firestore from "@react-native-firebase/firestore";
 
 const useDetailSayuranPopuler = (id) => {
-  const [sayuran, setSayuran] = useState(null);
-  const [statusStok, setStatusStok] = useState("");
-  const [memuat, setMemuat] = useState(true);
+  const [sayuranPopuler, setSayuranPopuler] = useState(null);
+  const [statusStokPopuler, setStatusStokPopuler] = useState("");
+  const [memuatSayuranPopuler, setMemuatSayuranPopuler] = useState(true);
 
   useEffect(() => {
     const tampilkanSayuranPopuler = async () => {
@@ -12,24 +12,24 @@ const useDetailSayuranPopuler = (id) => {
         const doc = await firestore().collection("sayuran").doc(id).get();
         if (doc.exists) {
           const data = doc.data();
-          setSayuran(data);
+          setSayuranPopuler(data);
           if (data.Stok_Sayuran < 5) {
-            setStatusStok("Sayuran ini hampir habis buruan beli!");
+            setStatusStokPopuler("Sayuran ini hampir habis buruan beli!");
           } else {
-            setStatusStok("");
+            setStatusStokPopuler("");
           }
         }
       } catch (error) {
         console.error("Error fetching sayuran: ", error);
       } finally {
-        setMemuat(false);
+        setMemuatSayuranPopuler(false);
       }
     };
 
     tampilkanSayuranPopuler();
   }, [id]);
 
-  return { sayuran, statusStok, memuat };
+  return { sayuranPopuler, statusStokPopuler, memuatSayuranPopuler };
 };
 
 export default useDetailSayuranPopuler;
