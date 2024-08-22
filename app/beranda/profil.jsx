@@ -1,10 +1,288 @@
-import { View, Text } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+// MODUL KAMI
+import { gayaHuruf } from "../../constants/huruf";
 
-export default function profil() {
+export default function Profil() {
+  const gambarBawaan = require("../../assets/images/pengguna-bawaan.png");
+  const [jenisKelamin, setJenisKelamin] = useState("");
+  const warnaAktif = "#4C6C52";
+  const warnaTidakAktif = "#E7E8E2";
+
   return (
-    <View>
-      <Text>profil</Text>
-    </View>
+    <ScrollView className="flex-1 bg-[#E7E8E2]">
+      <View className="w-full mt pt-32 items-center justify-center">
+        <Text
+          style={{ fontFamily: gayaHuruf.lexend900 }}
+          className="text-xl text-[#447055]"
+        >
+          Profil Saya
+        </Text>
+      </View>
+      <View className="bg-white mx-auto p-2 w-[90%] rounded-[30px] mt-24 mb-10">
+        <View className="items-center transform translate-y-[-60px]">
+          <View className="w-32 h-32 bg-white rounded-full flex items-center justify-center mb-4 border-[1.5px] border-[#447055]">
+            <TouchableOpacity
+              activeOpacity={0.7}
+              className="w-28 h-28 rounded-full"
+            >
+              <Image
+                source={gambarBawaan}
+                className="w-full h-full rounded-full mb-20"
+              />
+            </TouchableOpacity>
+          </View>
+          <Text
+            style={{ fontFamily: gayaHuruf.poppins700 }}
+            className="text-[#447055] text-xl"
+          >
+            Naufal FIFA
+          </Text>
+          <Text
+            style={{ fontFamily: gayaHuruf.poppins500 }}
+            className="text-[#447055] text-base"
+          >
+            6288234561212
+          </Text>
+          <View className="py-3 px-4 items-start mt-5">
+            <Text
+              style={{ fontFamily: gayaHuruf.poppins700 }}
+              className="text-lg text-[#447055]"
+            >
+              Nama Lengkap :
+            </Text>
+            <View className="flex-row items-center border border-gray-400 rounded-xl p-2 mb-4">
+              <FontAwesome
+                className="border border-gray-400 rounded-md p-2"
+                name="id-card"
+                size={24}
+                color="black"
+              />
+              <TextInput
+                style={{ fontFamily: gayaHuruf.poppins500 }}
+                placeholder="Nama Lengkap Anda"
+                className="flex-1 ml-2 text-gray-700"
+              />
+            </View>
+            <View className="flex-row justify-between mb-4">
+              <View className="flex-1 mr-2">
+                <Text
+                  style={{ fontFamily: gayaHuruf.poppins700 }}
+                  className="text-lg text-[#447055]"
+                >
+                  Umur :
+                </Text>
+                <View className="flex-row items-center border border-gray-400 rounded-lg p-2">
+                  <FontAwesome
+                    className="border border-gray-400 rounded-md px-3 py-2"
+                    name="calendar"
+                    size={20}
+                    color="black"
+                  />
+                  <TextInput
+                    style={{ fontFamily: gayaHuruf.poppins500 }}
+                    placeholder="Umur Anda"
+                    className="flex-1 ml-2 text-gray-700"
+                  />
+                </View>
+              </View>
+            </View>
+
+            <Text
+              style={{ fontFamily: gayaHuruf.poppins700 }}
+              className="text-lg text-[#447055]"
+            >
+              Nomor Telepon :
+            </Text>
+            <View className="flex-row items-center border border-gray-400 rounded-lg p-2 mb-4">
+              <FontAwesome
+                className="border border-gray-400 rounded-md p-2 px-3"
+                name="phone"
+                size={24}
+                color="black"
+              />
+              <TextInput
+                inputMode="numeric"
+                style={{ fontFamily: gayaHuruf.poppins500 }}
+                placeholder="Nomor telepon Anda"
+                className="flex-1 ml-2 text-gray-700"
+              />
+            </View>
+            <Text
+              style={{ fontFamily: gayaHuruf.poppins700 }}
+              className="text-lg text-[#447055]"
+            >
+              Provinsi :
+            </Text>
+            <View className="flex-row items-center border border-gray-400 rounded-lg p-2 mb-4">
+              <FontAwesome
+                className="border border-gray-400 rounded-md py-2 px-3"
+                name="map"
+                size={20}
+                color="black"
+              />
+              <TextInput
+                style={{ fontFamily: gayaHuruf.poppins500 }}
+                placeholder="Provinsi"
+                className="flex-1 ml-2 text-gray-700"
+              />
+            </View>
+            <Text
+              style={{ fontFamily: gayaHuruf.poppins700 }}
+              className="text-lg text-[#447055]"
+            >
+              Kota :
+            </Text>
+            <View className="flex-row items-center border border-gray-400 rounded-lg p-2 mb-4">
+              <FontAwesome
+                className="border border-gray-400 rounded-md py-2 px-3"
+                name="building"
+                size={20}
+                color="black"
+              />
+              <TextInput
+                style={{ fontFamily: gayaHuruf.poppins500 }}
+                placeholder="Kota"
+                className="flex-1 ml-2 text-gray-700"
+              />
+            </View>
+            <Text
+              style={{ fontFamily: gayaHuruf.poppins700 }}
+              className="text-lg text-[#447055]"
+            >
+              Kabupaten :
+            </Text>
+            <View className="flex-row items-center border border-gray-400 rounded-lg p-2 mb-4">
+              <FontAwesome
+                className="border border-gray-400 rounded-md py-2 px-3"
+                name="map-marker"
+                size={20}
+                color="black"
+              />
+              <TextInput
+                style={{ fontFamily: gayaHuruf.poppins500 }}
+                placeholder="Kabupaten"
+                className="flex-1 ml-2 text-gray-700"
+              />
+            </View>
+            <Text
+              style={{ fontFamily: gayaHuruf.poppins700 }}
+              className="text-lg text-[#447055]"
+            >
+              Alamat :
+            </Text>
+            <View className="flex-row items-center border border-gray-400 rounded-lg p-2 mb-4">
+              <FontAwesome
+                className="border border-gray-400 rounded-md py-2 px-3"
+                name="home"
+                size={20}
+                color="black"
+              />
+              <TextInput
+                style={{ fontFamily: gayaHuruf.poppins500 }}
+                placeholder="Alamat"
+                className="flex-1 ml-2 text-gray-700"
+              />
+            </View>
+            <Text
+              style={{ fontFamily: gayaHuruf.poppins700 }}
+              className="text-lg text-[#447055]"
+            >
+              Kode Pos :
+            </Text>
+            <View className="flex-row items-center border border-gray-400 rounded-lg p-2 mb-4">
+              <FontAwesome
+                className="border border-gray-400 rounded-md py-2 px-3"
+                name="envelope-open"
+                size={20}
+                color="black"
+              />
+              <TextInput
+                inputMode="numeric"
+                style={{ fontFamily: gayaHuruf.poppins500 }}
+                placeholder="Kode Pos"
+                className="flex-1 ml-2 text-gray-700"
+              />
+            </View>
+            <View className="mb-8">
+              <Text
+                style={{ fontFamily: gayaHuruf.lexend900 }}
+                className="text-lg text-[#447055]"
+              >
+                Jenis Kelamin :
+              </Text>
+              <View className="flex-row items-center mt-2 mx-2">
+                <FontAwesome
+                  className="border border-gray-400 rounded-md p-2"
+                  name="venus-mars"
+                  size={22}
+                  color="black"
+                />
+                <View className="flex-row ml-2 w-[82%]">
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    className="border border-gray-400 rounded-lg p-3 bg-[#447055] mx-4 w-20 items-center justify-center"
+                    onPress={() => setJenisKelamin("pria")}
+                    style={{
+                      backgroundColor:
+                        jenisKelamin === "pria" ? warnaAktif : warnaTidakAktif,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: gayaHuruf.lexend500,
+                        color: jenisKelamin === "pria" ? "#FFF" : "#000",
+                      }}
+                    >
+                      Pria
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    className="border border-gray-400 rounded-lg p-3 bg-[#447055] w-22 items-center justify-center"
+                    onPress={() => setJenisKelamin("wanita")}
+                    style={{
+                      backgroundColor:
+                        jenisKelamin === "wanita"
+                          ? warnaAktif
+                          : warnaTidakAktif,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: gayaHuruf.lexend500,
+                        color: jenisKelamin === "wanita" ? "#FFF" : "#000",
+                      }}
+                    >
+                      Wanita
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <TouchableOpacity
+                activeOpacity={0.7}
+                className="bg-[#447055] rounded-lg p-4 w-full mt-10 -mb-20 mx-auto"
+              >
+                <Text
+                  style={{ fontFamily: gayaHuruf.poppins700 }}
+                  className="text-center text-white text-lg"
+                >
+                  Simpan Perubahan
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </View>
+    </ScrollView>
   );
 }

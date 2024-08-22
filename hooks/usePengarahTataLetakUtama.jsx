@@ -6,7 +6,7 @@ export default function usePengarahTataLetakUtama(apakahHurufTerpasang) {
 
   useEffect(() => {
     if (apakahHurufTerpasang) {
-      pengarah.replace("layarPertama");
+      pengarah.replace("beranda");
     }
   }, [apakahHurufTerpasang, pengarah]);
 }
