@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { SkypeIndicator } from "react-native-indicators";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
+
 // MODUL KAMI
 import { gayaHuruf } from "../constants/huruf";
 

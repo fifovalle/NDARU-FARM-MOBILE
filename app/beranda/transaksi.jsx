@@ -1,6 +1,7 @@
 import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { useRouter } from "expo-router";
+
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
 
@@ -33,7 +34,7 @@ export default function Transaksi() {
 
       <View className="bg-white p-4 rounded-xl shadow-xl">
         <TouchableOpacity
-          onPress={() => pengarah.push("../detail/detailTransaksi")}
+          onPress={() => pengarah.push("../detail/transaksi")}
           activeOpacity={0.6}
         >
           <View className="flex-row items-center justify-between mb-2">

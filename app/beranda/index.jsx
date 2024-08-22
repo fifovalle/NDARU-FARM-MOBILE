@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
 import { ucapanSalam } from "../../constants/ucapanSalam";
@@ -69,7 +70,7 @@ export default function Index() {
           </Text>
           <TouchableOpacity
             activeOpacity={0.6}
-            onPress={() => pengarah.push("../detail/detailSayuranPopuler")}
+            onPress={() => pengarah.push("../detail/semuaSayuranPopuler")}
           >
             <View className="flex-row items-center">
               <Text
@@ -86,9 +87,7 @@ export default function Index() {
           <View className="bg-white rounded-xl p-4 mb-4 w-[48%]">
             <TouchableOpacity
               activeOpacity={0.5}
-              onPress={() =>
-                pengarah.push(`../detail/detailPerSayuranPopuler?id`)
-              }
+              onPress={() => pengarah.push(`../detail/sayuranPopuler`)}
             >
               <Image
                 source={ikonCari}
@@ -116,7 +115,7 @@ export default function Index() {
                 Stok 1
               </Text>
             </View>
-            <TouchableOpacity activeOpacity={0.6} className="w-full">
+            <TouchableOpacity activeOpacity={0.7} className="w-full">
               <View className="mt-3 flex bg-[#447055] rounded-md p-2">
                 <Text
                   style={{ fontFamily: gayaHuruf.poppins500 }}

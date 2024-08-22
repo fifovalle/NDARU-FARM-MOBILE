@@ -8,6 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
 

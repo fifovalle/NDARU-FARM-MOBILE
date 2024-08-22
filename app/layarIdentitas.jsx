@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
+
 // MODUL KAMI
 import { gayaHuruf } from "../constants/huruf";
 

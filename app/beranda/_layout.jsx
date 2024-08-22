@@ -1,6 +1,7 @@
 import React from "react";
 import { Image } from "react-native";
 import { Stack, Tabs } from "expo-router";
+
 // MODUL KAMI
 import { pilihIkon } from "../../constants/pilihIkon";
 

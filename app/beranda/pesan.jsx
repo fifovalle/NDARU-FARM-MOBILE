@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useRouter } from "expo-router";
+
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
 
@@ -39,9 +40,7 @@ export default function Pesan() {
 
       <ScrollView className="px-4">
         <TouchableOpacity
-          onPress={() => {
-            pengarah.push({});
-          }}
+          onPress={() => pengarah.push("../detail/pesan")}
           activeOpacity={0.6}
           className="flex-row items-center py-2 my-2"
         >

@@ -8,6 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 import { useRouter } from "expo-router";
+
 // MODUL KAMI
 import { gayaHuruf } from "../constants/huruf";
 
