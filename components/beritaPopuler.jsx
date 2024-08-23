@@ -55,20 +55,20 @@ const BeritaPopuler = ({
           </Text>
         </View>
       ) : (
-        <View className="flex-row justify-between flex-wrap">
+        <View className="flex">
           {hasilPencarian.map((berita) => (
             <TouchableOpacity
               key={berita.id}
               activeOpacity={0.7}
-              className="flex items-center justify-center mb-6"
+              className="mb-6"
               onPress={() =>
                 pengarah.push("../detail/beritaPopuler?id=" + berita.id)
               }
             >
               <View className="flex-row bg-white rounded-xl w-full p-6">
-                <View className="w-28 h-28 rounded-xl">
+                <View className="w-32 h-32 flex items-center justify-center rounded-xl">
                   <Image
-                    className="w-full h-full rounded-xl"
+                    className="w-28 h-28 rounded-xl"
                     source={{ uri: berita.Gambar_Berita }}
                   ></Image>
                 </View>
@@ -111,7 +111,7 @@ const BeritaPopuler = ({
                     {formatTanggal(berita.Tanggal_Berita)}
                   </Text>
                   <Text
-                    className="text-sm text-gray-500 self-end"
+                    className="text-sm text-gray-500 self-end mr-4"
                     style={{ fontFamily: gayaHuruf.lexend400 }}
                   >
                     {berita.Kategori_Berita}

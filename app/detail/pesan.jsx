@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { useRouter, useGlobalSearchParams } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
+import auth from "@react-native-firebase/auth";
 
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
@@ -21,7 +22,16 @@ export default function Pesan() {
   const pengarah = useRouter();
   const layarPesan = require("../../assets/images/gambarPesan.png");
 
-  const { dataPengguna, memuatPengguna } = useDataPesanMasuk(id);
+  const {
+    dataPengguna,
+    memuatPengguna,
+    daftarPesan,
+    kirimPesan,
+    pesanBaru,
+    setPesanBaru,
+    memuatTampilkanPesan,
+    memuatKirimPesan,
+  } = useDataPesanMasuk(id);
 
   return (
     <View className="flex-1 bg-[#E7E8E2] px-2">
@@ -83,7 +93,7 @@ export default function Pesan() {
       </View>
 
       <ImageBackground className="w-screen flex-1" source={layarPesan}>
-        <ScrollView className="px-4 py-2">
+        <ScrollView className="px-4">
           <View className="flex items-center">
             <Text
               style={{ fontFamily: gayaHuruf.poppins500 }}
@@ -92,76 +102,105 @@ export default function Pesan() {
               Hari ini
             </Text>
           </View>
-          <View className="flex-row justify-start">
-            <View className="w-9 h-9 bg-white rounded-full mr-2 overflow-hidden flex items-center justify-center">
-              <Image
-                source={{
-                  uri: dataPengguna?.Foto_Pengguna
-                    ? dataPengguna.Foto_Pengguna
-                    : "https://disk.mediaindonesia.com/files/news/2022/11/03/wa15.jpg",
-                }}
-                className="w-9 h-9 object-cover"
-              />
-            </View>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              className="bg-[#E7E8E2] rounded-lg p-3 max-w-[60%]"
-            >
-              <Text
-                style={{ fontFamily: gayaHuruf.poppins500 }}
-                className="text-gray-700"
-              >
-                Hai
-              </Text>
-              <View className="items-end">
-                <Text
-                  style={{ fontFamily: gayaHuruf.poppins500 }}
-                  className="text-gray-700"
+
+          <View className="flex-1 mb-4">
+            {memuatTampilkanPesan ? (
+              <ActivityIndicator size="large" color="#447055" />
+            ) : (
+              daftarPesan.map((pesan) => (
+                <View
+                  key={pesan.id}
+                  className={`flex-row  ${
+                    pesan.ID_Pengirim === auth().currentUser.uid
+                      ? "justify-end"
+                      : "justify-start"
+                  }`}
                 >
-                  00.07 WIB
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View className="flex-row justify-end">
-            <TouchableOpacity
-              activeOpacity={0.7}
-              className="bg-[#447055] rounded-lg p-3 max-w-[60%]"
-            >
-              <Text
-                style={{ fontFamily: gayaHuruf.poppins500 }}
-                className="text-white"
-              >
-                Hai
-              </Text>
-              <View className="items-end">
-                <Text
-                  style={{ fontFamily: gayaHuruf.poppins500 }}
-                  className="text-white"
-                >
-                  00.07 WIB
-                </Text>
-              </View>
-            </TouchableOpacity>
+                  <View
+                    className={`w-9 h-9 bg-white rounded-full mr-2 overflow-hidden flex items-center justify-center ${
+                      pesan.ID_Pengirim === auth().currentUser.uid
+                        ? "hidden"
+                        : ""
+                    }`}
+                  >
+                    <Image
+                      source={{
+                        uri: dataPengguna?.Foto_Pengguna
+                          ? dataPengguna.Foto_Pengguna
+                          : "https://disk.mediaindonesia.com/files/news/2022/11/03/wa15.jpg",
+                      }}
+                      className="w-9 h-9 object-cover"
+                    />
+                  </View>
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    className={`bg-${
+                      pesan.ID_Pengirim === auth().currentUser.uid
+                        ? "[#447055]"
+                        : "[#E7E8E2]"
+                    } rounded-lg p-3 max-w-[60%] mb-2`}
+                  >
+                    <Text
+                      style={{ fontFamily: gayaHuruf.poppins500 }}
+                      className={`text-${
+                        pesan.ID_Pengirim === auth().currentUser.uid
+                          ? "white"
+                          : "gray-700"
+                      }`}
+                    >
+                      {pesan.Pesan}
+                    </Text>
+                    <View className="items-end">
+                      <Text
+                        style={{ fontFamily: gayaHuruf.poppins500 }}
+                        className={`text-${
+                          pesan.ID_Pengirim === auth().currentUser.uid
+                            ? "white"
+                            : "gray-700"
+                        }`}
+                      >
+                        <Text>
+                          {new Date(
+                            pesan.Waktu_Pengiriman_Pesan?.toDate()
+                          ).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </Text>
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              ))
+            )}
           </View>
         </ScrollView>
       </ImageBackground>
 
-      <View className="flex-row items-center p-4 border-t border-gray-300 w-full mb-2">
-        <View className="flex-row w-full h-[70px] bg-white rounded-full overflow-hidden flex items-center justify-center">
-          <TouchableOpacity activeOpacity={0.4} className="mr-2">
-            <FontAwesome name="plus-circle" size={26} color="black" />
-          </TouchableOpacity>
-          <View className="flex-row items-center ml-3 bg-[#E7E8E2] rounded-full w-72">
-            <TextInput
-              style={{ fontFamily: gayaHuruf.poppins500 }}
-              placeholder="Tulis pesan..."
-              className="flex-1 p-3 text-gray-700"
-            />
-            <TouchableOpacity activeOpacity={0.4} className="p-2 mr-4">
+      <View className="flex-row w-full h-[70px] bg-white rounded-full overflow-hidden flex items-center justify-center">
+        <TouchableOpacity activeOpacity={0.4} className="mr-2">
+          <FontAwesome name="plus-circle" size={26} color="black" />
+        </TouchableOpacity>
+        <View className="flex-row items-center ml-3 bg-[#E7E8E2] rounded-full w-72">
+          <TextInput
+            style={{ fontFamily: gayaHuruf.poppins500 }}
+            placeholder="Tulis pesan..."
+            className="flex-1 p-3 text-gray-700"
+            value={pesanBaru}
+            onChangeText={setPesanBaru}
+          />
+          <TouchableOpacity
+            activeOpacity={0.4}
+            className="p-2 mr-4"
+            onPress={() => kirimPesan(pesanBaru)}
+            disabled={memuatKirimPesan}
+          >
+            {memuatKirimPesan ? (
+              <ActivityIndicator size={22} color="black" />
+            ) : (
               <FontAwesome name="send" size={22} color="black" />
-            </TouchableOpacity>
-          </View>
+            )}
+          </TouchableOpacity>
         </View>
       </View>
     </View>

@@ -79,23 +79,20 @@ export default function SemuaJasaPopuler() {
                   <TouchableOpacity
                     key={indeks}
                     activeOpacity={0.7}
-                    className="flex items-center justify-center mb-6 px-2"
+                    className="flex items-center justify-center mb-6 px-2 mx-auto"
                     onPress={() =>
                       pengarah.push("../detail/beritaPopuler?id=" + berita.id)
                     }
                   >
-                    <View className="flex-row bg-white rounded-xl w-full p-6">
-                      <View className="w-28 h-28 rounded-xl">
+                    <View className="flex-row bg-white rounded-xl p-6">
+                      <View className="w-32 h-32 flex items-center justify-center rounded-xl">
                         <Image
-                          className="w-full h-full rounded-xl"
+                          className="w-28 h-28 rounded-xl"
                           source={{ uri: berita.Gambar_Berita }}
                         />
                       </View>
                       <View className="px-4 w-[200px]">
-                        <Text
-                          className="text-justify"
-                          style={{ fontFamily: gayaHuruf.poppins700 }}
-                        >
+                        <Text style={{ fontFamily: gayaHuruf.poppins700 }}>
                           {menyorotiKataBeritaPopuler(
                             berita.Judul_Berita.length >= 7
                               ? `${berita.Judul_Berita.slice(
