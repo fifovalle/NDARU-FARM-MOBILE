@@ -9,11 +9,11 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter, useGlobalSearchParams } from "expo-router";
-import formatRupiah from "../../utils/formatRupiah";
-import useDetailSayuranPopuler from "../../hooks/useDetailSayuranPopuler";
 
 // MODUL KAMI
+import formatRupiah from "../../utils/formatRupiah";
 import { gayaHuruf } from "../../constants/huruf";
+import useDetailSayuranPopuler from "../../hooks/useDetailSayuranPopuler";
 import { tambahKuantitas, kurangiKuantitas } from "../../utils/sayuranPopuler";
 
 export default function SayuranPopuler() {

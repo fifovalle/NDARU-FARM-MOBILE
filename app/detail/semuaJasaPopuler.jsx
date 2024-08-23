@@ -18,12 +18,12 @@ import formatRupiah from "../../utils/formatRupiah";
 import usePencarianJasaPopuler from "../../hooks/usePencarianJasaPopuler";
 
 export default function SemuaJasaPopuler() {
-  const { semuaDataJasaPopuler, memuatSemuaJasaPopuler } =
-    useDataSemuaJasaPopuler();
   const [kataPencarian, setKataPencarian] = useState("");
   const pengarah = useRouter();
   const dataTidakAda = require("../../assets/images/dataTidakAda.png");
   const ikonCari = require("../../assets/images/ikonCari.png");
+  const { semuaDataJasaPopuler, memuatSemuaJasaPopuler } =
+    useDataSemuaJasaPopuler();
   const { hasilPencarianJasaPopuler, menyorotiKataJasaPopuler } =
     usePencarianJasaPopuler(semuaDataJasaPopuler, kataPencarian);
 

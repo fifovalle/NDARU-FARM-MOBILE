@@ -18,11 +18,11 @@ import formatRupiah from "../../utils/formatRupiah";
 import usePencarianSayuranPopuler from "../../hooks/usePencarianSayuranPopuler";
 
 export default function SemuaSayuranPopuler() {
-  const { semuaDataSayuranPopuler, memuat } = useDataSemuaSayuranPopuler();
   const [kataPencarian, setKataPencarian] = useState("");
   const pengarah = useRouter();
   const dataTidakAda = require("../../assets/images/dataTidakAda.png");
   const ikonCari = require("../../assets/images/ikonCari.png");
+  const { semuaDataSayuranPopuler, memuat } = useDataSemuaSayuranPopuler();
   const { hasilPencarianSayuranPopuler, menyorotiKataSayuranPopuler } =
     usePencarianSayuranPopuler(semuaDataSayuranPopuler, kataPencarian);
 

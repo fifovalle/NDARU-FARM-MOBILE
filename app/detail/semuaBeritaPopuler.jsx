@@ -13,29 +13,19 @@ import { FontAwesome } from "@expo/vector-icons";
 
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
-import formatRupiah from "../../utils/formatRupiah";
+import useDataSemuaBeritaPopuler from "../../hooks/useDataSemuaBeritaPopuler";
+import usePencarianBeritaPopuler from "../../hooks/usePencarianBeritaPopuler";
+import formatTanggal from "../../utils/formatTanggal";
 
 export default function SemuaJasaPopuler() {
   const [kataPencarian, setKataPencarian] = useState("");
   const pengarah = useRouter();
   const dataTidakAda = require("../../assets/images/dataTidakAda.png");
   const ikonCari = require("../../assets/images/ikonCari.png");
-  const gambar = require("../../assets/images/gambarPesan.png");
-
-  const semuaDataJasaPopuler = [
-    {
-      id: 1,
-      Nama_Jasa: "Jasa 1",
-      Gambar_Jasa: "https://example.com/gambar1.jpg",
-      Jangka_Waktu_Jasa: "3",
-      Harga_Jasa: 50000,
-    },
-  ];
-
-  const memuatSemuaJasaPopuler = false;
-  const hasilPencarianJasaPopuler = kataPencarian
-    ? semuaDataJasaPopuler
-    : semuaDataJasaPopuler;
+  const { semuaDataBeritaPopuler, memuatSemuaBeritaPopuler } =
+    useDataSemuaBeritaPopuler();
+  const { hasilPencarianBeritaPopuler, menyorotiKataBeritaPopuler } =
+    usePencarianBeritaPopuler(semuaDataBeritaPopuler, kataPencarian);
 
   return (
     <View className="flex-1 bg-[#E7E8E2]">
@@ -69,64 +59,100 @@ export default function SemuaJasaPopuler() {
           </View>
         </View>
 
-        <TouchableOpacity
-          activeOpacity={0.7}
-          className="flex items-center justify-center mb-6 px-2"
-          onPress={() => pengarah.push("../detail/beritaPopuler")}
-        >
-          <View className="flex-row bg-white rounded-xl w-full p-6">
-            <View className="w-28 h-28 rounded-xl">
-              <Image
-                className="w-full h-full rounded-xl"
-                source={gambar}
-              ></Image>
+        <View className="p-4">
+          {memuatSemuaBeritaPopuler ? (
+            <ActivityIndicator size="large" color="#556F50" />
+          ) : (
+            <View className="flex-1">
+              {kataPencarian && hasilPencarianBeritaPopuler.length === 0 ? (
+                <View className="flex-1 items-center justify-center">
+                  <Image source={dataTidakAda} className="w-72 h-72 mb-4" />
+                  <Text
+                    className="text-gray-500 text-[1.3rem] text-center"
+                    style={{ fontFamily: gayaHuruf.lexend900 }}
+                  >
+                    Tidak ada hasil untuk "{kataPencarian}"
+                  </Text>
+                </View>
+              ) : (
+                <View className="flex-row flex-wrap justify-between">
+                  {hasilPencarianBeritaPopuler.map((berita, indeks) => (
+                    <TouchableOpacity
+                      key={indeks}
+                      activeOpacity={0.7}
+                      className="flex items-center justify-center mb-6 px-2"
+                      onPress={() =>
+                        pengarah.push("../detail/beritaPopuler?id=" + berita.id)
+                      }
+                    >
+                      <View className="flex-row bg-white rounded-xl w-full p-6">
+                        <View className="w-28 h-28 rounded-xl">
+                          <Image
+                            className="w-full h-full rounded-xl"
+                            source={{ uri: berita.Gambar_Berita }}
+                          />
+                        </View>
+                        <View className="px-4 w-[200px]">
+                          <Text
+                            className="text-justify"
+                            style={{ fontFamily: gayaHuruf.poppins700 }}
+                          >
+                            {menyorotiKataBeritaPopuler(
+                              berita.Judul_Berita.length >= 7
+                                ? `${berita.Judul_Berita.slice(
+                                    0,
+                                    1
+                                  ).toUpperCase()}${berita.Judul_Berita.slice(
+                                    1,
+                                    25
+                                  )}...`
+                                : `${berita.Judul_Berita.slice(
+                                    0,
+                                    1
+                                  ).toUpperCase()}${berita.Judul_Berita.slice(
+                                    1
+                                  )}`,
+                              kataPencarian
+                            )}
+                          </Text>
+                          <Text
+                            className="text-sm text-gray-500 mt-1"
+                            style={{ fontFamily: gayaHuruf.lexend400 }}
+                          >
+                            {berita.Isi_Berita.length >= 7
+                              ? `${berita.Isi_Berita.slice(
+                                  0,
+                                  1
+                                ).toUpperCase()}${berita.Isi_Berita.slice(
+                                  1,
+                                  50
+                                )}...`
+                              : `${berita.Isi_Berita.slice(
+                                  0,
+                                  1
+                                ).toUpperCase()}${berita.Isi_Berita.slice(1)}`}
+                          </Text>
+                          <Text
+                            className="text-sm text-gray-700 mt-3"
+                            style={{ fontFamily: gayaHuruf.lexend400 }}
+                          >
+                            {formatTanggal(berita.Tanggal_Berita)}
+                          </Text>
+                          <Text
+                            className="text-sm text-gray-500 self-end"
+                            style={{ fontFamily: gayaHuruf.lexend400 }}
+                          >
+                            {berita.Kategori_Berita}
+                          </Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )}
             </View>
-            <View className="px-4 w-[200px]">
-              <Text
-                className="text-justify"
-                style={{ fontFamily: gayaHuruf.poppins700 }}
-              >
-                Simulasi Imbal Hasil HDIODHW, Bisa Dapat hingga Rp.480 Juta per
-                Hari
-              </Text>
-              <Text
-                className="text-sm text-gray-500"
-                style={{ fontFamily: gayaHuruf.lexend400 }}
-              >
-                Kategori
-              </Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          className="flex items-center justify-center mb-6 px-2"
-          onPress={() => pengarah.push("../detail/beritaPopuler")}
-        >
-          <View className="flex-row bg-white rounded-xl w-full p-6">
-            <View className="w-28 h-28 rounded-xl">
-              <Image
-                className="w-full h-full rounded-xl"
-                source={gambar}
-              ></Image>
-            </View>
-            <View className="px-4 w-[200px]">
-              <Text
-                className="text-justify"
-                style={{ fontFamily: gayaHuruf.poppins700 }}
-              >
-                Simulasi Imbal Hasil HDIODHW, Bisa Dapat hingga Rp.480 Juta per
-                Hari
-              </Text>
-              <Text
-                className="text-sm text-gray-500"
-                style={{ fontFamily: gayaHuruf.lexend400 }}
-              >
-                Kategori
-              </Text>
-            </View>
-          </View>
-        </TouchableOpacity>
+          )}
+        </View>
       </ScrollView>
     </View>
   );

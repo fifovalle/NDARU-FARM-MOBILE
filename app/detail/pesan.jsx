@@ -7,17 +7,21 @@ import {
   ScrollView,
   TouchableOpacity,
   ImageBackground,
+  ActivityIndicator,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, useGlobalSearchParams } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
 
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
+import useDataPesanMasuk from "../../hooks/useDataPesanMasuk";
 
 export default function Pesan() {
+  const { id } = useGlobalSearchParams();
   const pengarah = useRouter();
-  const ikonWortel = require("../../assets/images/ikonWortel.png");
   const layarPesan = require("../../assets/images/gambarPesan.png");
+
+  const { dataPengguna, memuatPengguna } = useDataPesanMasuk(id);
 
   return (
     <View className="flex-1 bg-[#E7E8E2] px-2">
@@ -30,21 +34,47 @@ export default function Pesan() {
         </TouchableOpacity>
         <View className="flex-1 flex-row items-center">
           <View className="w-14 h-14 bg-white rounded-full mr-3 overflow-hidden flex items-center justify-center">
-            <Image source={ikonWortel} className="w-14 h-14 object-cover" />
+            <Image
+              source={{
+                uri: dataPengguna?.Foto_Pengguna
+                  ? dataPengguna.Foto_Pengguna
+                  : "https://disk.mediaindonesia.com/files/news/2022/11/03/wa15.jpg",
+              }}
+              className="w-14 h-14 object-cover"
+            />
           </View>
           <View>
-            <Text
-              style={{ fontFamily: gayaHuruf.lexend900 }}
-              className="text-green-900"
-            >
-              Naufal FIFA
-            </Text>
-            <Text
-              style={{ fontFamily: gayaHuruf.poppins500 }}
-              className="text-sm"
-            >
-              online
-            </Text>
+            {memuatPengguna ? (
+              <ActivityIndicator size="small" color="green" />
+            ) : (
+              <>
+                <Text
+                  style={{ fontFamily: gayaHuruf.lexend900 }}
+                  className="text-green-900"
+                >
+                  {dataPengguna.Nama_Lengkap_Pengguna.length >= 7
+                    ? `${dataPengguna.Nama_Lengkap_Pengguna.slice(
+                        0,
+                        1
+                      ).toUpperCase()}${dataPengguna.Nama_Lengkap_Pengguna.slice(
+                        1,
+                        20
+                      )}...`
+                    : `${dataPengguna.Nama_Lengkap_Pengguna.slice(
+                        0,
+                        1
+                      ).toUpperCase()}${dataPengguna.Nama_Lengkap_Pengguna.slice(
+                        1
+                      )}`}
+                </Text>
+                <Text
+                  style={{ fontFamily: gayaHuruf.poppins500 }}
+                  className="text-sm"
+                >
+                  {dataPengguna?.status || "online"}
+                </Text>
+              </>
+            )}
           </View>
         </View>
         <TouchableOpacity activeOpacity={0.4}>
@@ -61,6 +91,58 @@ export default function Pesan() {
             >
               Hari ini
             </Text>
+          </View>
+          <View className="flex-row justify-start">
+            <View className="w-9 h-9 bg-white rounded-full mr-2 overflow-hidden flex items-center justify-center">
+              <Image
+                source={{
+                  uri: dataPengguna?.Foto_Pengguna
+                    ? dataPengguna.Foto_Pengguna
+                    : "https://disk.mediaindonesia.com/files/news/2022/11/03/wa15.jpg",
+                }}
+                className="w-9 h-9 object-cover"
+              />
+            </View>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              className="bg-[#E7E8E2] rounded-lg p-3 max-w-[60%]"
+            >
+              <Text
+                style={{ fontFamily: gayaHuruf.poppins500 }}
+                className="text-gray-700"
+              >
+                Hai
+              </Text>
+              <View className="items-end">
+                <Text
+                  style={{ fontFamily: gayaHuruf.poppins500 }}
+                  className="text-gray-700"
+                >
+                  00.07 WIB
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View className="flex-row justify-end">
+            <TouchableOpacity
+              activeOpacity={0.7}
+              className="bg-[#447055] rounded-lg p-3 max-w-[60%]"
+            >
+              <Text
+                style={{ fontFamily: gayaHuruf.poppins500 }}
+                className="text-white"
+              >
+                Hai
+              </Text>
+              <View className="items-end">
+                <Text
+                  style={{ fontFamily: gayaHuruf.poppins500 }}
+                  className="text-white"
+                >
+                  00.07 WIB
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </ImageBackground>

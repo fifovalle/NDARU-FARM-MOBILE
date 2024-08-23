@@ -15,9 +15,12 @@ import { ucapanSalam } from "../../constants/ucapanSalam";
 import useNamaPelanggan from "../../hooks/useNamaPelanggan";
 import useDataSayuranPopuler from "../../hooks/useDataSayuranPopuler";
 import useDataJasaPopuler from "../../hooks/useDataJasaPopuler";
+import useDataBeritaPopuler from "../../hooks/useDataBeritaPopuler";
 import usePencarianSayuranPopuler from "../../hooks/usePencarianSayuranPopuler";
+import usePencarianBeritaPopuler from "../../hooks/usePencarianBeritaPopuler";
 import usePencarianJasaPopuler from "../../hooks/usePencarianJasaPopuler";
 import formatRupiah from "../../utils/formatRupiah";
+import formatTanggal from "../../utils/formatTanggal";
 import SayuranPopuler from "../../components/sayuranPopuler";
 import JasaPopuler from "../../components/jasaPopuler";
 import BeritaPopuler from "../../components/beritaPopuler";
@@ -29,6 +32,7 @@ export default function Index() {
   const { namaPelanggan } = useNamaPelanggan();
   const { dataSayuranPopuler, memuatSayuranPopuler } = useDataSayuranPopuler();
   const { dataJasaPopuler, memuatJasaPopuler } = useDataJasaPopuler();
+  const { dataBeritaPopuler, memuatBeritaPopuler } = useDataBeritaPopuler();
   const [kataPencarian, setKataPencarian] = useState("");
   const ikonKeranjang = require("../../assets/images/ikonKeranjang1.png");
   const ikonCari = require("../../assets/images/ikonCari.png");
@@ -36,11 +40,13 @@ export default function Index() {
     usePencarianSayuranPopuler(dataSayuranPopuler, kataPencarian);
   const { hasilPencarianJasaPopuler, menyorotiKataJasaPopuler } =
     usePencarianJasaPopuler(dataJasaPopuler, kataPencarian);
+  const { hasilPencarianBeritaPopuler, menyorotiKataBeritaPopuler } =
+    usePencarianBeritaPopuler(dataBeritaPopuler, kataPencarian);
 
   return (
     <ScrollView className="bg-[#E7E8E2] flex-1">
       <View className="bg-[#556F50] p-4 flex-row items-center justify-between h-56 rounded-b-[35px]">
-        <View className="mt-11 flex-row justify-between items-center w-[93%]">
+        <View className="mt-11 flex-row justify-between items-center w-[90%]">
           <Text className="text-white text-lg mx-2">
             <Text style={{ fontFamily: gayaHuruf.poppins500 }}>{ucapan}</Text>{" "}
             <Text style={{ fontFamily: gayaHuruf.poppins700 }}>
@@ -103,14 +109,14 @@ export default function Index() {
         />
 
         <BeritaPopuler
-          memuat={memuatJasaPopuler}
-          hasilPencarian={hasilPencarianJasaPopuler}
+          memuat={memuatBeritaPopuler}
+          hasilPencarian={hasilPencarianBeritaPopuler}
           kataPencarian={kataPencarian}
           pengarah={pengarah}
           gayaHuruf={gayaHuruf}
           dataTidakAda={dataTidakAda}
-          formatRupiah={formatRupiah}
-          menyorotiKata={menyorotiKataJasaPopuler}
+          formatTanggal={formatTanggal}
+          menyorotiKata={menyorotiKataBeritaPopuler}
         />
       </View>
       <View className="justify-center items-center py-6">
