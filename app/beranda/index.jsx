@@ -20,6 +20,7 @@ import usePencarianJasaPopuler from "../../hooks/usePencarianJasaPopuler";
 import formatRupiah from "../../utils/formatRupiah";
 import SayuranPopuler from "../../components/sayuranPopuler";
 import JasaPopuler from "../../components/jasaPopuler";
+import BeritaPopuler from "../../components/beritaPopuler";
 
 export default function Index() {
   const pengarah = useRouter();
@@ -39,7 +40,7 @@ export default function Index() {
   return (
     <ScrollView className="bg-[#E7E8E2] flex-1">
       <View className="bg-[#556F50] p-4 flex-row items-center justify-between h-56 rounded-b-[35px]">
-        <View className="mt-11 flex-row justify-between items-center w-full">
+        <View className="mt-11 flex-row justify-between items-center w-[93%]">
           <Text className="text-white text-lg mx-2">
             <Text style={{ fontFamily: gayaHuruf.poppins500 }}>{ucapan}</Text>{" "}
             <Text style={{ fontFamily: gayaHuruf.poppins700 }}>
@@ -100,6 +101,25 @@ export default function Index() {
           formatRupiah={formatRupiah}
           menyorotiKata={menyorotiKataJasaPopuler}
         />
+
+        <BeritaPopuler
+          memuat={memuatJasaPopuler}
+          hasilPencarian={hasilPencarianJasaPopuler}
+          kataPencarian={kataPencarian}
+          pengarah={pengarah}
+          gayaHuruf={gayaHuruf}
+          dataTidakAda={dataTidakAda}
+          formatRupiah={formatRupiah}
+          menyorotiKata={menyorotiKataJasaPopuler}
+        />
+      </View>
+      <View className="justify-center items-center py-6">
+        <Text
+          className="text-gray-500"
+          style={{ fontFamily: gayaHuruf.poppins500 }}
+        >
+          Dibuat oleh Bhineka Dev. © {new Date().getFullYear()}
+        </Text>
       </View>
     </ScrollView>
   );

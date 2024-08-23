@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import useProfilPengguna from "../../hooks/useProfilPengguna";
@@ -40,6 +41,8 @@ export default function Profil() {
     warnaTidakAktif,
     simpanProfil,
     pilihGambar,
+    memuatGambar,
+    memuatSimpanData,
   } = useProfilPengguna(segeraBergulirKeAtas);
 
   return (
@@ -61,10 +64,18 @@ export default function Profil() {
               activeOpacity={0.7}
               className="w-28 h-28 rounded-full"
             >
-              <Image
-                source={gambarProfil ? { uri: gambarProfil } : gambarBawaan}
-                className="w-full h-full rounded-full mb-20"
-              />
+              {memuatGambar ? (
+                <ActivityIndicator
+                  className="w-full h-full"
+                  size="large"
+                  color="#447055"
+                />
+              ) : (
+                <Image
+                  source={gambarProfil ? { uri: gambarProfil } : gambarBawaan}
+                  className="w-full h-full rounded-full mb-20"
+                />
+              )}
             </TouchableOpacity>
           </View>
           <Text
@@ -218,7 +229,7 @@ export default function Profil() {
             >
               Alamat :
             </Text>
-            <View className="flex-row items-center border border-gray-400 rounded-lg p-2 mb-4">
+            <View className="flex-row items-start border border-gray-400 rounded-lg p-2 mb-4">
               <FontAwesome
                 className="border border-gray-400 rounded-md py-2 px-3"
                 name="home"
@@ -231,6 +242,9 @@ export default function Profil() {
                 style={{ fontFamily: gayaHuruf.poppins500 }}
                 placeholder="Alamat"
                 className="flex-1 ml-2 text-gray-700"
+                multiline
+                numberOfLines={4}
+                textAlignVertical="top"
               />
             </View>
             <Text
@@ -310,19 +324,28 @@ export default function Profil() {
                   </TouchableOpacity>
                 </View>
               </View>
-
-              <TouchableOpacity
-                onPress={simpanProfil}
-                activeOpacity={0.7}
-                className="bg-[#447055] rounded-lg p-4 w-full mt-10 -mb-20 mx-auto"
-              >
-                <Text
-                  style={{ fontFamily: gayaHuruf.poppins700 }}
-                  className="text-center text-white text-lg"
+              {memuatSimpanData ? (
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  className="bg-[#447055] rounded-lg p-4 w-full mt-10 -mb-20 mx-auto opacity-20"
+                  disabled={true}
                 >
-                  Simpan Perubahan
-                </Text>
-              </TouchableOpacity>
+                  <ActivityIndicator color="#FFF" className="w-48" />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  className="bg-[#447055] rounded-lg p-4 w-full mt-10 -mb-20 mx-auto"
+                >
+                  <Text
+                    style={{ fontFamily: gayaHuruf.poppins700 }}
+                    className="text-center text-white text-lg"
+                    onPress={simpanProfil}
+                  >
+                    Simpan Perubahan
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         </View>

@@ -1,6 +1,6 @@
 import ikon from "./ikon";
 
-export const pilihIkon = (namaPengarah, fokus) => {
+export const pilihIkon = (namaPengarah, fokus, fotoPengguna) => {
   switch (namaPengarah) {
     case "index":
       return fokus ? ikon.berandaAktif : ikon.beranda;
@@ -9,7 +9,7 @@ export const pilihIkon = (namaPengarah, fokus) => {
     case "pesan":
       return fokus ? ikon.pesanAktif : ikon.pesan;
     case "profil":
-      return fokus ? ikon.profilAktif : ikon.profil;
+      return fokus ? fotoPengguna || ikon.profilAktif : ikon.profil;
     default:
       return null;
   }

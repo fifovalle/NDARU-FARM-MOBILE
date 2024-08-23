@@ -16,6 +16,8 @@ export default function useProfilPengguna(segeraBergulirKeAtas) {
   const [alamat, setAlamat] = useState("");
   const [kodePos, setKodePos] = useState("");
   const [gambarProfil, setGambarProfil] = useState(null);
+  const [memuatGambar, setMemuatGambar] = useState(false);
+  const [memuatSimpanData, setMemuatSimpanData] = useState(false);
 
   const warnaAktif = "#4C6C52";
   const warnaTidakAktif = "#fff";
@@ -44,11 +46,14 @@ export default function useProfilPengguna(segeraBergulirKeAtas) {
 
   const simpanProfil = () => {
     const pengguna = auth().currentUser;
+
+    setMemuatSimpanData(true);
     if (pengguna) {
       const penggunaRef = firestore().collection("pengguna").doc(pengguna.uid);
       const nomorTeleponBersih = nomorTelepon.startsWith("+62")
         ? nomorTelepon
         : "+62" + nomorTelepon;
+
       penggunaRef
         .set(
           {
@@ -82,12 +87,17 @@ export default function useProfilPengguna(segeraBergulirKeAtas) {
             text2: error.message,
           });
           segeraBergulirKeAtas.current.scrollTo({ y: 0, animated: true });
+        })
+        .finally(() => {
+          setMemuatSimpanData(false);
         });
     }
   };
 
   const unggahGambar = async (uri) => {
     const pengguna = auth().currentUser;
+
+    setMemuatGambar(true);
     if (pengguna) {
       const referensi = storage().ref(`/gambar_pengguna/${pengguna.uid}`);
       try {
@@ -103,6 +113,8 @@ export default function useProfilPengguna(segeraBergulirKeAtas) {
           text2: "Gagal mengunggah gambar.",
         });
         segeraBergulirKeAtas.current.scrollTo({ y: 0, animated: true });
+      } finally {
+        setMemuatGambar(false);
       }
     }
   };
@@ -163,5 +175,7 @@ export default function useProfilPengguna(segeraBergulirKeAtas) {
     warnaTidakAktif,
     simpanProfil,
     pilihGambar,
+    memuatGambar,
+    memuatSimpanData,
   };
 }

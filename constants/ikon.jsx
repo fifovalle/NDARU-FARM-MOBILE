@@ -6,7 +6,6 @@ const ikon = {
   pesan: require("../assets/images/ikonPesan.png"),
   pesanAktif: require("../assets/images/ikonPesanActive.png"),
   profil: require("../assets/images/ikonProfil.png"),
-  profilAktif: require("../assets/images/ikonProfilActive.png"),
 };
 
 export default ikon;
