@@ -10,12 +10,6 @@ export default function useDataPesanPengguna() {
   useEffect(() => {
     const penggunaSekarang = auth().currentUser;
 
-    if (!penggunaSekarang) {
-      console.error("Pengguna belum login");
-      setMemuatPesanPengguna(false);
-      return;
-    }
-
     const idPengguna = penggunaSekarang.uid;
 
     const tidakLangganan = firestore()
@@ -52,6 +46,10 @@ export default function useDataPesanPengguna() {
         if (daftarIDPengirim.length === 0) {
           setMemuatPesanPengguna(false);
           return;
+        }
+
+        if (daftarIDPengirim.length === 1) {
+          setMemuatPesanPengguna(false);
         }
 
         firestore()

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -13,9 +13,12 @@ import { useRouter } from "expo-router";
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
 import useDataPesanPengguna from "../../hooks/useDataPesanPengguna";
+import usePencarianPesan from "../../hooks/usePencarianPesan";
 
 export default function Pesan() {
   const pengarah = useRouter();
+  const dataTidakAda = require("../../assets/images/dataTidakAda.png");
+  const [kataPencarian, setKataPencarian] = useState("");
   const ikonPencarian = require("../../assets/images/ikonCari.png");
   const dataTidakDitemukan = require("../../assets/images/dataTidakAda.png");
 
@@ -25,6 +28,11 @@ export default function Pesan() {
     perbaruiStatusBaca,
     jumlahPesanBelumDibaca,
   } = useDataPesanPengguna();
+
+  const { hasilPencarianPesan, menyorotiKataPesan } = usePencarianPesan(
+    dataPesanPengguna,
+    kataPencarian
+  );
 
   if (memuatPesanPengguna) {
     return (
@@ -54,74 +62,78 @@ export default function Pesan() {
           placeholder="Cari Kontak..."
           className="ml-2 flex-1"
           placeholderTextColor="gray"
+          value={kataPencarian}
+          onChangeText={setKataPencarian}
         />
       </View>
 
       {dataPesanPengguna.length > 0 ? (
         <ScrollView className="px-4">
-          {dataPesanPengguna.map((pesan) => (
-            <TouchableOpacity
-              key={pesan.id}
-              onPress={async () => {
-                await perbaruiStatusBaca(pesan.id);
-                pengarah.push("detail/pesan?id=" + pesan.ID_Pengirim);
-              }}
-              activeOpacity={0.6}
-              className="flex-row items-center py-2 my-4"
-            >
-              <View className="w-20 h-20 bg-gray-500 rounded-full mr-3 overflow-hidden flex items-center justify-center">
-                <Image
-                  source={{
-                    uri: pesan.pengirim.Foto_Pengguna,
-                  }}
-                  className="w-20 h-20 object-cover"
-                />
-              </View>
-              <View className="flex-1">
-                <Text
-                  style={{
-                    fontFamily: gayaHuruf.lexend900,
-                    color: "black",
-                  }}
-                  className="text-lg"
-                >
-                  {pesan.pengirim.Nama_Lengkap_Pengguna.length >= 7
-                    ? `${pesan.pengirim.Nama_Lengkap_Pengguna.slice(
-                        0,
-                        1
-                      ).toUpperCase()}${pesan.pengirim.Nama_Lengkap_Pengguna.slice(
-                        1,
-                        10
-                      )}...`
-                    : `${pesan.pengirim.Nama_Lengkap_Pengguna.slice(
-                        0,
-                        1
-                      ).toUpperCase()}${pesan.pengirim.Nama_Lengkap_Pengguna.slice(
-                        1
-                      )}`}
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: gayaHuruf.lexend400,
-                    color: "black",
-                  }}
-                  className="text-lg"
-                >
-                  {pesan.Pesan}
-                </Text>
-              </View>
-              {jumlahPesanBelumDibaca > 0 && (
-                <View className="bg-red-600 w-6 h-6 rounded-full justify-center items-center">
+          {hasilPencarianPesan.length > 0 ? (
+            hasilPencarianPesan.map((pesan) => (
+              <TouchableOpacity
+                key={pesan.id}
+                onPress={async () => {
+                  await perbaruiStatusBaca(pesan.id);
+                  pengarah.push("detail/pesan?id=" + pesan.ID_Pengirim);
+                }}
+                activeOpacity={0.6}
+                className="flex-row items-center py-2 my-4"
+              >
+                <View className="w-20 h-20 bg-gray-500 rounded-full mr-3 overflow-hidden flex items-center justify-center">
+                  <Image
+                    source={{
+                      uri: pesan.pengirim.Foto_Pengguna,
+                    }}
+                    className="w-20 h-20 object-cover"
+                  />
+                </View>
+                <View className="flex-1">
                   <Text
-                    style={{ fontFamily: gayaHuruf.lexend700 }}
-                    className="text-white text-xs"
+                    style={{
+                      fontFamily: gayaHuruf.lexend900,
+                      color: "black",
+                    }}
+                    className="text-lg"
                   >
-                    {jumlahPesanBelumDibaca}
+                    {menyorotiKataPesan(
+                      pesan.pengirim.Nama_Lengkap_Pengguna,
+                      kataPencarian
+                    )}
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: gayaHuruf.lexend400,
+                      color: "black",
+                    }}
+                    className="text-lg"
+                  >
+                    {pesan.Pesan}
                   </Text>
                 </View>
-              )}
-            </TouchableOpacity>
-          ))}
+                {jumlahPesanBelumDibaca > 0 && (
+                  <View className="bg-red-600 w-6 h-6 rounded-full justify-center items-center">
+                    <Text
+                      style={{ fontFamily: gayaHuruf.lexend700 }}
+                      className="text-white text-xs"
+                    >
+                      {jumlahPesanBelumDibaca}
+                    </Text>
+                  </View>
+                )}
+              </TouchableOpacity>
+            ))
+          ) : (
+            <View className="flex-1 items-center justify-center">
+              <Image source={dataTidakAda} className="w-72 h-72 mb-4" />
+              <Text
+                className="text-gray-500 text-[1.3rem] text-center"
+                style={{ fontFamily: gayaHuruf.lexend900 }}
+              >
+                Tidak ada hasil untuk "{kataPencarian}"
+              </Text>
+            </View>
+          )}
         </ScrollView>
       ) : (
         <View className="flex-1 items-center justify-center">
