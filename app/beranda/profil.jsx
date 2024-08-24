@@ -45,18 +45,6 @@ export default function Profil() {
     memuatSimpanData,
   } = useProfilPengguna(segeraBergulirKeAtas);
 
-  const formatNomorTelepon = (nomorTelepon) => {
-    if (!nomorTelepon) return "Nomor Telepon";
-
-    // Menghapus karakter selain angka
-    const cleaned = nomorTelepon.replace(/\D/g, "");
-
-    // Memformat nomor telepon dengan tanda "-"
-    const formatted = cleaned.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
-
-    return formatted;
-  };
-
   return (
     <ScrollView ref={segeraBergulirKeAtas} className="flex-1 bg-[#E7E8E2]">
       <Toast />
