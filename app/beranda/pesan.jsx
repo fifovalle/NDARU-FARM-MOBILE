@@ -17,8 +17,9 @@ import usePencarianPesan from "../../hooks/usePencarianPesan";
 
 export default function Pesan() {
   const pengarah = useRouter();
-  const dataTidakAda = require("../../assets/images/dataTidakAda.png");
   const [kataPencarian, setKataPencarian] = useState("");
+  const dataTidakAda = require("../../assets/images/dataTidakAda.png");
+
   const ikonPencarian = require("../../assets/images/ikonCari.png");
   const dataTidakDitemukan = require("../../assets/images/dataTidakAda.png");
 
@@ -97,8 +98,20 @@ export default function Pesan() {
                     className="text-lg"
                   >
                     {menyorotiKataPesan(
-                      pesan.pengirim.Nama_Lengkap_Pengguna,
-                      kataPencarian
+                      pesan.pengirim.Nama_Lengkap_Pengguna.length >= 7
+                        ? `${pesan.pengirim.Nama_Lengkap_Pengguna.slice(
+                            0,
+                            1
+                          ).toUpperCase()}${pesan.pengirim.Nama_Lengkap_Pengguna.slice(
+                            1,
+                            10
+                          )}...`
+                        : `${pesan.pengirim.Nama_Lengkap_Pengguna.slice(
+                            0,
+                            1
+                          ).toUpperCase()}${pesan.pengirim.Nama_Lengkap_Pengguna.slice(
+                            1
+                          )}`
                     )}
                   </Text>
                   <Text
@@ -125,13 +138,15 @@ export default function Pesan() {
             ))
           ) : (
             <View className="flex-1 items-center justify-center">
-              <Image source={dataTidakAda} className="w-72 h-72 mb-4" />
-              <Text
-                className="text-gray-500 text-[1.3rem] text-center"
-                style={{ fontFamily: gayaHuruf.lexend900 }}
-              >
-                Tidak ada hasil untuk "{kataPencarian}"
-              </Text>
+              <View className="flex-1 items-center justify-center">
+                <Image source={dataTidakAda} className="w-72 h-72 mb-4" />
+                <Text
+                  className="text-gray-500 text-[1.3rem] text-center"
+                  style={{ fontFamily: gayaHuruf.lexend900 }}
+                >
+                  Tidak ada hasil untuk "{kataPencarian}"
+                </Text>
+              </View>
             </View>
           )}
         </ScrollView>

@@ -16,6 +16,7 @@ import auth from "@react-native-firebase/auth";
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
 import useDataPesanMasuk from "../../hooks/useDataPesanMasuk";
+import { gulirOtomatisKeBawah } from "../../utils/gulirOtomatisKeBawah";
 
 export default function Pesan() {
   const { id } = useGlobalSearchParams();
@@ -32,6 +33,8 @@ export default function Pesan() {
     memuatTampilkanPesan,
     memuatKirimPesan,
   } = useDataPesanMasuk(id);
+
+  const { gulirSegera, tanganiPesan } = gulirOtomatisKeBawah();
 
   return (
     <View className="flex-1 bg-[#E7E8E2] px-2">
@@ -93,7 +96,13 @@ export default function Pesan() {
       </View>
 
       <ImageBackground className="w-screen flex-1" source={layarPesan}>
-        <ScrollView className="px-4">
+        <ScrollView
+          ref={gulirSegera}
+          className="px-4"
+          onContentSizeChange={() =>
+            gulirSegera.current.scrollToEnd({ animated: true })
+          }
+        >
           <View className="flex items-center">
             <Text
               style={{ fontFamily: gayaHuruf.poppins500 }}
@@ -192,7 +201,7 @@ export default function Pesan() {
           <TouchableOpacity
             activeOpacity={0.4}
             className="p-2 mr-4"
-            onPress={() => kirimPesan(pesanBaru)}
+            onPress={() => tanganiPesan(kirimPesan, pesanBaru)}
             disabled={memuatKirimPesan}
           >
             {memuatKirimPesan ? (

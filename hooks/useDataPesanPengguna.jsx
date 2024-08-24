@@ -9,10 +9,9 @@ export default function useDataPesanPengguna() {
 
   useEffect(() => {
     const penggunaSekarang = auth().currentUser;
-
     const idPengguna = penggunaSekarang.uid;
 
-    const tidakLangganan = firestore()
+    const unsubscribe = firestore()
       .collection("pesan")
       .where("ID_Penerima", "==", idPengguna)
       .onSnapshot((snapshotPesan) => {
@@ -26,6 +25,7 @@ export default function useDataPesanPengguna() {
 
         daftarPesanPengguna.forEach((pesan) => {
           const pengirimId = pesan.ID_Pengirim;
+
           if (
             !pesanTerbaru[pengirimId] ||
             pesan.Waktu_Pengiriman_Pesan >
@@ -33,6 +33,7 @@ export default function useDataPesanPengguna() {
           ) {
             pesanTerbaru[pengirimId] = pesan;
           }
+
           if (!pesan.Status_Baca) {
             jumlahPesanBelumDibaca++;
           }
@@ -46,10 +47,6 @@ export default function useDataPesanPengguna() {
         if (daftarIDPengirim.length === 0) {
           setMemuatPesanPengguna(false);
           return;
-        }
-
-        if (daftarIDPengirim.length === 1) {
-          setMemuatPesanPengguna(false);
         }
 
         firestore()
@@ -81,27 +78,22 @@ export default function useDataPesanPengguna() {
                   }, {});
 
                 const pesanDenganPengguna = daftarPesanTerbaru.map((pesan) => {
-                  const pengirim = penggunaMapPengirim[pesan.ID_Pengirim];
-
-                  if (!pengirim) {
-                    console.error(
-                      `Pengirim tidak ditemukan untuk ID: ${pesan.ID_Pengirim}`
-                    );
-                  }
+                  const pengirim = penggunaMapPengirim[pesan.ID_Pengirim] || {
+                    id: pesan.ID_Pengirim,
+                    Nama_Lengkap_Pengguna: "Tidak Diketahui",
+                    Foto_Pengguna: "",
+                  };
 
                   return {
                     ...pesan,
-                    pengirim: pengirim || {
-                      id: pesan.ID_Pengirim,
-                      Nama_Lengkap_Pengguna: "Tidak Diketahui",
-                      Foto_Pengguna: "",
-                    },
+                    pengirim,
                     penerima: penggunaMapPenerima[pesan.ID_Penerima],
                   };
                 });
 
                 setDataPesanPengguna(pesanDenganPengguna);
                 setJumlahPesanBelumDibaca(jumlahPesanBelumDibaca);
+                setMemuatPesanPengguna(false);
               });
           })
           .catch((error) => {
@@ -109,7 +101,7 @@ export default function useDataPesanPengguna() {
           });
       });
 
-    return () => tidakLangganan();
+    return () => unsubscribe();
   }, []);
 
   const perbaruiStatusBaca = async () => {

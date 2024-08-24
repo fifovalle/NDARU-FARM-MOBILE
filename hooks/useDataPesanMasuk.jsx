@@ -87,26 +87,6 @@ const useDataPesanMasuk = (id) => {
     }
   };
 
-  const tandaiPesanTerbaca = async (idPesan) => {
-    try {
-      await firestore().collection("pesan").doc(idPesan).update({
-        Status_Baca: true,
-      });
-
-      const doc = await firestore().collection("pesan").doc(idPesan).get();
-      const idPenerima = doc.data().ID_Penerima;
-
-      await firestore()
-        .collection("pengguna")
-        .doc(idPenerima)
-        .update({
-          Jumlah_Pesan_Masuk: firestore.FieldValue.increment(-1),
-        });
-    } catch (error) {
-      console.error("Error marking message as read: ", error);
-    }
-  };
-
   return {
     dataPengguna,
     memuatPengguna,
@@ -116,7 +96,6 @@ const useDataPesanMasuk = (id) => {
     kirimPesan,
     pesanBaru,
     setPesanBaru,
-    tandaiPesanTerbaca,
   };
 };
 

@@ -33,7 +33,7 @@ export default function Profil() {
       <View className="justify-center items-center mt-16">
         <Image
           source={gambarProfil ? { uri: gambarProfil } : gambarBawaan}
-          className="w-20 h-20 rounded-full"
+          className="w-32 h-32 rounded-full"
         />
         <Text
           className="text-xl font-bold mt-4"
