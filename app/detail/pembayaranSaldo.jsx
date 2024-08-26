@@ -246,7 +246,7 @@ export default function PembayaranSaldo() {
                   style={{ fontFamily: "Poppins_700Bold" }}
                   className="text-white text-xs"
                 >
-                  2
+                  kadjajwiaj
                 </Text>
               </View>
               <Text
