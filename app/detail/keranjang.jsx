@@ -154,7 +154,7 @@ export default function Keranjang() {
                     <View className="w-16 h-16 bg-gray-200 rounded-lg mr-4 flex items-center justify-center">
                       <Image
                         className="w-14 h-14"
-                        source={{ uri: keranjang.Gambar_Sayuran }}
+                        source={{ uri: keranjang.Gambar_Keranjang }}
                       />
                     </View>
 
@@ -163,14 +163,14 @@ export default function Keranjang() {
                         style={{ fontFamily: gayaHuruf.lexend700 }}
                         className="text-lg"
                       >
-                        {keranjang.Nama_Sayuran}
+                        {keranjang.Nama_Keranjang}
                       </Text>
 
                       <Text
                         style={{ fontFamily: gayaHuruf.lexend400 }}
                         className="text-sm text-gray-600"
                       >
-                        {formatRupiah(keranjang.Harga_Sayuran)}
+                        {formatRupiah(keranjang.Harga_Keranjang)}
                       </Text>
                     </View>
                   </View>
@@ -182,22 +182,24 @@ export default function Keranjang() {
                       onPress={() =>
                         kurangiKuantitas(
                           setKuantitas,
-                          keranjang.Jumlah,
+                          keranjang.Jumlah_Keranjang,
                           keranjang.id,
-                          keranjang.Nama_Sayuran
+                          keranjang.Nama_Keranjang
                         )
                       }
                     >
                       <FontAwesome
                         className="mr-3"
-                        name={keranjang.Jumlah === 1 ? "trash-o" : "minus"}
+                        name={
+                          keranjang.Jumlah_Keranjang === 1 ? "trash-o" : "minus"
+                        }
                         size={16}
                         color="gray"
                       />
                     </TouchableOpacity>
 
                     <TextInput
-                      value={String(keranjang.Jumlah)}
+                      value={String(keranjang.Jumlah_Keranjang)}
                       keyboardType="numeric"
                       className="my-auto w-1/4 text-center"
                       editable={true}

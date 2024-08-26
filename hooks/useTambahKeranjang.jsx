@@ -53,11 +53,11 @@ const useTambahKeranjang = () => {
           });
       } else {
         await firestore().collection("keranjang").add({
-          idPembeli: idPembeli,
-          Nama_Sayuran: sayuran.Nama_Sayuran,
-          Harga_Sayuran: sayuran.Harga_Sayuran,
-          Gambar_Sayuran: sayuran.Gambar_Sayuran,
-          Jumlah: 1,
+          ID_Pembeli: idPembeli,
+          Nama_Keranjang: sayuran.Nama_Sayuran,
+          Harga_Keranjang: sayuran.Harga_Sayuran,
+          Gambar_Keranjang: sayuran.Gambar_Sayuran,
+          Jumlah_Keranjang: 1,
         });
       }
 

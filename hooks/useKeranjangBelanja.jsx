@@ -12,7 +12,7 @@ const useKeranjangBelanja = () => {
     if (pengguna) {
       const unsubscribe = firestore()
         .collection("keranjang")
-        .where("idPembeli", "==", pengguna.uid)
+        .where("ID_Pembeli", "==", pengguna.uid)
         .onSnapshot(
           (snapshot) => {
             const dataKeranjang = snapshot.docs.map((doc) => ({
