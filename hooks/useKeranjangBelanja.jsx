@@ -7,29 +7,32 @@ const useKeranjangBelanja = () => {
   const [memuatDataKeranjang, setMemuatDataKeranjang] = useState(false);
 
   useEffect(() => {
-    const ambilDataKeranjang = async () => {
+    const ambilDataKeranjang = () => {
       setMemuatDataKeranjang(true);
-      try {
-        const pengguna = auth().currentUser;
-        if (pengguna) {
-          const snapshot = await firestore()
-            .collection("keranjang")
-            .where("idPembeli", "==", pengguna.uid)
-            .get();
+      const pengguna = auth().currentUser;
 
-          if (!snapshot.empty) {
-            const dataKeranjang = snapshot.docs.map((doc) => ({
-              id: doc.id,
-              ...doc.data(),
-            }));
-            setKeranjang(dataKeranjang);
-          } else {
-            setKeranjang([]);
-          }
-        }
-      } catch (error) {
-        console.error("Error mengambil data keranjang: ", error);
-      } finally {
+      if (pengguna) {
+        const unsubscribe = firestore()
+          .collection("keranjang")
+          .where("idPembeli", "==", pengguna.uid)
+          .onSnapshot(
+            (snapshot) => {
+              const dataKeranjang = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+              }));
+              setKeranjang(dataKeranjang);
+              setMemuatDataKeranjang(false);
+            },
+            (error) => {
+              console.error("Error mengambil data keranjang: ", error);
+              setMemuatDataKeranjang(false);
+            }
+          );
+
+        return () => unsubscribe();
+      } else {
+        setKeranjang([]);
         setMemuatDataKeranjang(false);
       }
     };
@@ -41,7 +44,11 @@ const useKeranjangBelanja = () => {
     return `Rp ${angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
 
-  return { keranjang, memuatDataKeranjang, formatRupiah };
+  const hitungKeranjang = () => {
+    return keranjang.length; // Menghitung jumlah item dalam keranjang
+  };
+
+  return { keranjang, memuatDataKeranjang, formatRupiah, hitungKeranjang };
 };
 
 export default useKeranjangBelanja;

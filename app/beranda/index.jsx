@@ -24,6 +24,7 @@ import JasaPopuler from "../../components/jasaPopuler";
 import BeritaPopuler from "../../components/beritaPopuler";
 import Toast from "react-native-toast-message";
 import { FontAwesome } from "@expo/vector-icons";
+import useKeranjangBelanja from "../../hooks/useKeranjangBelanja";
 
 export default function Index() {
   const pengarah = useRouter();
@@ -40,6 +41,7 @@ export default function Index() {
     usePencarianJasaPopuler(dataJasaPopuler, kataPencarian);
   const { hasilPencarianBeritaPopuler, menyorotiKataBeritaPopuler } =
     usePencarianBeritaPopuler(dataBeritaPopuler, kataPencarian);
+  const { hitungKeranjang } = useKeranjangBelanja();
 
   return (
     <View className="flex-1 bg-[#E7E8E2]">
@@ -63,14 +65,16 @@ export default function Index() {
           >
             <View className="relative mr-5">
               <Image className="w-10 h-10" source={ikonKeranjang}></Image>
-              <View className="absolute -top-2 -right-2 bg-red-600 rounded-full w-4 h-4 flex items-center justify-center">
-                <Text
-                  style={{ fontFamily: gayaHuruf.poppins700 }}
-                  className="text-white text-xs"
-                >
-                  1
-                </Text>
-              </View>
+              {hitungKeranjang() > 0 && (
+                <View className="absolute -top-2 -right-2 bg-red-600 rounded-full w-4 h-4 flex items-center justify-center">
+                  <Text
+                    style={{ fontFamily: gayaHuruf.poppins700 }}
+                    className="text-white text-xs"
+                  >
+                    {hitungKeranjang()}
+                  </Text>
+                </View>
+              )}
             </View>
           </TouchableOpacity>
           <TouchableOpacity
