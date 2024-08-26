@@ -4,37 +4,35 @@ import auth from "@react-native-firebase/auth";
 
 const useKeranjangBelanja = () => {
   const [keranjang, setKeranjang] = useState([]);
-  const [memuatDataKeranjang, setMemuatDataKeranjang] = useState(false);
+  const [memuatDataKeranjang, setMemuatDataKeranjang] = useState(true);
 
   useEffect(() => {
-    const ambilDataKeranjang = async () => {
-      setMemuatDataKeranjang(true);
-      try {
-        const pengguna = auth().currentUser;
-        if (pengguna) {
-          const snapshot = await firestore()
-            .collection("keranjang")
-            .where("idPembeli", "==", pengguna.uid)
-            .get();
+    const pengguna = auth().currentUser;
 
-          if (!snapshot.empty) {
+    if (pengguna) {
+      const unsubscribe = firestore()
+        .collection("keranjang")
+        .where("idPembeli", "==", pengguna.uid)
+        .onSnapshot(
+          (snapshot) => {
             const dataKeranjang = snapshot.docs.map((doc) => ({
               id: doc.id,
               ...doc.data(),
             }));
             setKeranjang(dataKeranjang);
-          } else {
-            setKeranjang([]);
+            setMemuatDataKeranjang(false);
+          },
+          (error) => {
+            console.error("Error mengambil data keranjang: ", error);
+            setMemuatDataKeranjang(false);
           }
-        }
-      } catch (error) {
-        console.error("Error mengambil data keranjang: ", error);
-      } finally {
-        setMemuatDataKeranjang(false);
-      }
-    };
+        );
 
-    ambilDataKeranjang();
+      return () => unsubscribe();
+    } else {
+      setKeranjang([]);
+      setMemuatDataKeranjang(false);
+    }
   }, []);
 
   const formatRupiah = (angka) => {
