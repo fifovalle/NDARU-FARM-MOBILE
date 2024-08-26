@@ -36,8 +36,8 @@ export default function Keranjang() {
     useKeranjangBelanja();
 
   return (
-    <View className="flex-1 bg-[#E7E8E2] px-4">
-      <View className="flex-row items-center mt-14 mb-8">
+    <View className="flex-1 bg-[#E7E8E2]">
+      <View className="flex-row items-center mt-14 mb-8 px-4">
         <TouchableOpacity onPress={() => pengarah.back("../")}>
           <View className="w-10 h-10 rounded-full flex justify-center items-center">
             <FontAwesome name="arrow-left" size={24} color="green" />
@@ -52,7 +52,7 @@ export default function Keranjang() {
         </Text>
       </View>
 
-      <View className="flex-row items-center bg-white rounded-full px-4 py-2 mb-4">
+      <View className="flex-row items-center bg-white rounded-full px-4 py-2 mb-4 mx-4">
         <Image className="w-7 h-7" source={ikonPencarian} />
         <TextInput
           style={{ fontFamily: gayaHuruf.lexend400 }}
@@ -62,7 +62,7 @@ export default function Keranjang() {
         />
       </View>
 
-      <ScrollView>
+      <ScrollView className="px-4">
         <View className="bg-white p-4 rounded-xl shadow-xl">
           <View className="flex-row items-center justify-between mb-2">
             <View className="flex-row items-center">
@@ -235,11 +235,20 @@ export default function Keranjang() {
       </ScrollView>
 
       {keranjang.length > 0 && (
-        <View className="w-full h-20 p- items-center">
+        <View className="bg-white w-screen h-20 justify-end items-center flex-row">
+          <View className="px-3">
+            <Text style={{ fontFamily: gayaHuruf.poppins500 }}>Total :</Text>
+            <Text
+              style={{ fontFamily: gayaHuruf.lexend700 }}
+              className="text-lg"
+            >
+              Rp 5.000.000
+            </Text>
+          </View>
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => pengarah.push("../detail/checkout")}
-            className="bg-[#447055] rounded-lg w-60 h-14 items-center justify-center p-3"
+            className="bg-[#447055] rounded-lg w-52 h-14 items-center justify-center p-3 mr-8"
           >
             <Text
               style={{ fontFamily: gayaHuruf.poppins700 }}

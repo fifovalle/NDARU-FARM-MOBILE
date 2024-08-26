@@ -61,9 +61,9 @@ export default function SuntingProfil() {
         </TouchableOpacity>
         <Text
           style={{ fontFamily: gayaHuruf.poppins700 }}
-          className="text-lg ml-2 text-[#447055]"
+          className="text-lg ml-2"
         >
-          Sunting Profil Saya
+          Sunting Profil
         </Text>
       </View>
 

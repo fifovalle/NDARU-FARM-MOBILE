@@ -35,10 +35,7 @@ export default function SemuaSayuranPopuler() {
           </View>
         </TouchableOpacity>
         <View className="flex-1 flex-row items-center">
-          <Text
-            style={{ fontFamily: gayaHuruf.lexend900 }}
-            className="text-lg text-[#447055]"
-          >
+          <Text style={{ fontFamily: gayaHuruf.lexend900 }} className="text-lg">
             Sayuran Populer
           </Text>
         </View>

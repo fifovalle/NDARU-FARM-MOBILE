@@ -36,7 +36,7 @@ export default function SayuranPopuler() {
         <View className="flex-row justify-between w-96 px-6">
           <Text
             style={{ fontFamily: gayaHuruf.lexend900 }}
-            className="text-lg ml-4 text-[#447055]"
+            className="text-lg ml-4"
           >
             Detail Sayuran Populer
           </Text>
