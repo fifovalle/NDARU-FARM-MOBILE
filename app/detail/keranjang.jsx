@@ -170,7 +170,7 @@ export default function Keranjang() {
                         style={{ fontFamily: gayaHuruf.lexend400 }}
                         className="text-sm text-gray-600"
                       >
-                        {keranjang.Harga_Sayuran}
+                        {formatRupiah(keranjang.Harga_Sayuran)}
                       </Text>
                     </View>
                   </View>
