@@ -19,7 +19,7 @@ const SayuranPopuler = ({
   formatRupiah,
   menyorotiKata,
 }) => {
-  const { tambahKeKeranjang, loadingItemId } = useTambahKeranjang();
+  const { tambahKeKeranjang, memuat } = useTambahKeranjang();
 
   return (
     <>
@@ -109,7 +109,7 @@ const SayuranPopuler = ({
                 onPress={() => tambahKeKeranjang(sayuran)}
               >
                 <View className="mt-3 flex bg-[#447055] rounded-md p-2">
-                  {loadingItemId === sayuran.id ? (
+                  {memuat === sayuran.id ? (
                     <ActivityIndicator size="small" color="#ffffff" />
                   ) : (
                     <Text

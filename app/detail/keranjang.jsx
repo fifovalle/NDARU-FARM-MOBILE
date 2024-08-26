@@ -26,6 +26,7 @@ import {
 export default function Keranjang() {
   const animasi = useRef(new Animated.Value(0)).current;
   const ikonPencarian = require("../../assets/images/ikonCari.png");
+  const dataTidakAda = require("../../assets/images/dataTidakAda.png");
   const [terpilihSemua, setTerpilihSemua] = useState(false);
   const [terpilihSatuan, setTerpilihSatuan] = useState(false);
   const [kuantitas, setKuantitas] = useState("1");
@@ -60,8 +61,9 @@ export default function Keranjang() {
           placeholderTextColor="gray"
         />
       </View>
+
       <ScrollView>
-        <View className=" bg-white p-4 rounded-xl shadow-xl">
+        <View className="bg-white p-4 rounded-xl shadow-xl">
           <View className="flex-row items-center justify-between mb-2">
             <View className="flex-row items-center">
               <TouchableOpacity
@@ -117,6 +119,16 @@ export default function Keranjang() {
 
           {memuatDataKeranjang ? (
             <ActivityIndicator size="large" color="#556F50" />
+          ) : keranjang.length === 0 ? (
+            <View className="items-center">
+              <Image source={dataTidakAda} className="w-72 h-72 mb-4" />
+              <Text
+                style={{ fontFamily: gayaHuruf.lexend700 }}
+                className="text-lg text-gray-600"
+              >
+                Keranjang Anda Kosong
+              </Text>
+            </View>
           ) : (
             <>
               {keranjang.map((keranjang, indeks) => (
@@ -158,7 +170,7 @@ export default function Keranjang() {
                         style={{ fontFamily: gayaHuruf.lexend400 }}
                         className="text-sm text-gray-600"
                       >
-                        {formatRupiah(keranjang.Harga_Sayuran)}
+                        {keranjang.Harga_Sayuran}
                       </Text>
                     </View>
                   </View>
@@ -167,34 +179,43 @@ export default function Keranjang() {
                     <TouchableOpacity
                       activeOpacity={0.3}
                       className="my-auto"
-                      onPress={
-                        kuantitas === ""
-                          ? () => setKuantitas("1")
-                          : () => kurangiKuantitas(setKuantitas, kuantitas)
+                      onPress={() =>
+                        kurangiKuantitas(
+                          setKuantitas,
+                          keranjang.Jumlah,
+                          keranjang.id,
+                          keranjang.Nama_Sayuran
+                        )
                       }
                     >
                       <FontAwesome
                         className="mr-3"
-                        name={kuantitas === "1" ? "trash-o" : "minus"}
+                        name={keranjang.Jumlah === 1 ? "trash-o" : "minus"}
                         size={16}
                         color="gray"
                       />
                     </TouchableOpacity>
 
                     <TextInput
-                      value={kuantitas}
+                      value={String(keranjang.Jumlah)}
                       keyboardType="numeric"
                       className="my-auto w-1/4 text-center"
                       editable={true}
                       onChangeText={(teks) =>
-                        tanganiPerubahanKuantitas(teks, setKuantitas)
+                        tanganiPerubahanKuantitas(
+                          teks,
+                          setKuantitas,
+                          keranjang.id
+                        )
                       }
                     />
 
                     <TouchableOpacity
                       activeOpacity={0.3}
                       className="my-auto"
-                      onPress={() => tambahKuantitas(setKuantitas)}
+                      onPress={() =>
+                        tambahKuantitas(setKuantitas, keranjang.id)
+                      }
                     >
                       <FontAwesome
                         className="ml-3"
@@ -210,20 +231,23 @@ export default function Keranjang() {
           )}
         </View>
       </ScrollView>
-      <View className="w-full h-20 p- items-center">
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => pengarah.push("../detail/checkout")}
-          className="bg-[#447055] rounded-lg w-60 h-14 items-center justify-center p-3"
-        >
-          <Text
-            style={{ fontFamily: gayaHuruf.poppins700 }}
-            className="text-lg text-white z-20"
+
+      {keranjang.length > 0 && (
+        <View className="w-full h-20 p- items-center">
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => pengarah.push("../detail/checkout")}
+            className="bg-[#447055] rounded-lg w-60 h-14 items-center justify-center p-3"
           >
-            Checkout
-          </Text>
-        </TouchableOpacity>
-      </View>
+            <Text
+              style={{ fontFamily: gayaHuruf.poppins700 }}
+              className="text-lg text-white z-20"
+            >
+              Beli Sekarang
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }

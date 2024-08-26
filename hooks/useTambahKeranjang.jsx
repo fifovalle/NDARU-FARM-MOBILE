@@ -4,44 +4,63 @@ import Toast from "react-native-toast-message";
 import auth from "@react-native-firebase/auth";
 
 const useTambahKeranjang = () => {
-  const [loadingItemId, setLoadingItemId] = useState(null);
-  const [ID_Pembeli, setID_Pembeli] = useState(null);
+  const [memuat, setMemuat] = useState(null);
+  const [idPembeli, setIDPembeli] = useState(null);
 
   useEffect(() => {
-    const fetchUserId = async () => {
-      const user = auth().currentUser;
-      if (user) {
+    const temukanPengguna = async () => {
+      const pengguna = auth().currentUser;
+      if (pengguna) {
         try {
           const penggunaDoc = await firestore()
             .collection("pengguna")
-            .doc(user.uid)
+            .doc(pengguna.uid)
             .get();
           if (penggunaDoc.exists) {
-            setID_Pembeli(penggunaDoc.id);
+            setIDPembeli(penggunaDoc.id);
           }
         } catch (error) {
-          console.error("Error fetching user ID: ", error);
+          console.error("Error menemukan pengguna: ", error);
         }
       }
     };
 
-    fetchUserId();
+    temukanPengguna();
   }, []);
 
   const tambahKeKeranjang = async (sayuran) => {
-    if (!ID_Pembeli) {
+    if (!idPembeli) {
       return;
     }
 
-    setLoadingItemId(sayuran.id);
+    setMemuat(sayuran.id);
     try {
-      await firestore().collection("keranjang").add({
-        ID_Pembeli: ID_Pembeli,
-        Nama_Sayuran: sayuran.Nama_Sayuran,
-        Harga_Sayuran: sayuran.Harga_Sayuran,
-        Gambar_Sayuran: sayuran.Gambar_Sayuran,
-        Jumlah: 1,
-      });
+      const keranjangRef = firestore()
+        .collection("keranjang")
+        .where("idPembeli", "==", idPembeli)
+        .where("Nama_Sayuran", "==", sayuran.Nama_Sayuran);
+
+      const snapshot = await keranjangRef.get();
+
+      if (!snapshot.empty) {
+        const docId = snapshot.docs[0].id;
+        const jumlahSekarang = snapshot.docs[0].data().Jumlah;
+        await firestore()
+          .collection("keranjang")
+          .doc(docId)
+          .update({
+            Jumlah: jumlahSekarang + 1,
+          });
+      } else {
+        await firestore().collection("keranjang").add({
+          idPembeli: idPembeli,
+          Nama_Sayuran: sayuran.Nama_Sayuran,
+          Harga_Sayuran: sayuran.Harga_Sayuran,
+          Gambar_Sayuran: sayuran.Gambar_Sayuran,
+          Jumlah: 1,
+        });
+      }
+
       Toast.show({
         type: "success",
         position: "top",
@@ -57,11 +76,11 @@ const useTambahKeranjang = () => {
         text2: "Gagal menambahkan ke keranjang. Silakan coba lagi.",
       });
     } finally {
-      setLoadingItemId(null);
+      setMemuat(null);
     }
   };
 
-  return { tambahKeKeranjang, loadingItemId };
+  return { tambahKeKeranjang, memuat };
 };
 
 export default useTambahKeranjang;

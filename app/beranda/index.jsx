@@ -11,7 +11,6 @@ import { useRouter } from "expo-router";
 
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
-import useNamaPelanggan from "../../hooks/useNamaPelanggan";
 import useDataSayuranPopuler from "../../hooks/useDataSayuranPopuler";
 import useDataJasaPopuler from "../../hooks/useDataJasaPopuler";
 import useDataBeritaPopuler from "../../hooks/useDataBeritaPopuler";
