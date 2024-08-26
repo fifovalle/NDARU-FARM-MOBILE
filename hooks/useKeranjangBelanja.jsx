@@ -7,32 +7,29 @@ const useKeranjangBelanja = () => {
   const [memuatDataKeranjang, setMemuatDataKeranjang] = useState(false);
 
   useEffect(() => {
-    const ambilDataKeranjang = () => {
+    const ambilDataKeranjang = async () => {
       setMemuatDataKeranjang(true);
-      const pengguna = auth().currentUser;
+      try {
+        const pengguna = auth().currentUser;
+        if (pengguna) {
+          const snapshot = await firestore()
+            .collection("keranjang")
+            .where("idPembeli", "==", pengguna.uid)
+            .get();
 
-      if (pengguna) {
-        const unsubscribe = firestore()
-          .collection("keranjang")
-          .where("idPembeli", "==", pengguna.uid)
-          .onSnapshot(
-            (snapshot) => {
-              const dataKeranjang = snapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-              }));
-              setKeranjang(dataKeranjang);
-              setMemuatDataKeranjang(false);
-            },
-            (error) => {
-              console.error("Error mengambil data keranjang: ", error);
-              setMemuatDataKeranjang(false);
-            }
-          );
-
-        return () => unsubscribe();
-      } else {
-        setKeranjang([]);
+          if (!snapshot.empty) {
+            const dataKeranjang = snapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }));
+            setKeranjang(dataKeranjang);
+          } else {
+            setKeranjang([]);
+          }
+        }
+      } catch (error) {
+        console.error("Error mengambil data keranjang: ", error);
+      } finally {
         setMemuatDataKeranjang(false);
       }
     };
@@ -45,7 +42,7 @@ const useKeranjangBelanja = () => {
   };
 
   const hitungKeranjang = () => {
-    return keranjang.length; // Menghitung jumlah item dalam keranjang
+    return keranjang.length;
   };
 
   return { keranjang, memuatDataKeranjang, formatRupiah, hitungKeranjang };
