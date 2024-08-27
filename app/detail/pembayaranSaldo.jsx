@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
+=======
+import React, { useState, useRef } from "react";
+>>>>>>> 8d39ded7c2904c5e7c87ae780fe3868cbcb1fbb3
 import {
   View,
   Text,
@@ -6,16 +10,32 @@ import {
   Image,
   TouchableOpacity,
   Animated,
+<<<<<<< HEAD
+=======
+  Clipboard, // Import Clipboard
+>>>>>>> 8d39ded7c2904c5e7c87ae780fe3868cbcb1fbb3
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { gayaHuruf } from "../../constants/huruf";
+<<<<<<< HEAD
 import * as Clipboard from "expo-clipboard";
 import { BCA } from "../../constants/ikonBank";
 import { useAnimasiDropdown } from "../../hooks/useAnimasiDropdown";
 
 export default function PembayaranSaldo() {
   const pengarah = useRouter();
+=======
+import Toast from "react-native-toast-message";
+
+export default function PembayaranSaldo() {
+  const pengarah = useRouter();
+  const BCA = require("../../assets/images/ikonBCA.png");
+  const BRI = require("../../assets/images/ikonBRI.png");
+  const MANDIRI = require("../../assets/images/ikonMandiri.png");
+  const BNI = require("../../assets/images/ikonBNI.png");
+
+>>>>>>> 8d39ded7c2904c5e7c87ae780fe3868cbcb1fbb3
   const teksUntukDisalin = "1234 5678 9101 1213";
 
   const [dropdownTerlihat, setDropdownTerlihat] = useState({
@@ -23,6 +43,7 @@ export default function PembayaranSaldo() {
     ATM: false,
   });
 
+<<<<<<< HEAD
   const {
     tinggiDropdownmBanking,
     tinggiDropdownATM,
@@ -33,16 +54,110 @@ export default function PembayaranSaldo() {
 
   const salinTeks = async () => {
     await Clipboard.setStringAsync(teksUntukDisalin);
+=======
+  const tinggiDropdownmBanking = useRef(new Animated.Value(0)).current;
+  const tinggiDropdownATM = useRef(new Animated.Value(0)).current;
+
+  const rotasiChevronmBanking = useRef(new Animated.Value(0)).current;
+  const rotasiChevronATM = useRef(new Animated.Value(0)).current;
+
+  const toggleDropdown = (type) => {
+    if (type === "mBanking") {
+      if (dropdownTerlihat.mBanking) {
+        Animated.timing(tinggiDropdownmBanking, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: false,
+        }).start();
+        Animated.timing(rotasiChevronmBanking, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: false,
+        }).start();
+      } else {
+        Animated.timing(tinggiDropdownmBanking, {
+          toValue: 100,
+          duration: 300,
+          useNativeDriver: false,
+        }).start();
+        Animated.timing(rotasiChevronmBanking, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: false,
+        }).start();
+      }
+      setDropdownTerlihat((prev) => ({
+        ...prev,
+        mBanking: !prev.mBanking,
+      }));
+    } else if (type === "ATM") {
+      if (dropdownTerlihat.ATM) {
+        Animated.timing(tinggiDropdownATM, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: false,
+        }).start();
+        Animated.timing(rotasiChevronATM, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: false,
+        }).start();
+      } else {
+        Animated.timing(tinggiDropdownATM, {
+          toValue: 100,
+          duration: 300,
+          useNativeDriver: false,
+        }).start();
+        Animated.timing(rotasiChevronATM, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: false,
+        }).start();
+      }
+      setDropdownTerlihat((prev) => ({
+        ...prev,
+        ATM: !prev.ATM,
+      }));
+    }
+  };
+
+  const rotasiChevronmBankingInterpolate = rotasiChevronmBanking.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "90deg"],
+  });
+
+  const rotasiChevronATMInterpolate = rotasiChevronATM.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "90deg"],
+  });
+
+  const salinTeks = () => {
+    Clipboard.setString(teksUntukDisalin);
+    Toast.show({
+      type: "success",
+      text1: "Teks disalin!",
+      text2: "Teks telah disalin ke clipboard.",
+    });
+>>>>>>> 8d39ded7c2904c5e7c87ae780fe3868cbcb1fbb3
   };
 
   return (
     <ScrollView className="flex-1 bg-[#E7E8E2] p-4">
+<<<<<<< HEAD
       <View className="flex-row items-center mt-14 mb-8 px-2">
+=======
+      <Toast ref={(ref) => Toast.setRef(ref)} />
+      <View className="flex-row items-center mt-14 mb-8 px-2 -z-20">
+>>>>>>> 8d39ded7c2904c5e7c87ae780fe3868cbcb1fbb3
         <TouchableOpacity onPress={() => pengarah.back("../")}>
           <View className="w-10 h-10 rounded-full flex justify-center items-center">
             <FontAwesome name="arrow-left" size={24} color="green" />
           </View>
         </TouchableOpacity>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8d39ded7c2904c5e7c87ae780fe3868cbcb1fbb3
         <Text
           style={{ fontFamily: gayaHuruf.lexend900 }}
           className="text-lg ml-2"
@@ -50,7 +165,10 @@ export default function PembayaranSaldo() {
           Pembayaran
         </Text>
       </View>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8d39ded7c2904c5e7c87ae780fe3868cbcb1fbb3
       <View className="flex-row justify-between bg-white px-4 py-3 mb-4 rounded-lg">
         <Text
           style={{ fontFamily: gayaHuruf.poppins700 }}
@@ -103,7 +221,11 @@ export default function PembayaranSaldo() {
             className="text-sm text-[#447055] mb-4"
             style={{ fontFamily: "Poppins_500Medium" }}
           >
+<<<<<<< HEAD
             Proses verifikasi kurang dari 10 menit setelah pembayaran berhasil
+=======
+            Proses verfikasi kurang dari 10 menit setelah pembayaran berhasil
+>>>>>>> 8d39ded7c2904c5e7c87ae780fe3868cbcb1fbb3
           </Text>
           <Text
             className="text-sm mb-4"
@@ -144,6 +266,7 @@ export default function PembayaranSaldo() {
             style={{ height: tinggiDropdownmBanking, overflow: "hidden" }}
           >
             <View className="border-b border-gray-200 w-screen my-3" />
+<<<<<<< HEAD
             {[
               "Pilih Transfer pada aplikasi mBanking.",
               "Masukkan Virtual Account yang dituju.",
@@ -167,6 +290,84 @@ export default function PembayaranSaldo() {
                 </Text>
               </View>
             ))}
+=======
+            <View className="flex-row items-center mb-3">
+              <View className="bg-gray-500 rounded-full w-4 h-4 justify-center items-center flex">
+                <Text
+                  style={{ fontFamily: "Poppins_700Bold" }}
+                  className="text-white text-xs"
+                >
+                  1
+                </Text>
+              </View>
+              <Text
+                style={{ fontFamily: "Poppins_500Medium" }}
+                className="ml-2 text-sm"
+              >
+                Pilih{" "}
+                <Text style={{ fontFamily: "Poppins_700Bold" }}>Transfer</Text>{" "}
+                pada aplikasi mBanking.
+              </Text>
+            </View>
+            <View className="flex-row items-center mb-3">
+              <View className="bg-gray-500 rounded-full w-4 h-4 justify-center items-center flex">
+                <Text
+                  style={{ fontFamily: "Poppins_700Bold" }}
+                  className="text-white text-xs"
+                >
+                  2
+                </Text>
+              </View>
+              <Text
+                style={{ fontFamily: "Poppins_500Medium" }}
+                className="ml-2 text-sm"
+              >
+                Masukkan{" "}
+                <Text style={{ fontFamily: "Poppins_700Bold" }}>
+                  Virtual Account
+                </Text>{" "}
+                yang dituju.
+              </Text>
+            </View>
+            <View className="flex-row items-center mb-3">
+              <View className="bg-gray-500 rounded-full w-4 h-4 justify-center items-center flex">
+                <Text
+                  style={{ fontFamily: "Poppins_700Bold" }}
+                  className="text-white text-xs"
+                >
+                  3
+                </Text>
+              </View>
+              <Text
+                style={{ fontFamily: "Poppins_500Medium" }}
+                className="ml-2 text-sm"
+              >
+                Pilih{" "}
+                <Text style={{ fontFamily: "Poppins_700Bold" }}>Rekening</Text>{" "}
+                untuk melakukan pembayaran.
+              </Text>
+            </View>
+            <View className="flex-row items-center mb-3">
+              <View className="bg-gray-500 rounded-full w-4 h-4 justify-center items-center flex">
+                <Text
+                  style={{ fontFamily: "Poppins_700Bold" }}
+                  className="text-white text-xs"
+                >
+                  4
+                </Text>
+              </View>
+              <Text
+                style={{ fontFamily: "Poppins_500Medium" }}
+                className="ml-2 text-sm"
+              >
+                Selesaikan transaksi untuk{" "}
+                <Text style={{ fontFamily: "Poppins_700Bold" }}>
+                  Pembayaran
+                </Text>{" "}
+                Anda.
+              </Text>
+            </View>
+>>>>>>> 8d39ded7c2904c5e7c87ae780fe3868cbcb1fbb3
           </Animated.View>
         </View>
 
@@ -183,7 +384,13 @@ export default function PembayaranSaldo() {
                 Panduan Transfer ATM
               </Text>
               <Animated.View
+<<<<<<< HEAD
                 style={{ transform: [{ rotate: rotasiChevronATMInterpolate }] }}
+=======
+                style={{
+                  transform: [{ rotate: rotasiChevronATMInterpolate }],
+                }}
+>>>>>>> 8d39ded7c2904c5e7c87ae780fe3868cbcb1fbb3
               >
                 <FontAwesome name="chevron-right" size={16} color="#447055" />
               </Animated.View>
@@ -193,6 +400,7 @@ export default function PembayaranSaldo() {
             style={{ height: tinggiDropdownATM, overflow: "hidden" }}
           >
             <View className="border-b border-gray-200 w-screen my-3" />
+<<<<<<< HEAD
             {[
               "Pilih Transfer pada mesin ATM.",
               "Pilih Virtual Account yang dituju.",
@@ -216,6 +424,86 @@ export default function PembayaranSaldo() {
                 </Text>
               </View>
             ))}
+=======
+            <View className="flex-row items-center mb-3">
+              <View className="bg-gray-500 rounded-full w-4 h-4 justify-center items-center flex">
+                <Text
+                  style={{ fontFamily: "Poppins_700Bold" }}
+                  className="text-white text-xs"
+                >
+                  1
+                </Text>
+              </View>
+              <Text
+                style={{ fontFamily: "Poppins_500Medium" }}
+                className="ml-2 text-sm"
+              >
+                Pilih{" "}
+                <Text style={{ fontFamily: "Poppins_700Bold" }}>Transfer</Text>{" "}
+                pada mesin ATM.
+              </Text>
+            </View>
+            <View className="flex-row items-center mb-3">
+              <View className="bg-gray-500 rounded-full w-4 h-4 justify-center items-center flex">
+                <Text
+                  style={{ fontFamily: "Poppins_700Bold" }}
+                  className="text-white text-xs"
+                >
+                  2
+                </Text>
+              </View>
+              <Text
+                style={{ fontFamily: "Poppins_500Medium" }}
+                className="ml-2 text-sm"
+              >
+                Pilih{" "}
+                <Text style={{ fontFamily: "Poppins_700Bold" }}>
+                  Virtual Account
+                </Text>{" "}
+                yang dituju.
+              </Text>
+            </View>
+            <View className="flex-row items-center mb-3">
+              <View className="bg-gray-500 rounded-full w-4 h-4 justify-center items-center flex">
+                <Text
+                  style={{ fontFamily: "Poppins_700Bold" }}
+                  className="text-white text-xs"
+                >
+                  3
+                </Text>
+              </View>
+              <Text
+                style={{ fontFamily: "Poppins_500Medium" }}
+                className="ml-2 text-sm"
+              >
+                Masukkan{" "}
+                <Text style={{ fontFamily: "Poppins_700Bold" }}>
+                  Kode Virtual
+                </Text>{" "}
+                dan nomor rekening.
+              </Text>
+            </View>
+            <View className="flex-row items-center mb-3">
+              <View className="bg-gray-500 rounded-full w-4 h-4 justify-center items-center flex">
+                <Text
+                  style={{ fontFamily: "Poppins_700Bold" }}
+                  className="text-white text-xs"
+                >
+                  4
+                </Text>
+              </View>
+              <Text
+                style={{ fontFamily: "Poppins_500Medium" }}
+                className="ml-2 text-sm"
+              >
+                Selesaikan transaksi untuk{" "}
+                <Text style={{ fontFamily: "Poppins_700Bold" }}>
+                  Pembayaran
+                </Text>{" "}
+                Anda.
+              </Text>
+            </View>
+>>>>>>> 8d39ded7c2904c5e7c87ae780fe3868cbcb1fbb3
           </Animated.View>
         </View>
       </View>
