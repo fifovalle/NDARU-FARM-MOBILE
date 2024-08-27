@@ -47,7 +47,7 @@ export default function PembayaranSaldo() {
           style={{ fontFamily: gayaHuruf.lexend900 }}
           className="text-lg ml-2"
         >
-          Pembayaran
+          Isi Saldo
         </Text>
       </View>
 
