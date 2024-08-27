@@ -13,6 +13,7 @@ import { gayaHuruf } from "../../constants/huruf";
 import * as Clipboard from "expo-clipboard";
 import { BCA } from "../../constants/ikonBank";
 import { useAnimasiDropdown } from "../../hooks/useAnimasiDropdown";
+import Toast from "react-native-toast-message";
 
 export default function PembayaranSaldo() {
   const pengarah = useRouter();
@@ -33,11 +34,19 @@ export default function PembayaranSaldo() {
 
   const salinTeks = async () => {
     await Clipboard.setStringAsync(teksUntukDisalin);
+    Toast.show({
+      type: "success",
+      position: "top",
+      text1: "Kode telah disalin!",
+      text2: "Nomor virtual akun anda telah disalin ke clipboard.",
+      visibilityTime: 3000,
+    });
   };
 
   return (
     <ScrollView className="flex-1 bg-[#E7E8E2] p-4">
-      <View className="flex-row items-center mt-14 mb-8 px-2">
+      <Toast />
+      <View className="flex-row items-center mt-14 mb-8 px-2 -z-10">
         <TouchableOpacity onPress={() => pengarah.back("../")}>
           <View className="w-10 h-10 rounded-full flex justify-center items-center">
             <FontAwesome name="arrow-left" size={24} color="green" />
