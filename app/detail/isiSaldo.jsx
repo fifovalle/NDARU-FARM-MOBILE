@@ -12,28 +12,16 @@ import { useRouter } from "expo-router";
 
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
-<<<<<<< HEAD
 import { bankIcons, dropdownAnimation } from "../../constants/animasiIsiSaldo";
 
 export default function isiSaldo() {
   const pengarah = useRouter();
-=======
-
-export default function isiSaldo() {
-  const pengarah = useRouter();
-  const BCA = require("../../assets/images/ikonBCA.png");
-  const BRI = require("../../assets/images/ikonBRI.png");
-  const MANDIRI = require("../../assets/images/ikonMandiri.png");
-  const BNI = require("../../assets/images/ikonBNI.png");
-
->>>>>>> 8d39ded7c2904c5e7c87ae780fe3868cbcb1fbb3
   const [dropdownTerlihat, setDropdownTerlihat] = useState(false);
   const [bankDipilih, setBankDipilih] = useState(null);
   const tinggiDropdown = useRef(new Animated.Value(0)).current;
   const nilaiRotasi = useRef(new Animated.Value(0)).current;
 
   const toggleDropdown = () => {
-<<<<<<< HEAD
     const baruDropdownTerlihat = !dropdownTerlihat;
     const animations = dropdownAnimation(
       baruDropdownTerlihat,
@@ -45,32 +33,6 @@ export default function isiSaldo() {
     animations.rotation.start();
 
     setDropdownTerlihat(baruDropdownTerlihat);
-=======
-    if (dropdownTerlihat) {
-      Animated.timing(tinggiDropdown, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: false,
-      }).start();
-      Animated.timing(nilaiRotasi, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: false,
-      }).start();
-    } else {
-      Animated.timing(tinggiDropdown, {
-        toValue: 230,
-        duration: 300,
-        useNativeDriver: false,
-      }).start();
-      Animated.timing(nilaiRotasi, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: false,
-      }).start();
-    }
-    setDropdownTerlihat(!dropdownTerlihat);
->>>>>>> 8d39ded7c2904c5e7c87ae780fe3868cbcb1fbb3
   };
 
   const rotasiChevron = nilaiRotasi.interpolate({
@@ -138,7 +100,6 @@ export default function isiSaldo() {
           <Animated.View style={{ height: tinggiDropdown, overflow: "hidden" }}>
             <View>
               <View className="border-b border-gray-200" />
-<<<<<<< HEAD
               {Object.entries(bankIcons).map(([bankKey, bankIcon]) => (
                 <TouchableOpacity
                   key={bankKey}
@@ -163,91 +124,6 @@ export default function isiSaldo() {
                   <View className="border-b border-gray-200 ml-6" />
                 </TouchableOpacity>
               ))}
-=======
-              <TouchableOpacity
-                activeOpacity={0.6}
-                className="flex-row items-start my-4"
-                onPress={() => pilihBank("BCA")}
-              >
-                <View className="flex-row items-center justify-between w-full px-8">
-                  <View className="flex-row items-center">
-                    <Image source={BCA} className="w-8 h-8 rounded-sm" />
-                    <Text
-                      style={{ fontFamily: "Poppins_500Medium" }}
-                      className="ml-2"
-                    >
-                      Bank BCA
-                    </Text>
-                  </View>
-                  {bankDipilih === "BCA" && (
-                    <FontAwesome name="check" size={16} color="#447055" />
-                  )}
-                </View>
-              </TouchableOpacity>
-              <View className="border-b border-gray-200 ml-6" />
-              <TouchableOpacity
-                activeOpacity={0.6}
-                className="flex-row items-start my-4"
-                onPress={() => pilihBank("BRI")}
-              >
-                <View className="flex-row items-center justify-between w-full px-8">
-                  <View className="flex-row items-center">
-                    <Image source={BRI} className="w-8 h-8 rounded-sm" />
-                    <Text
-                      style={{ fontFamily: "Poppins_500Medium" }}
-                      className="ml-2"
-                    >
-                      Bank BRI
-                    </Text>
-                  </View>
-                  {bankDipilih === "BRI" && (
-                    <FontAwesome name="check" size={16} color="#447055" />
-                  )}
-                </View>
-              </TouchableOpacity>
-              <View className="border-b border-gray-200 ml-6" />
-              <TouchableOpacity
-                activeOpacity={0.6}
-                className="flex-row items-start my-4"
-                onPress={() => pilihBank("Mandiri")}
-              >
-                <View className="flex-row items-center justify-between w-full px-8">
-                  <View className="flex-row items-center">
-                    <Image source={MANDIRI} className="w-8 h-8 rounded-sm" />
-                    <Text
-                      style={{ fontFamily: "Poppins_500Medium" }}
-                      className="ml-2"
-                    >
-                      Bank Mandiri
-                    </Text>
-                  </View>
-                  {bankDipilih === "Mandiri" && (
-                    <FontAwesome name="check" size={16} color="#447055" />
-                  )}
-                </View>
-              </TouchableOpacity>
-              <View className="border-b border-gray-200 ml-6" />
-              <TouchableOpacity
-                activeOpacity={0.6}
-                className="flex-row items-start my-4"
-                onPress={() => pilihBank("BNI")}
-              >
-                <View className="flex-row items-center justify-between w-full px-8">
-                  <View className="flex-row items-center">
-                    <Image source={BNI} className="w-8 h-8 rounded-sm" />
-                    <Text
-                      style={{ fontFamily: "Poppins_500Medium" }}
-                      className="ml-2"
-                    >
-                      Bank BNI
-                    </Text>
-                  </View>
-                  {bankDipilih === "BNI" && (
-                    <FontAwesome name="check" size={16} color="#447055" />
-                  )}
-                </View>
-              </TouchableOpacity>
->>>>>>> 8d39ded7c2904c5e7c87ae780fe3868cbcb1fbb3
             </View>
           </Animated.View>
         </View>
