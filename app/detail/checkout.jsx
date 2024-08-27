@@ -5,9 +5,12 @@ import { FontAwesome } from "@expo/vector-icons";
 
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
+import useCheckoutSayuran from "../../hooks/useCheckoutSayuran";
 
 export default function Checkout() {
   const ikonWortel = require("../../assets/images/ikonWortel.png");
+
+  const { keranjang, formatRupiah, hitungTotalHarga } = useCheckoutSayuran();
 
   return (
     <View className="flex-1 bg-[#E7E8E2]">
@@ -58,95 +61,65 @@ export default function Checkout() {
             </View>
           </TouchableOpacity>
 
-          <View className="bg-white px-4 py-2 rounded-xl shadow-xl mt-5">
-            <View className="flex items-start justify-between">
-              <View className="flex-row items-center justify-between w-full mt-3">
-                <View className="flex items-start">
-                  <Text
-                    style={{ fontFamily: gayaHuruf.poppins700 }}
-                    className="text-md text-[#447055]"
-                  >
-                    Rincian Belanja :
-                  </Text>
-                </View>
-              </View>
-
+          {keranjang.map((checkout) => (
+            <View
+              key={checkout.id}
+              className="bg-white px-4 py-2 rounded-xl shadow-xl mt-5"
+            >
               <View className="flex-row items-center">
-                <View className="w-16 h-16 bg-gray-200 rounded-lg mr-4 flex items-center mb-2">
-                  <Image className="w-14 h-14" source={ikonWortel} />
+                <View className="w-16 h-16 bg-gray-200 rounded-lg mr-4 flex items-center justify-center mb-2">
+                  <Image
+                    className="w-14 h-14"
+                    source={{ uri: checkout.Gambar_Keranjang }}
+                  />
                 </View>
                 <View>
                   <Text
                     style={{ fontFamily: gayaHuruf.poppins700 }}
                     className="text-lg"
                   >
-                    Wortel
+                    {checkout.Nama_Keranjang}
                   </Text>
                   <Text
                     style={{ fontFamily: gayaHuruf.lexend400 }}
                     className="text-sm text-gray-500"
                   >
-                    2kg x Rp. 20.000
+                    {checkout.Jumlah_Keranjang}kg x{" "}
+                    {formatRupiah(checkout.Harga_Keranjang)}
                   </Text>
                 </View>
               </View>
-
               <View className="border w-full border-gray-300" />
-
               <View className="flex-row items-center justify-between w-full mt-3 px-2">
                 <Text
                   style={{ fontFamily: gayaHuruf.lexend400 }}
                   className="text-gray-500"
                 >
-                  Total Harga (2 Barang)
+                  Total Harga ({checkout.Jumlah_Keranjang} Barang)
                 </Text>
                 <Text style={{ fontFamily: gayaHuruf.lexend400 }}>
-                  Rp. 40.000
-                </Text>
-              </View>
-
-              <View className="flex-row items-center justify-between w-full mt-3 px-2">
-                <Text
-                  style={{ fontFamily: gayaHuruf.lexend400 }}
-                  className="text-gray-500"
-                >
-                  Total Ongkos Kirim
-                </Text>
-                <Text style={{ fontFamily: gayaHuruf.lexend400 }}>
-                  Rp. 20.000
-                </Text>
-              </View>
-
-              <View className="flex-row items-center justify-between w-full mt-3 px-2">
-                <Text
-                  style={{ fontFamily: gayaHuruf.lexend400 }}
-                  className="text-gray-500"
-                >
-                  Biaya Jasa Aplikasi
-                </Text>
-                <Text style={{ fontFamily: gayaHuruf.lexend400 }}>Rp. 500</Text>
-              </View>
-
-              <View className="border w-24 border-gray-300 self-end mr-2" />
-
-              <View className="flex-row items-center justify-between w-full mt-2 px-2">
-                <Text style={{ fontFamily: gayaHuruf.poppins700 }}>
-                  Total Harga
-                </Text>
-                <Text style={{ fontFamily: gayaHuruf.poppins700 }}>
-                  Rp. 60.500
+                  {formatRupiah(
+                    checkout.Harga_Keranjang * checkout.Jumlah_Keranjang
+                  )}
                 </Text>
               </View>
             </View>
-          </View>
+          ))}
         </ScrollView>
       </View>
 
       <View className="w-screen h-20 bg-white justify-evenly items-center flex-row">
+        <View className="px-8">
+          <Text style={{ fontFamily: gayaHuruf.poppins700 }}>Total Harga</Text>
+          <Text style={{ fontFamily: gayaHuruf.poppins700 }}>
+            {formatRupiah(hitungTotalHarga())}
+          </Text>
+        </View>
+
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => router.push("../detail/checkout")}
-          className="bg-[#447055] rounded-lg w-96 items-center justify-center p-3"
+          className="bg-[#447055] rounded-lg w-52 h-14 items-center justify-center p-3 mr-8"
         >
           <Text
             style={{ fontFamily: gayaHuruf.poppins700 }}

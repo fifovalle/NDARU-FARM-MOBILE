@@ -32,7 +32,7 @@ export default function Keranjang() {
   const [kuantitas, setKuantitas] = useState("1");
   const pengarah = useRouter();
 
-  const { keranjang, memuatDataKeranjang, formatRupiah } =
+  const { keranjang, memuatDataKeranjang, hitungTotalHarga, formatRupiah } =
     useKeranjangBelanja();
 
   return (
@@ -180,18 +180,13 @@ export default function Keranjang() {
                       activeOpacity={0.3}
                       className="my-auto"
                       onPress={() =>
-                        kurangiKuantitas(
-                          setKuantitas,
-                          keranjang.Jumlah_Keranjang,
-                          keranjang.id,
-                          keranjang.Nama_Keranjang
-                        )
+                        kurangiKuantitas(setKuantitas, keranjang.id)
                       }
                     >
                       <FontAwesome
                         className="mr-3"
                         name={
-                          keranjang.Jumlah_Keranjang === 1 ? "trash-o" : "minus"
+                          keranjang.Jumlah_Keranjang > 1 ? "minus" : "trash-o"
                         }
                         size={16}
                         color="gray"
@@ -236,18 +231,18 @@ export default function Keranjang() {
 
       {keranjang.length > 0 && (
         <View className="bg-white w-screen h-20 justify-end items-center flex-row">
-          <View className="px-3">
+          <View className="px-8">
             <Text style={{ fontFamily: gayaHuruf.poppins500 }}>Total :</Text>
             <Text
               style={{ fontFamily: gayaHuruf.lexend700 }}
               className="text-lg"
             >
-              Rp 5.000.000
+              {formatRupiah(hitungTotalHarga())}
             </Text>
           </View>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => pengarah.push("../detail/checkout")}
+            onPress={() => pengarah.push(`detail/checkout`)}
             className="bg-[#447055] rounded-lg w-52 h-14 items-center justify-center p-3 mr-8"
           >
             <Text

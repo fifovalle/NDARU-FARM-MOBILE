@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
 
-const useKeranjangBelanja = () => {
+const useCheckoutSayuran = () => {
   const [keranjang, setKeranjang] = useState([]);
-  const [memuatDataKeranjang, setMemuatDataKeranjang] = useState(true);
+  const [memuatData, setMemuatData] = useState(true);
 
   useEffect(() => {
     const pengguna = auth().currentUser;
@@ -20,42 +20,37 @@ const useKeranjangBelanja = () => {
               ...doc.data(),
             }));
             setKeranjang(dataKeranjang);
-            setMemuatDataKeranjang(false);
+            setMemuatData(false);
           },
           (error) => {
             console.error("Error mengambil data keranjang: ", error);
-            setMemuatDataKeranjang(false);
+            setMemuatData(false);
           }
         );
 
       return () => unsubscribe();
     } else {
       setKeranjang([]);
-      setMemuatDataKeranjang(false);
+      setMemuatData(false);
     }
   }, []);
 
-  const formatRupiah = (angka) => {
-    return `Rp ${angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
-  };
-
-  const hitungKeranjang = () => {
-    return keranjang.length;
-  };
-
   const hitungTotalHarga = () => {
-    return keranjang.reduce((total, item) => {
-      return total + item.Harga_Keranjang * item.Jumlah_Keranjang;
+    return keranjang.reduce((total, checkout) => {
+      return total + checkout.Harga_Keranjang * checkout.Jumlah_Keranjang;
     }, 0);
+  };
+
+  const formatRupiah = (angka) => {
+    return "Rp " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
   return {
     keranjang,
-    memuatDataKeranjang,
+    memuatData,
     formatRupiah,
-    hitungKeranjang,
     hitungTotalHarga,
   };
 };
 
-export default useKeranjangBelanja;
+export default useCheckoutSayuran;
