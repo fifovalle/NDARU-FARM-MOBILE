@@ -10,7 +10,8 @@ import useCheckoutSayuran from "../../hooks/useCheckoutSayuran";
 export default function Checkout() {
   const ikonWortel = require("../../assets/images/ikonWortel.png");
 
-  const { keranjang, formatRupiah, hitungTotalHarga } = useCheckoutSayuran();
+  const { keranjang, formatRupiah, hitungTotalHarga, simpanCheckout } =
+    useCheckoutSayuran();
 
   return (
     <View className="flex-1 bg-[#E7E8E2]">
@@ -118,7 +119,7 @@ export default function Checkout() {
 
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => router.push("../detail/checkout")}
+          onPress={simpanCheckout}
           className="bg-[#447055] rounded-lg w-52 h-14 items-center justify-center p-3 mr-8"
         >
           <Text

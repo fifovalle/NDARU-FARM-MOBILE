@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
+import { router } from "expo-router";
 
 const useCheckoutSayuran = () => {
   const [keranjang, setKeranjang] = useState([]);
@@ -45,11 +46,41 @@ const useCheckoutSayuran = () => {
     return "Rp " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
+  const simpanCheckout = async () => {
+    const pengguna = auth().currentUser;
+
+    if (pengguna) {
+      try {
+        const timestamp = firestore.FieldValue.serverTimestamp();
+        const checkoutRef = await firestore().collection("checkout").add({
+          ID_Pembeli_Checkout: pengguna.uid,
+          Barang_Checkout: keranjang,
+          Total_Harga_Checkout: hitungTotalHarga(),
+          Waktu_Pembelian_Checkout: timestamp,
+          Status_Checkout: "Sedang Dikemas",
+        });
+
+        const batch = firestore().batch();
+        keranjang.forEach((item) => {
+          const docRef = firestore().collection("keranjang").doc(item.id);
+          batch.delete(docRef);
+        });
+
+        await batch.commit();
+
+        router.push("beranda/transaksi");
+      } catch (error) {
+        console.error("Error menyimpan checkout: ", error);
+      }
+    }
+  };
+
   return {
     keranjang,
     memuatData,
     formatRupiah,
     hitungTotalHarga,
+    simpanCheckout,
   };
 };
 
