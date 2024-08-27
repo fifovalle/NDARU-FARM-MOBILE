@@ -41,7 +41,12 @@ export default function TataLetakUtama() {
     >
       <Tabs.Screen name="index" />
       <Tabs.Screen name="transaksi" />
-      <Tabs.Screen name="pesan" />
+      <Tabs.Screen
+        name="pesan"
+        options={{
+          tabBarBadge: 3,
+        }}
+      />
       <Tabs.Screen name="profil" />
     </Tabs>
   );

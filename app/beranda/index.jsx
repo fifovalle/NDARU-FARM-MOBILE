@@ -7,6 +7,11 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import {
+  FontAwesome,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
 // MODUL KAMI
@@ -23,7 +28,6 @@ import SayuranPopuler from "../../components/sayuranPopuler";
 import JasaPopuler from "../../components/jasaPopuler";
 import BeritaPopuler from "../../components/beritaPopuler";
 import Toast from "react-native-toast-message";
-import { FontAwesome } from "@expo/vector-icons";
 import useKeranjangBelanja from "../../hooks/useKeranjangBelanja";
 
 export default function Index() {
@@ -80,10 +84,10 @@ export default function Index() {
           <TouchableOpacity
             className="ml-2"
             activeOpacity={0.6}
-            onPress={() => pengarah.push("../../beranda/pesan")}
+            onPress={() => pengarah.push("../../detail/notifikasi")}
           >
             <View className="relative mr-5">
-              <FontAwesome name="envelope" size={24} color="white" />
+              <FontAwesome name="bell-o" size={24} color="white" />
               <View className="absolute -top-2 -right-2 bg-red-600 rounded-full w-4 h-4 flex items-center justify-center">
                 <Text
                   style={{ fontFamily: gayaHuruf.poppins700 }}
@@ -97,6 +101,30 @@ export default function Index() {
         </View>
       </View>
       <ScrollView className="bg-[#E7E8E2]">
+        <View className="bg-[#447055] h-7"></View>
+        <View className="bg-white -mt-5 p-5 z-50 rounded-xl mx-4 flex-row justify-evenly">
+          <View className="flex-row items-center mr-10">
+            <Ionicons name="wallet" size={24} color="#447055" />
+            <Text style={{ fontFamily: gayaHuruf.lexend700 }} className="ml-2">
+              Rp 10.000.000
+            </Text>
+          </View>
+          <View className="border border-gray-300" />
+          <TouchableOpacity
+            activeOpacity={0.4}
+            onPress={() => pengarah.push("detail/isiSaldo")}
+            className="flex-row items-center"
+          >
+            <MaterialCommunityIcons
+              name="wallet-plus"
+              size={24}
+              color="#447055"
+            />
+            <Text style={{ fontFamily: gayaHuruf.lexend700 }} className="ml-2">
+              Isi Saldo
+            </Text>
+          </TouchableOpacity>
+        </View>
         <View className="p-4">
           <SayuranPopuler
             memuat={memuatSayuranPopuler}

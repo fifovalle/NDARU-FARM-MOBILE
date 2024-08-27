@@ -2,9 +2,9 @@
   "expo": {
     "name": "Ndaru Farm",
     "slug": "Ndaru-Farm",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
-    "icon": "./assets/images/ikonSplash.png",
+    "icon": "./assets/images/ikon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -18,7 +18,7 @@
     "android": {
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/ikonSplash.png",
+        "foregroundImage": "./assets/images/ikon.png",
         "backgroundColor": "#447055"
       },
       "package": "com.fifovalle.NdaruFarm"
@@ -26,7 +26,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/ikonSplash.png"
+      "favicon": "./assets/images/ikon.png"
     },
     "plugins": [
       "expo-router",
