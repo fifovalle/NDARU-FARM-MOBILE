@@ -10,25 +10,32 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
+import Toast from "react-native-toast-message";
 
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
 import useDataSemuaSayuranPopuler from "../../hooks/useDataSemuaSayuranPopuler";
 import formatRupiah from "../../utils/formatRupiah";
 import usePencarianSayuranPopuler from "../../hooks/usePencarianSayuranPopuler";
+import useKeranjangBelanja from "../../hooks/useKeranjangBelanja";
+import useTambahKeranjangSayuran from "../../hooks/useTambahKeranjangSayuran";
 
 export default function SemuaSayuranPopuler() {
   const [kataPencarian, setKataPencarian] = useState("");
   const pengarah = useRouter();
   const dataTidakAda = require("../../assets/images/dataTidakAda.png");
   const ikonCari = require("../../assets/images/ikonCari.png");
-  const { semuaDataSayuranPopuler, memuat } = useDataSemuaSayuranPopuler();
+  const { semuaDataSayuranPopuler, memuatSemuaSayuranPopuler } =
+    useDataSemuaSayuranPopuler();
   const { hasilPencarianSayuranPopuler, menyorotiKataSayuranPopuler } =
     usePencarianSayuranPopuler(semuaDataSayuranPopuler, kataPencarian);
+  const { hitungKeranjang } = useKeranjangBelanja();
+  const { tambahKeKeranjang, memuat } = useTambahKeranjangSayuran();
 
   return (
     <View className="flex-1 bg-[#E7E8E2]">
-      <View className="flex-row items-center mt-14 px-4 mb-2">
+      <Toast />
+      <View className="flex-row items-center mt-14 px-4 mb-2 -z-50">
         <TouchableOpacity onPress={() => pengarah.back("../")} className="mr-4">
           <View className="w-10 h-10 rounded-full flex justify-center items-center">
             <FontAwesome name="arrow-left" size={24} color="green" />
@@ -45,6 +52,16 @@ export default function SemuaSayuranPopuler() {
         >
           <View className="w-10 h-10 rounded flex justify-center items-center mr-5">
             <FontAwesome name="shopping-cart" size={24} color="#447055" />
+            {hitungKeranjang() > 0 && (
+              <View className="absolute -top-0 -right-1 bg-red-600 rounded-full w-4 h-4 flex items-center justify-center">
+                <Text
+                  style={{ fontFamily: gayaHuruf.poppins700 }}
+                  className="text-white text-xs"
+                >
+                  {hitungKeranjang()}
+                </Text>
+              </View>
+            )}
           </View>
         </TouchableOpacity>
       </View>
@@ -64,7 +81,7 @@ export default function SemuaSayuranPopuler() {
         </View>
 
         <View className="p-4">
-          {memuat ? (
+          {memuatSemuaSayuranPopuler ? (
             <ActivityIndicator size="large" color="#556F50" />
           ) : (
             <View className="flex-1">
@@ -101,7 +118,6 @@ export default function SemuaSayuranPopuler() {
                           className="w-full h-32 object-cover rounded-xl"
                         />
                       </TouchableOpacity>
-
                       <Text
                         className="text-xl mt-2 text-[#556F50]"
                         style={{ fontFamily: gayaHuruf.poppins700 }}
@@ -117,7 +133,6 @@ export default function SemuaSayuranPopuler() {
                       >
                         {sayuran.Sayuran_Per_Kilo} Kg
                       </Text>
-
                       <View className="flex-row items-center justify-between mt-2">
                         <Text
                           style={{ fontFamily: gayaHuruf.poppins700 }}
@@ -133,14 +148,22 @@ export default function SemuaSayuranPopuler() {
                         </Text>
                       </View>
 
-                      <TouchableOpacity activeOpacity={0.7} className="w-full">
+                      <TouchableOpacity
+                        onPress={() => tambahKeKeranjang(sayuran)}
+                        activeOpacity={0.7}
+                        className="w-full"
+                      >
                         <View className="mt-3 flex bg-[#447055] rounded-md p-2">
-                          <Text
-                            style={{ fontFamily: gayaHuruf.poppins500 }}
-                            className="text-[#ffffff] text-center"
-                          >
-                            + Keranjang
-                          </Text>
+                          {memuat === sayuran.id ? (
+                            <ActivityIndicator size="small" color="#ffffff" />
+                          ) : (
+                            <Text
+                              style={{ fontFamily: gayaHuruf.poppins500 }}
+                              className="text-[#ffffff] text-center"
+                            >
+                              + Keranjang
+                            </Text>
+                          )}
                         </View>
                       </TouchableOpacity>
                     </View>

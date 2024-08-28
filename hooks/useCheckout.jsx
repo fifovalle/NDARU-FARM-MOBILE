@@ -3,7 +3,7 @@ import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
 import { router } from "expo-router";
 
-const useCheckoutSayuran = () => {
+const useCheckout = () => {
   const [keranjang, setKeranjang] = useState([]);
   const [memuatData, setMemuatData] = useState(true);
 
@@ -84,4 +84,4 @@ const useCheckoutSayuran = () => {
   };
 };
 
-export default useCheckoutSayuran;
+export default useCheckout;

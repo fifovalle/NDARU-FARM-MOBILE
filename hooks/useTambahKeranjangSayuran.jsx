@@ -3,7 +3,7 @@ import firestore from "@react-native-firebase/firestore";
 import Toast from "react-native-toast-message";
 import auth from "@react-native-firebase/auth";
 
-const useTambahKeranjang = () => {
+const useTambahKeranjangSayuran = () => {
   const [memuat, setMemuat] = useState(null);
   const [idPembeli, setIDPembeli] = useState(null);
 
@@ -37,7 +37,7 @@ const useTambahKeranjang = () => {
     try {
       const keranjangRef = firestore()
         .collection("keranjang")
-        .where("idPembeli", "==", idPembeli)
+        .where("ID_Pembeli", "==", idPembeli)
         .where("Nama_Sayuran", "==", sayuran.Nama_Sayuran);
 
       const snapshot = await keranjangRef.get();
@@ -54,6 +54,7 @@ const useTambahKeranjang = () => {
       } else {
         await firestore().collection("keranjang").add({
           ID_Pembeli: idPembeli,
+          ID_Sayuran: sayuran.id,
           Nama_Keranjang: sayuran.Nama_Sayuran,
           Harga_Keranjang: sayuran.Harga_Sayuran,
           Gambar_Keranjang: sayuran.Gambar_Sayuran,
@@ -83,4 +84,4 @@ const useTambahKeranjang = () => {
   return { tambahKeKeranjang, memuat };
 };
 
-export default useTambahKeranjang;
+export default useTambahKeranjangSayuran;

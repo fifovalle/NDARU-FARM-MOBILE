@@ -77,64 +77,71 @@ export default function Transaksi() {
                 >
                   <Text
                     style={{ fontFamily: gayaHuruf.lexend700 }}
-                    className="text-sm text-center w-32 "
+                    className="text-sm text-center w-32"
                   >
                     {trans.Status_Checkout}
                   </Text>
                 </View>
               </View>
             </TouchableOpacity>
-            <View className="border-b border-gray-300 mb-3 " />
-            <View className="flex items-start justify-between">
-              <View className="flex-row items-center ">
-                <View className="w-16 h-16 bg-gray-200 rounded-lg mr-4 flex items-center justify-center">
-                  <Image
-                    className="w-14 h-14"
-                    source={{ uri: trans.Barang_Checkout[0].Gambar_Keranjang }}
-                  />
-                </View>
-                <View>
-                  <Text
-                    style={{ fontFamily: gayaHuruf.lexend700 }}
-                    className="text-lg"
-                  >
-                    {trans.Barang_Checkout[0].Nama_Keranjang}
-                  </Text>
-                  <Text
-                    style={{ fontFamily: gayaHuruf.lexend400 }}
-                    className="text-sm text-gray-500"
-                  >
-                    {trans.Barang_Checkout[0].Jumlah_Keranjang} Kg
-                  </Text>
+            <View className="border-b border-gray-300 mb-3" />
+            {trans.Barang_Checkout.map((barang) => (
+              <View
+                className="flex items-start justify-between"
+                key={barang.Gambar_Keranjang}
+              >
+                <View className="flex-row items-center">
+                  <View className="w-16 h-16 bg-gray-200 rounded-lg mr-4 flex items-center justify-center">
+                    <Image
+                      className="w-14 h-14"
+                      source={{ uri: barang.Gambar_Keranjang }}
+                    />
+                  </View>
+                  <View>
+                    <Text
+                      style={{ fontFamily: gayaHuruf.lexend700 }}
+                      className="text-lg"
+                    >
+                      {barang.Nama_Keranjang}
+                    </Text>
+                    <Text
+                      style={{ fontFamily: gayaHuruf.lexend400 }}
+                      className="text-sm text-gray-500"
+                    >
+                      {barang.ID_Jasa
+                        ? `${barang.Jumlah_Keranjang} Bulan`
+                        : `${barang.Jumlah_Keranjang} Kg`}
+                    </Text>
+                  </View>
                 </View>
               </View>
-              <View className="flex-row items-center justify-between w-full mt-4">
-                <View className="flex items-start">
-                  <Text
-                    style={{ fontFamily: gayaHuruf.lexend700 }}
-                    className="text-md text-[#626262]"
-                  >
-                    Total Belanja :
-                  </Text>
-                  <Text
-                    style={{ fontFamily: gayaHuruf.lexend700 }}
-                    className="text-lg text-green-700"
-                  >
-                    {formatRupiah(trans.Total_Harga_Checkout)}
-                  </Text>
-                </View>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  className="mt-2 bg-[#447055] py-1 px-4 rounded-md"
+            ))}
+            <View className="flex-row items-center justify-between w-full mt-4">
+              <View className="flex items-start">
+                <Text
+                  style={{ fontFamily: gayaHuruf.lexend700 }}
+                  className="text-md text-[#626262]"
                 >
-                  <Text
-                    style={{ fontFamily: gayaHuruf.lexend700 }}
-                    className="text-center text-white"
-                  >
-                    Beli Lagi
-                  </Text>
-                </TouchableOpacity>
+                  Total Belanja :
+                </Text>
+                <Text
+                  style={{ fontFamily: gayaHuruf.lexend700 }}
+                  className="text-lg text-green-700"
+                >
+                  {formatRupiah(trans.Total_Harga_Checkout)}
+                </Text>
               </View>
+              <TouchableOpacity
+                activeOpacity={0.5}
+                className="mt-2 bg-[#447055] py-1 px-4 rounded-md"
+              >
+                <Text
+                  style={{ fontFamily: gayaHuruf.lexend700 }}
+                  className="text-center text-white"
+                >
+                  Beli Lagi
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         ))

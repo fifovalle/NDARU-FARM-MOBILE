@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import useTambahKeranjang from "../hooks/useTambahKeranjang";
+import useTambahKeranjangSayuran from "../hooks/useTambahKeranjangSayuran";
 
 const SayuranPopuler = ({
   memuatSayuran,
@@ -19,7 +19,7 @@ const SayuranPopuler = ({
   formatRupiah,
   menyorotiKata,
 }) => {
-  const { tambahKeKeranjang, memuat } = useTambahKeranjang();
+  const { tambahKeKeranjang, memuat } = useTambahKeranjangSayuran();
 
   return (
     <>

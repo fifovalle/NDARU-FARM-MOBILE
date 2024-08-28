@@ -13,6 +13,7 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import Toast from "react-native-toast-message";
 
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
@@ -27,7 +28,6 @@ import formatTanggal from "../../utils/formatTanggal";
 import SayuranPopuler from "../../components/sayuranPopuler";
 import JasaPopuler from "../../components/jasaPopuler";
 import BeritaPopuler from "../../components/beritaPopuler";
-import Toast from "react-native-toast-message";
 import useKeranjangBelanja from "../../hooks/useKeranjangBelanja";
 
 export default function Index() {

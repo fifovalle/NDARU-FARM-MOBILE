@@ -10,12 +10,15 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
+import Toast from "react-native-toast-message";
 
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
 import useDataSemuaJasaPopuler from "../../hooks/useDataSemuaJasaPopuler";
 import formatRupiah from "../../utils/formatRupiah";
 import usePencarianJasaPopuler from "../../hooks/usePencarianJasaPopuler";
+import useKeranjangBelanja from "../../hooks/useKeranjangBelanja";
+import useTambahKeranjangJasa from "../../hooks/useTambahKeranjangJasa";
 
 export default function SemuaJasaPopuler() {
   const [kataPencarian, setKataPencarian] = useState("");
@@ -26,10 +29,13 @@ export default function SemuaJasaPopuler() {
     useDataSemuaJasaPopuler();
   const { hasilPencarianJasaPopuler, menyorotiKataJasaPopuler } =
     usePencarianJasaPopuler(semuaDataJasaPopuler, kataPencarian);
+  const { hitungKeranjang } = useKeranjangBelanja();
+  const { tambahKeKeranjang, memuat } = useTambahKeranjangJasa();
 
   return (
     <View className="flex-1 bg-[#E7E8E2]">
-      <View className="flex-row items-center mt-14 px-4 mb-2">
+      <Toast />
+      <View className="flex-row items-center mt-14 px-4 mb-2 -z-50">
         <TouchableOpacity onPress={() => pengarah.back("../")} className="mr-4">
           <View className="w-10 h-10 rounded-full flex justify-center items-center">
             <FontAwesome name="arrow-left" size={24} color="green" />
@@ -46,6 +52,16 @@ export default function SemuaJasaPopuler() {
         >
           <View className="w-10 h-10 rounded flex justify-center items-center mr-5">
             <FontAwesome name="shopping-cart" size={24} color="#447055" />
+            {hitungKeranjang() > 0 && (
+              <View className="absolute -top-0 -right-1 bg-red-600 rounded-full w-4 h-4 flex items-center justify-center">
+                <Text
+                  style={{ fontFamily: gayaHuruf.poppins700 }}
+                  className="text-white text-xs"
+                >
+                  {hitungKeranjang()}
+                </Text>
+              </View>
+            )}
           </View>
         </TouchableOpacity>
       </View>
@@ -126,14 +142,22 @@ export default function SemuaJasaPopuler() {
                         </Text>
                       </View>
 
-                      <TouchableOpacity activeOpacity={0.7} className="w-full">
+                      <TouchableOpacity
+                        onPress={() => tambahKeKeranjang(jasa)}
+                        activeOpacity={0.7}
+                        className="w-full"
+                      >
                         <View className="mt-3 flex bg-[#447055] rounded-md p-2">
-                          <Text
-                            style={{ fontFamily: gayaHuruf.poppins500 }}
-                            className="text-[#ffffff] text-center"
-                          >
-                            + Keranjang
-                          </Text>
+                          {memuat === jasa.id ? (
+                            <ActivityIndicator size="small" color="#ffffff" />
+                          ) : (
+                            <Text
+                              style={{ fontFamily: gayaHuruf.poppins500 }}
+                              className="text-[#ffffff] text-center"
+                            >
+                              + Keranjang
+                            </Text>
+                          )}
                         </View>
                       </TouchableOpacity>
                     </View>

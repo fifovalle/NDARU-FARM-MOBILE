@@ -56,7 +56,7 @@ export default function Keranjang() {
         <Image className="w-7 h-7" source={ikonPencarian} />
         <TextInput
           style={{ fontFamily: gayaHuruf.lexend400 }}
-          placeholder="Cari sayuran..."
+          placeholder="Cari produk..."
           className="ml-2 flex-1"
           placeholderTextColor="gray"
         />
@@ -161,7 +161,7 @@ export default function Keranjang() {
                     <View>
                       <Text
                         style={{ fontFamily: gayaHuruf.lexend700 }}
-                        className="text-lg"
+                        className="text-sm"
                       >
                         {keranjang.Nama_Keranjang}
                       </Text>

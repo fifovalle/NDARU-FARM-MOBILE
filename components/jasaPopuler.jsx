@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import useTambahKeranjangJasa from "../hooks/useTambahKeranjangJasa";
 
 const JasaPopuler = ({
   memuatJasa,
@@ -18,6 +19,8 @@ const JasaPopuler = ({
   formatRupiah,
   menyorotiKata,
 }) => {
+  const { tambahKeKeranjang, memuat } = useTambahKeranjangJasa();
+
   return (
     <>
       <View className="p-4 flex-row justify-between items-center mt-5">
@@ -94,14 +97,22 @@ const JasaPopuler = ({
                   {formatRupiah(jasa.Harga_Jasa)}
                 </Text>
               </View>
-              <TouchableOpacity activeOpacity={0.7} className="w-full">
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => tambahKeKeranjang(jasa)}
+                className="w-full"
+              >
                 <View className="mt-3 flex bg-[#447055] rounded-md p-2">
-                  <Text
-                    style={{ fontFamily: gayaHuruf.poppins500 }}
-                    className="text-[#ffffff] text-center"
-                  >
-                    + Keranjang
-                  </Text>
+                  {memuat === jasa.id ? (
+                    <ActivityIndicator size="small" color="#ffffff" />
+                  ) : (
+                    <Text
+                      style={{ fontFamily: gayaHuruf.poppins500 }}
+                      className="text-[#ffffff] text-center"
+                    >
+                      + Keranjang
+                    </Text>
+                  )}
                 </View>
               </TouchableOpacity>
             </View>

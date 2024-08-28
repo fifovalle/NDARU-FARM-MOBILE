@@ -1,17 +1,15 @@
 import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import React from "react";
 import { router } from "expo-router";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
-import useCheckoutSayuran from "../../hooks/useCheckoutSayuran";
+import useCheckout from "../../hooks/useCheckout";
 
 export default function Checkout() {
-  const ikonWortel = require("../../assets/images/ikonWortel.png");
-
   const { keranjang, formatRupiah, hitungTotalHarga, simpanCheckout } =
-    useCheckoutSayuran();
+    useCheckout();
 
   return (
     <View className="flex-1 bg-[#E7E8E2]">
@@ -62,6 +60,62 @@ export default function Checkout() {
             </View>
           </TouchableOpacity>
 
+          <TouchableOpacity
+            activeOpacity={0.7}
+            className="bg-white px-4 py-2 rounded-xl shadow-xl mt-5"
+          >
+            <View className="flex-row items-start">
+              <Ionicons name="wallet" size={24} color="green" />
+              <Text
+                style={{ fontFamily: gayaHuruf.poppins700 }}
+                className="ml-2 text-[#447055] mb-2"
+              >
+                Metode Pembayaran
+              </Text>
+            </View>
+
+            <View className="mx-5 flex-row items-center">
+              <View className="w-[270px] mr-2">
+                <Text style={{ fontFamily: gayaHuruf.lexend400 }}>
+                  Cash On Delivery
+                </Text>
+              </View>
+              <View className="w-10">
+                <Text style={{ fontFamily: gayaHuruf.lexend400 }}>
+                  <FontAwesome name="chevron-right" size={12} color="green" />
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            activeOpacity={0.7}
+            className="bg-white px-4 py-2 rounded-xl shadow-xl mt-5"
+          >
+            <View className="flex-row items-start">
+              <Ionicons name="car" size={24} color="green" />
+              <Text
+                style={{ fontFamily: gayaHuruf.poppins700 }}
+                className="ml-2 text-[#447055] mb-2"
+              >
+                Metode Pengiriman
+              </Text>
+            </View>
+
+            <View className="mx-5 flex-row items-center">
+              <View className="w-[270px] mr-2">
+                <Text style={{ fontFamily: gayaHuruf.lexend400 }}>
+                  Oleh Penjual
+                </Text>
+              </View>
+              <View className="w-10">
+                <Text style={{ fontFamily: gayaHuruf.lexend400 }}>
+                  <FontAwesome name="chevron-right" size={12} color="green" />
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+
           {keranjang.map((checkout) => (
             <View
               key={checkout.id}
@@ -85,8 +139,13 @@ export default function Checkout() {
                     style={{ fontFamily: gayaHuruf.lexend400 }}
                     className="text-sm text-gray-500"
                   >
-                    {checkout.Jumlah_Keranjang}kg x{" "}
-                    {formatRupiah(checkout.Harga_Keranjang)}
+                    {checkout.ID_Jasa
+                      ? `${checkout.Jumlah_Keranjang} Bulan x ${formatRupiah(
+                          checkout.Harga_Keranjang
+                        )}`
+                      : `${checkout.Jumlah_Keranjang} Kg x ${formatRupiah(
+                          checkout.Harga_Keranjang
+                        )}`}
                   </Text>
                 </View>
               </View>
@@ -102,6 +161,17 @@ export default function Checkout() {
                   {formatRupiah(
                     checkout.Harga_Keranjang * checkout.Jumlah_Keranjang
                   )}
+                </Text>
+              </View>
+              <View className="flex-row items-center justify-between w-full mt-3 px-2 mb-3">
+                <Text
+                  style={{ fontFamily: gayaHuruf.lexend400 }}
+                  className="text-gray-500"
+                >
+                  Total Pengiriman (1 KM)
+                </Text>
+                <Text style={{ fontFamily: gayaHuruf.lexend400 }}>
+                  Rp 10.000
                 </Text>
               </View>
             </View>
