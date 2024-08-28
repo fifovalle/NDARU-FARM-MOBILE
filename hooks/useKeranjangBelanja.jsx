@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
+import Toast from "react-native-toast-message";
 
 const useKeranjangBelanja = () => {
   const [keranjang, setKeranjang] = useState([]);
@@ -49,12 +50,36 @@ const useKeranjangBelanja = () => {
     }, 0);
   };
 
+  const hapusProduk = async (id) => {
+    try {
+      await firestore().collection("keranjang").doc(id).delete();
+      Toast.show({
+        type: "success",
+        position: "top",
+        text1: "Produk berhasil dihapus!",
+        visibilityTime: 3000,
+        autoHide: true,
+      });
+    } catch (error) {
+      console.error("Error menghapus produk: ", error);
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Gagal menghapus produk!",
+        text2: "Silakan coba lagi nanti.",
+        visibilityTime: 3000,
+        autoHide: true,
+      });
+    }
+  };
+
   return {
     keranjang,
     memuatDataKeranjang,
     formatRupiah,
     hitungKeranjang,
     hitungTotalHarga,
+    hapusProduk,
   };
 };
 

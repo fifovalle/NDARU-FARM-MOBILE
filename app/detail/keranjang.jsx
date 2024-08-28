@@ -11,6 +11,7 @@ import {
 import React, { useState, useRef } from "react";
 import { useRouter } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
+import Toast from "react-native-toast-message";
 
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
@@ -32,12 +33,18 @@ export default function Keranjang() {
   const [kuantitas, setKuantitas] = useState("1");
   const pengarah = useRouter();
 
-  const { keranjang, memuatDataKeranjang, hitungTotalHarga, formatRupiah } =
-    useKeranjangBelanja();
+  const {
+    keranjang,
+    memuatDataKeranjang,
+    hitungTotalHarga,
+    formatRupiah,
+    hapusProduk,
+  } = useKeranjangBelanja();
 
   return (
     <View className="flex-1 bg-[#E7E8E2]">
-      <View className="flex-row items-center mt-14 mb-8 px-4">
+      <Toast />
+      <View className="flex-row items-center mt-14 mb-8 px-4 -z-50">
         <TouchableOpacity onPress={() => pengarah.back("../")}>
           <View className="w-10 h-10 rounded-full flex justify-center items-center">
             <FontAwesome name="arrow-left" size={24} color="green" />
@@ -180,7 +187,9 @@ export default function Keranjang() {
                       activeOpacity={0.3}
                       className="my-auto"
                       onPress={() =>
-                        kurangiKuantitas(setKuantitas, keranjang.id)
+                        keranjang.Jumlah_Keranjang > 1
+                          ? kurangiKuantitas(setKuantitas, keranjang.id)
+                          : hapusProduk(keranjang.id)
                       }
                     >
                       <FontAwesome
