@@ -13,3 +13,5 @@ web-build/
 .DS_Store
 
 expo-env.d.ts
+
+google-services.json
