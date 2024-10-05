@@ -46,7 +46,7 @@ const useKeranjangBelanja = () => {
 
   const hitungTotalHarga = () => {
     return keranjang.reduce((total, item) => {
-      return total + item.Harga_Keranjang * item.Jumlah_Keranjang;
+      return total + item.Harga * item.Jumlah;
     }, 0);
   };
 

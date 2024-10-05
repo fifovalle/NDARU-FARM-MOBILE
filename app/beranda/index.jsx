@@ -24,7 +24,6 @@ import usePencarianSayuranPopuler from "../../hooks/usePencarianSayuranPopuler";
 import usePencarianBeritaPopuler from "../../hooks/usePencarianBeritaPopuler";
 import usePencarianJasaPopuler from "../../hooks/usePencarianJasaPopuler";
 import formatRupiah from "../../utils/formatRupiah";
-import formatTanggal from "../../utils/formatTanggal";
 import SayuranPopuler from "../../components/sayuranPopuler";
 import JasaPopuler from "../../components/jasaPopuler";
 import BeritaPopuler from "../../components/beritaPopuler";
@@ -155,7 +154,6 @@ export default function Index() {
             pengarah={pengarah}
             gayaHuruf={gayaHuruf}
             dataTidakAda={dataTidakAda}
-            formatTanggal={formatTanggal}
             menyorotiKata={menyorotiKataBeritaPopuler}
           />
         </View>

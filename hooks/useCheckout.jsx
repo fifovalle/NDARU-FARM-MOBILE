@@ -38,7 +38,7 @@ const useCheckout = () => {
 
   const hitungTotalHarga = () => {
     return keranjang.reduce((total, checkout) => {
-      return total + checkout.Harga_Keranjang * checkout.Jumlah_Keranjang;
+      return total + checkout.Harga * checkout.Jumlah;
     }, 0);
   };
 
@@ -52,12 +52,12 @@ const useCheckout = () => {
     if (pengguna) {
       try {
         const timestamp = firestore.FieldValue.serverTimestamp();
-        const checkoutRef = await firestore().collection("checkout").add({
-          ID_Pembeli_Checkout: pengguna.uid,
-          Barang_Checkout: keranjang,
-          Total_Harga_Checkout: hitungTotalHarga(),
-          Waktu_Pembelian_Checkout: timestamp,
-          Status_Checkout: "Sedang Dikemas",
+        await firestore().collection("checkout").add({
+          ID_Pembeli: pengguna.uid,
+          Barang: keranjang,
+          Total_Harga: hitungTotalHarga(),
+          Waktu_Pembelian: timestamp,
+          Status: "Sedang Dikemas",
         });
 
         const batch = firestore().batch();

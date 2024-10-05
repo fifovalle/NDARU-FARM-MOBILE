@@ -125,7 +125,7 @@ export default function Checkout() {
                 <View className="w-16 h-16 bg-gray-200 rounded-lg mr-4 flex items-center justify-center mb-2">
                   <Image
                     className="w-14 h-14"
-                    source={{ uri: checkout.Gambar_Keranjang }}
+                    source={{ uri: checkout.Gambar }}
                   />
                 </View>
                 <View>
@@ -133,18 +133,18 @@ export default function Checkout() {
                     style={{ fontFamily: gayaHuruf.poppins700 }}
                     className="text-lg"
                   >
-                    {checkout.Nama_Keranjang}
+                    {checkout.Nama}
                   </Text>
                   <Text
                     style={{ fontFamily: gayaHuruf.lexend400 }}
                     className="text-sm text-gray-500"
                   >
                     {checkout.ID_Jasa
-                      ? `${checkout.Jumlah_Keranjang} Bulan x ${formatRupiah(
-                          checkout.Harga_Keranjang
+                      ? `${checkout.Jumlah} Bulan x ${formatRupiah(
+                          checkout.Harga
                         )}`
-                      : `${checkout.Jumlah_Keranjang} Kg x ${formatRupiah(
-                          checkout.Harga_Keranjang
+                      : `${checkout.Jumlah} Kg x ${formatRupiah(
+                          checkout.Harga
                         )}`}
                   </Text>
                 </View>
@@ -155,12 +155,10 @@ export default function Checkout() {
                   style={{ fontFamily: gayaHuruf.lexend400 }}
                   className="text-gray-500"
                 >
-                  Total Harga ({checkout.Jumlah_Keranjang} Barang)
+                  Total Harga ({checkout.Jumlah} Barang)
                 </Text>
                 <Text style={{ fontFamily: gayaHuruf.lexend400 }}>
-                  {formatRupiah(
-                    checkout.Harga_Keranjang * checkout.Jumlah_Keranjang
-                  )}
+                  {formatRupiah(checkout.Harga * checkout.Jumlah)}
                 </Text>
               </View>
               <View className="flex-row items-center justify-between w-full mt-3 px-2 mb-3">

@@ -4,7 +4,7 @@ import { useMemo } from "react";
 export default function usePencarianSayuranPopuler(dataSayuran, kataPencarian) {
   const hasilPencarianSayuranPopuler = useMemo(() => {
     return dataSayuran.filter((sayur) =>
-      sayur.Nama_Sayuran.toLowerCase().includes(kataPencarian.toLowerCase())
+      sayur.Nama.toLowerCase().includes(kataPencarian.toLowerCase())
     );
   }, [dataSayuran, kataPencarian]);
 

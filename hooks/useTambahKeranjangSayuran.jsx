@@ -38,7 +38,7 @@ const useTambahKeranjangSayuran = () => {
       const keranjangRef = firestore()
         .collection("keranjang")
         .where("ID_Pembeli", "==", idPembeli)
-        .where("Nama_Sayuran", "==", sayuran.Nama_Sayuran);
+        .where("Nama", "==", sayuran.Nama);
 
       const snapshot = await keranjangRef.get();
 
@@ -55,10 +55,10 @@ const useTambahKeranjangSayuran = () => {
         await firestore().collection("keranjang").add({
           ID_Pembeli: idPembeli,
           ID_Sayuran: sayuran.id,
-          Nama_Keranjang: sayuran.Nama_Sayuran,
-          Harga_Keranjang: sayuran.Harga_Sayuran,
-          Gambar_Keranjang: sayuran.Gambar_Sayuran,
-          Jumlah_Keranjang: 1,
+          Nama: sayuran.Nama,
+          Harga: sayuran.Harga,
+          Gambar: sayuran.Gambar,
+          Jumlah: 1,
         });
       }
 

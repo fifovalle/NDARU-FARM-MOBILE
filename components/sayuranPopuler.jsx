@@ -72,7 +72,7 @@ const SayuranPopuler = ({
                 }
               >
                 <Image
-                  source={{ uri: sayuran.Gambar_Sayuran }}
+                  source={{ uri: sayuran.Gambar }}
                   className="w-full h-32 object-cover rounded-xl"
                 />
               </TouchableOpacity>
@@ -81,26 +81,26 @@ const SayuranPopuler = ({
                 className="text-xl mt-2 text-[#556F50]"
                 style={{ fontFamily: gayaHuruf.poppins700 }}
               >
-                {menyorotiKata(sayuran.Nama_Sayuran, kataPencarian)}
+                {menyorotiKata(sayuran.Nama, kataPencarian)}
               </Text>
               <Text
                 style={{ fontFamily: gayaHuruf.lexend400 }}
                 className="text-gray-500"
               >
-                {sayuran.Sayuran_Per_Kilo} Kg
+                {sayuran.Berat} Kg
               </Text>
               <View className="flex-row items-center justify-between mt-2">
                 <Text
                   style={{ fontFamily: gayaHuruf.poppins700 }}
                   className="text-black"
                 >
-                  {formatRupiah(sayuran.Harga_Sayuran)}
+                  {formatRupiah(sayuran.Harga)}
                 </Text>
                 <Text
                   style={{ fontFamily: gayaHuruf.poppins500 }}
                   className="text-gray-500"
                 >
-                  Stok {sayuran.Stok_Sayuran}
+                  Stok {sayuran.Stok}
                 </Text>
               </View>
               <TouchableOpacity

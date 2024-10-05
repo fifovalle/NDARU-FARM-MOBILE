@@ -15,7 +15,6 @@ const BeritaPopuler = ({
   dataTidakAda,
   gayaHuruf,
   pengarah,
-  formatTanggal,
   menyorotiKata,
 }) => {
   return (
@@ -69,24 +68,21 @@ const BeritaPopuler = ({
                 <View className="w-32 h-32 flex items-center justify-center rounded-xl">
                   <Image
                     className="w-28 h-28 rounded-xl"
-                    source={{ uri: berita.Gambar_Berita }}
+                    source={{ uri: berita.Gambar }}
                   ></Image>
                 </View>
                 <View className="px-4 w-[200px] flex">
                   <Text style={{ fontFamily: gayaHuruf.poppins700 }}>
                     {menyorotiKata(
-                      berita.Judul_Berita.length >= 7
-                        ? `${berita.Judul_Berita.slice(
+                      berita.Judul.length >= 7
+                        ? `${berita.Judul.slice(
                             0,
                             1
-                          ).toUpperCase()}${berita.Judul_Berita.slice(
-                            1,
-                            25
-                          )}...`
-                        : `${berita.Judul_Berita.slice(
+                          ).toUpperCase()}${berita.Judul.slice(1, 25)}...`
+                        : `${berita.Judul.slice(
                             0,
                             1
-                          ).toUpperCase()}${berita.Judul_Berita.slice(1)}`,
+                          ).toUpperCase()}${berita.Judul.slice(1)}`,
                       kataPencarian
                     )}
                   </Text>
@@ -94,27 +90,27 @@ const BeritaPopuler = ({
                     className="text-sm text-gray-500 mt-1"
                     style={{ fontFamily: gayaHuruf.lexend400 }}
                   >
-                    {berita.Isi_Berita.length >= 7
-                      ? `${berita.Isi_Berita.slice(
+                    {berita.Deskripsi.length >= 7
+                      ? `${berita.Deskripsi.slice(
                           0,
                           1
-                        ).toUpperCase()}${berita.Isi_Berita.slice(1, 50)}...`
-                      : `${berita.Isi_Berita.slice(
+                        ).toUpperCase()}${berita.Deskripsi.slice(1, 50)}...`
+                      : `${berita.Deskripsi.slice(
                           0,
                           1
-                        ).toUpperCase()}${berita.Isi_Berita.slice(1)}`}
+                        ).toUpperCase()}${berita.Deskripsi.slice(1)}`}
                   </Text>
                   <Text
                     className="text-sm text-gray-700 mt-3"
                     style={{ fontFamily: gayaHuruf.lexend400 }}
                   >
-                    {formatTanggal(berita.Tanggal_Berita)}
+                    {berita.Tanggal_Terbit}
                   </Text>
                   <Text
                     className="text-sm text-gray-500 self-end mr-4"
                     style={{ fontFamily: gayaHuruf.lexend400 }}
                   >
-                    {berita.Kategori_Berita}
+                    {berita.Kategori}
                   </Text>
                 </View>
               </View>

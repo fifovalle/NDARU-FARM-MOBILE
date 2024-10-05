@@ -13,7 +13,7 @@ const useDetailSayuranPopuler = (id) => {
         if (doc.exists) {
           const data = doc.data();
           setSayuranPopuler(data);
-          if (data.Stok_Sayuran < 5) {
+          if (data.Stok < 5) {
             setStatusStokPopuler("Sayuran ini hampir habis buruan beli!");
           } else {
             setStatusStokPopuler("");

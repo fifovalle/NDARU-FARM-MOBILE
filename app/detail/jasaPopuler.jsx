@@ -57,7 +57,7 @@ export default function SayuranPopuler() {
           <View className="bg-[#E7E8E2] mb-4 flex items-center justify-center">
             <View className="w-full h-80">
               <Image
-                source={{ uri: jasaPopuler.Gambar_Jasa }}
+                source={{ uri: jasaPopuler.Gambar }}
                 className="w-full h-full object-cover"
               />
             </View>
@@ -68,20 +68,20 @@ export default function SayuranPopuler() {
               style={{ fontFamily: gayaHuruf.poppins700 }}
               className="text-xl ml-2 p-4 mt-3 text-[#447055]"
             >
-              {jasaPopuler.Nama_Jasa}
+              {jasaPopuler.Nama}
             </Text>
             <Text
               style={{ fontFamily: gayaHuruf.lexend400 }}
               className="text-md ml-6 text-black"
             >
-              {jasaPopuler.Jangka_Waktu_Jasa} Bulan
+              {jasaPopuler.Jangka_Waktu} Bulan
             </Text>
             <View className="mx-auto w-[90%]">
               <Text
                 style={{ fontFamily: gayaHuruf.lexend400 }}
                 className="text-sm mt-4 text-gray-500 text-justify"
               >
-                {jasaPopuler.Deskripsi_Jasa}
+                {jasaPopuler.Deskripsi}
               </Text>
             </View>
 
@@ -120,7 +120,7 @@ export default function SayuranPopuler() {
                 style={{ fontFamily: gayaHuruf.poppins700 }}
                 className="text-lg text-[#447055]"
               >
-                {formatRupiah(jasaPopuler.Harga_Jasa * kuantitasJasaPopuler)}
+                {formatRupiah(jasaPopuler.Harga * kuantitasJasaPopuler)}
               </Text>
             </View>
           </View>

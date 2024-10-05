@@ -12,7 +12,7 @@ const usePembayaran = () => {
     if (pengguna) {
       const unsubscribe = firestore()
         .collection("checkout")
-        .where("ID_Pembeli_Checkout", "==", pengguna.uid)
+        .where("ID_Pembeli", "==", pengguna.uid)
         .onSnapshot(
           (snapshot) => {
             const dataTransaksi = snapshot.docs.map((doc) => ({

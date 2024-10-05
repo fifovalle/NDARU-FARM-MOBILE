@@ -114,7 +114,7 @@ export default function SemuaSayuranPopuler() {
                         }
                       >
                         <Image
-                          source={{ uri: sayuran.Gambar_Sayuran }}
+                          source={{ uri: sayuran.Gambar }}
                           className="w-full h-32 object-cover rounded-xl"
                         />
                       </TouchableOpacity>
@@ -123,7 +123,7 @@ export default function SemuaSayuranPopuler() {
                         style={{ fontFamily: gayaHuruf.poppins700 }}
                       >
                         {menyorotiKataSayuranPopuler(
-                          sayuran.Nama_Sayuran,
+                          sayuran.Nama,
                           kataPencarian
                         )}
                       </Text>
@@ -131,20 +131,20 @@ export default function SemuaSayuranPopuler() {
                         style={{ fontFamily: gayaHuruf.lexend400 }}
                         className="text-gray-500"
                       >
-                        {sayuran.Sayuran_Per_Kilo} Kg
+                        {sayuran.Berat} Kg
                       </Text>
                       <View className="flex-row items-center justify-between mt-2">
                         <Text
                           style={{ fontFamily: gayaHuruf.poppins700 }}
                           className="text-black"
                         >
-                          {formatRupiah(sayuran.Harga_Sayuran)}
+                          {formatRupiah(sayuran.Harga)}
                         </Text>
                         <Text
                           style={{ fontFamily: gayaHuruf.poppins500 }}
                           className="text-gray-500"
                         >
-                          Stok {sayuran.Stok_Sayuran}
+                          Stok {sayuran.Stok}
                         </Text>
                       </View>
 

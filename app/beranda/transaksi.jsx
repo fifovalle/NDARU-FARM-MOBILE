@@ -65,36 +65,36 @@ export default function Transaksi() {
                       style={{ fontFamily: gayaHuruf.lexend400 }}
                       className="text-sm text-gray-400"
                     >
-                      {formatTanggal(trans.Waktu_Pembelian_Checkout)}
+                      {formatTanggal(trans.Waktu_Pembelian)}
                     </Text>
                   </View>
                 </View>
                 <View
                   className="flex-row items-center justify-center p-1 rounded-lg"
                   style={{
-                    backgroundColor: statusWarna(trans.Status_Checkout),
+                    backgroundColor: statusWarna(trans.Status),
                   }}
                 >
                   <Text
                     style={{ fontFamily: gayaHuruf.lexend700 }}
                     className="text-sm text-center w-32"
                   >
-                    {trans.Status_Checkout}
+                    {trans.Status}
                   </Text>
                 </View>
               </View>
             </TouchableOpacity>
             <View className="border-b border-gray-300 mb-3" />
-            {trans.Barang_Checkout.map((barang) => (
+            {trans.Barang.map((barang) => (
               <View
                 className="flex items-start justify-between"
-                key={barang.Gambar_Keranjang}
+                key={barang.Gambar}
               >
                 <View className="flex-row items-center">
                   <View className="w-16 h-16 bg-gray-200 rounded-lg mr-4 flex items-center justify-center">
                     <Image
                       className="w-14 h-14"
-                      source={{ uri: barang.Gambar_Keranjang }}
+                      source={{ uri: barang.Gambar }}
                     />
                   </View>
                   <View>
@@ -102,15 +102,15 @@ export default function Transaksi() {
                       style={{ fontFamily: gayaHuruf.lexend700 }}
                       className="text-lg"
                     >
-                      {barang.Nama_Keranjang}
+                      {barang.Nama}
                     </Text>
                     <Text
                       style={{ fontFamily: gayaHuruf.lexend400 }}
                       className="text-sm text-gray-500"
                     >
                       {barang.ID_Jasa
-                        ? `${barang.Jumlah_Keranjang} Bulan`
-                        : `${barang.Jumlah_Keranjang} Kg`}
+                        ? `${barang.Jumlah} Bulan`
+                        : `${barang.Jumlah} Kg`}
                     </Text>
                   </View>
                 </View>
@@ -128,7 +128,7 @@ export default function Transaksi() {
                   style={{ fontFamily: gayaHuruf.lexend700 }}
                   className="text-lg text-green-700"
                 >
-                  {formatRupiah(trans.Total_Harga_Checkout)}
+                  {formatRupiah(trans.Total_Harga)}
                 </Text>
               </View>
               <TouchableOpacity

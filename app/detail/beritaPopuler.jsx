@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -47,7 +47,7 @@ export default function SayuranPopuler() {
           <View className="bg-[#E7E8E2] mb-4 flex items-center justify-center">
             <View className="w-full h-80">
               <Image
-                source={{ uri: beritaPopuler.Gambar_Berita }}
+                source={{ uri: beritaPopuler.Gambar }}
                 className="w-full h-full object-cover"
               />
             </View>
@@ -58,14 +58,14 @@ export default function SayuranPopuler() {
               style={{ fontFamily: gayaHuruf.poppins700 }}
               className="text-lg ml-2 px-4 py-2 mt-3 text-[#447055] text-justify"
             >
-              {beritaPopuler.Judul_Berita}
+              {beritaPopuler.Judul}
             </Text>
             <View className="mx-auto w-[90%]">
               <Text
                 style={{ fontFamily: gayaHuruf.lexend400 }}
                 className="text-md text-justify"
               >
-                {beritaPopuler.Isi_Berita}
+                {beritaPopuler.Deskripsi}
               </Text>
             </View>
             <View className="mx-auto w-[90%] mt-4">

@@ -25,11 +25,11 @@ export const tambahKuantitas = async (setKuantitas, id) => {
   try {
     const docRef = firestore().collection("keranjang").doc(id);
     const doc = await docRef.get();
-    const currentQuantity = doc.data().Jumlah_Keranjang;
+    const currentQuantity = doc.data().Jumlah;
     const newQuantity = (parseInt(currentQuantity, 10) + 1).toString();
 
     await docRef.update({
-      Jumlah_Keranjang: newQuantity,
+      Jumlah: newQuantity,
     });
 
     setKuantitas(newQuantity);
@@ -42,14 +42,14 @@ export const kurangiKuantitas = async (setKuantitas, id) => {
   try {
     const docRef = firestore().collection("keranjang").doc(id);
     const doc = await docRef.get();
-    const currentQuantity = doc.data().Jumlah_Keranjang;
+    const currentQuantity = doc.data().Jumlah;
     const newQuantity =
       parseInt(currentQuantity, 10) > 1
         ? (parseInt(currentQuantity, 10) - 1).toString()
         : "1";
 
     await docRef.update({
-      Jumlah_Keranjang: newQuantity,
+      Jumlah: newQuantity,
     });
 
     setKuantitas(newQuantity);

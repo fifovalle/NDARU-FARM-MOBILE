@@ -15,7 +15,6 @@ import { FontAwesome } from "@expo/vector-icons";
 import { gayaHuruf } from "../../constants/huruf";
 import useDataSemuaBeritaPopuler from "../../hooks/useDataSemuaBeritaPopuler";
 import usePencarianBeritaPopuler from "../../hooks/usePencarianBeritaPopuler";
-import formatTanggal from "../../utils/formatTanggal";
 
 export default function SemuaJasaPopuler() {
   const [kataPencarian, setKataPencarian] = useState("");
@@ -85,26 +84,21 @@ export default function SemuaJasaPopuler() {
                       <View className="w-32 h-32 flex items-center justify-center rounded-xl">
                         <Image
                           className="w-28 h-28 rounded-xl"
-                          source={{ uri: berita.Gambar_Berita }}
+                          source={{ uri: berita.Gambar }}
                         />
                       </View>
                       <View className="px-4 w-[200px]">
                         <Text style={{ fontFamily: gayaHuruf.poppins700 }}>
                           {menyorotiKataBeritaPopuler(
-                            berita.Judul_Berita.length >= 7
-                              ? `${berita.Judul_Berita.slice(
+                            berita.Judul.length >= 7
+                              ? `${berita.Judul.slice(
                                   0,
                                   1
-                                ).toUpperCase()}${berita.Judul_Berita.slice(
-                                  1,
-                                  25
-                                )}...`
-                              : `${berita.Judul_Berita.slice(
+                                ).toUpperCase()}${berita.Judul.slice(1, 25)}...`
+                              : `${berita.Judul.slice(
                                   0,
                                   1
-                                ).toUpperCase()}${berita.Judul_Berita.slice(
-                                  1
-                                )}`,
+                                ).toUpperCase()}${berita.Judul.slice(1)}`,
                             kataPencarian
                           )}
                         </Text>
@@ -112,30 +106,30 @@ export default function SemuaJasaPopuler() {
                           className="text-sm text-gray-500 mt-1"
                           style={{ fontFamily: gayaHuruf.lexend400 }}
                         >
-                          {berita.Isi_Berita.length >= 7
-                            ? `${berita.Isi_Berita.slice(
+                          {berita.Deskripsi.length >= 7
+                            ? `${berita.Deskripsi.slice(
                                 0,
                                 1
-                              ).toUpperCase()}${berita.Isi_Berita.slice(
+                              ).toUpperCase()}${berita.Deskripsi.slice(
                                 1,
                                 50
                               )}...`
-                            : `${berita.Isi_Berita.slice(
+                            : `${berita.Deskripsi.slice(
                                 0,
                                 1
-                              ).toUpperCase()}${berita.Isi_Berita.slice(1)}`}
+                              ).toUpperCase()}${berita.Deskripsi.slice(1)}`}
                         </Text>
                         <Text
                           className="text-sm text-gray-700 mt-3"
                           style={{ fontFamily: gayaHuruf.lexend400 }}
                         >
-                          {formatTanggal(berita.Tanggal_Berita)}
+                          {berita.Tanggal_Terbit}
                         </Text>
                         <Text
                           className="text-sm text-gray-500 self-end"
                           style={{ fontFamily: gayaHuruf.lexend400 }}
                         >
-                          {berita.Kategori_Berita}
+                          {berita.Kategori}
                         </Text>
                       </View>
                     </View>

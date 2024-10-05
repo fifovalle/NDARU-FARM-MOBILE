@@ -4,7 +4,7 @@ import { useMemo } from "react";
 export default function usePencarianJasaPopuler(dataJasa, kataPencarian) {
   const hasilPencarianJasaPopuler = useMemo(() => {
     return dataJasa.filter((jasa) =>
-      jasa.Nama_Jasa.toLowerCase().includes(kataPencarian.toLowerCase())
+      jasa.Nama.toLowerCase().includes(kataPencarian.toLowerCase())
     );
   }, [dataJasa, kataPencarian]);
 

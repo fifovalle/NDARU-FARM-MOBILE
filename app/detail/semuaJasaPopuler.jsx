@@ -112,7 +112,7 @@ export default function SemuaJasaPopuler() {
                         }
                       >
                         <Image
-                          source={{ uri: jasa.Gambar_Jasa }}
+                          source={{ uri: jasa.Gambar }}
                           className="w-full h-32 object-cover rounded-xl"
                         />
                       </TouchableOpacity>
@@ -121,16 +121,13 @@ export default function SemuaJasaPopuler() {
                         className="text-xl mt-2 text-[#556F50]"
                         style={{ fontFamily: gayaHuruf.poppins700 }}
                       >
-                        {menyorotiKataJasaPopuler(
-                          jasa.Nama_Jasa,
-                          kataPencarian
-                        )}
+                        {menyorotiKataJasaPopuler(jasa.Nama, kataPencarian)}
                       </Text>
                       <Text
                         style={{ fontFamily: gayaHuruf.lexend400 }}
                         className="text-gray-500"
                       >
-                        {jasa.Jangka_Waktu_Jasa} Bulan
+                        {jasa.Jangka_Waktu} Bulan
                       </Text>
 
                       <View className="flex-row items-center justify-between mt-2">
@@ -138,7 +135,7 @@ export default function SemuaJasaPopuler() {
                           style={{ fontFamily: gayaHuruf.poppins700 }}
                           className="text-black"
                         >
-                          {formatRupiah(jasa.Harga_Jasa)}
+                          {formatRupiah(jasa.Harga)}
                         </Text>
                       </View>
 
