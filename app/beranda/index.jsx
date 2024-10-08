@@ -19,14 +19,17 @@ import Toast from "react-native-toast-message";
 import { gayaHuruf } from "../../constants/huruf";
 import useDataSayuranPopuler from "../../hooks/useDataSayuranPopuler";
 import useDataJasaPopuler from "../../hooks/useDataJasaPopuler";
+import useDataSaranaPertanianPopuler from "../../hooks/useDataSemuaSaranaPertanianPopuler";
 import useDataBeritaPopuler from "../../hooks/useDataBeritaPopuler";
 import usePencarianSayuranPopuler from "../../hooks/usePencarianSayuranPopuler";
 import usePencarianBeritaPopuler from "../../hooks/usePencarianBeritaPopuler";
+import usePencarianSaranaPertanianPopuler from "../../hooks/usePencarianSaranaPertanianPopuler";
 import usePencarianJasaPopuler from "../../hooks/usePencarianJasaPopuler";
 import formatRupiah from "../../utils/formatRupiah";
 import SayuranPopuler from "../../components/sayuranPopuler";
 import JasaPopuler from "../../components/jasaPopuler";
 import BeritaPopuler from "../../components/beritaPopuler";
+import SaranaPertanian from "../../components/saranaPertanian";
 import useKeranjangBelanja from "../../hooks/useKeranjangBelanja";
 
 export default function Index() {
@@ -35,6 +38,8 @@ export default function Index() {
   const { dataSayuranPopuler, memuatSayuranPopuler } = useDataSayuranPopuler();
   const { dataJasaPopuler, memuatJasaPopuler } = useDataJasaPopuler();
   const { dataBeritaPopuler, memuatBeritaPopuler } = useDataBeritaPopuler();
+  const { dataSaranaPertanianPopuler, memuatSaranaPertanianPopuler } =
+    useDataSaranaPertanianPopuler();
   const [kataPencarian, setKataPencarian] = useState("");
   const ikonKeranjang = require("../../assets/images/ikonKeranjang1.png");
   const ikonCari = require("../../assets/images/ikonCari.png");
@@ -42,6 +47,13 @@ export default function Index() {
     usePencarianSayuranPopuler(dataSayuranPopuler, kataPencarian);
   const { hasilPencarianJasaPopuler, menyorotiKataJasaPopuler } =
     usePencarianJasaPopuler(dataJasaPopuler, kataPencarian);
+  const {
+    hasilPencarianSaranaPertanianPopuler,
+    menyorotiKataSaranaPertanianPopuler,
+  } = usePencarianSaranaPertanianPopuler(
+    dataSaranaPertanianPopuler,
+    kataPencarian
+  );
   const { hasilPencarianBeritaPopuler, menyorotiKataBeritaPopuler } =
     usePencarianBeritaPopuler(dataBeritaPopuler, kataPencarian);
   const { hitungKeranjang } = useKeranjangBelanja();
@@ -145,6 +157,17 @@ export default function Index() {
             dataTidakAda={dataTidakAda}
             formatRupiah={formatRupiah}
             menyorotiKata={menyorotiKataJasaPopuler}
+          />
+
+          <SaranaPertanian
+            memuat={memuatSaranaPertanianPopuler}
+            hasilPencarian={hasilPencarianSaranaPertanianPopuler}
+            kataPencarian={kataPencarian}
+            pengarah={pengarah}
+            gayaHuruf={gayaHuruf}
+            dataTidakAda={dataTidakAda}
+            formatRupiah={formatRupiah}
+            menyorotiKata={menyorotiKataSaranaPertanianPopuler}
           />
 
           <BeritaPopuler
