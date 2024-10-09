@@ -5,7 +5,7 @@ import auth from "@react-native-firebase/auth";
 
 GoogleSignin.configure({
   webClientId:
-    "666633182909-eri1d0rrev3ihkp6kll46lf0hkg2on8g.apps.googleusercontent.com",
+    "101945539421-7n4r71eglah54dfi8mbsas33835rb7sl.apps.googleusercontent.com",
 });
 
 export default function useMasukDenganGoogle() {
