@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,21 +7,26 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import React from "react";
 import { useRouter } from "expo-router";
 
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
 import usePembayaran from "../../hooks/usePembayaran";
+import usePencarianTransaksi from "../../hooks/usePencarianTransaksi";
 
 export default function Transaksi() {
   const pengarah = useRouter();
+  const [kataPencarian, setKataPencarian] = useState("");
   const dataTidakAda = require("../../assets/images/dataTidakAda.png");
-
   const ikonPencarian = require("../../assets/images/ikonCari.png");
   const ikonkeranjang2 = require("../../assets/images/ikonKeranjang2.png");
   const { transaksi, statusWarna, formatRupiah, formatTanggal } =
     usePembayaran();
+
+  const { hasilPencarianTransaksi } = usePencarianTransaksi(
+    transaksi,
+    kataPencarian
+  );
 
   return (
     <ScrollView className="flex-1 bg-[#E7E8E2] px-4">
@@ -32,6 +38,8 @@ export default function Transaksi() {
           Transaksi
         </Text>
       </View>
+
+      {/* Input Pencarian */}
       <View className="flex-row items-center bg-white rounded-full px-4 py-2 mb-4">
         <Image className="w-7 h-7" source={ikonPencarian} />
         <TextInput
@@ -39,10 +47,13 @@ export default function Transaksi() {
           placeholder="Cari Transaksi..."
           className="ml-2 flex-1"
           placeholderTextColor="gray"
+          value={kataPencarian}
+          onChangeText={setKataPencarian} // Update kata pencarian
         />
       </View>
-      {transaksi.length > 0 ? (
-        transaksi.map((trans) => (
+
+      {hasilPencarianTransaksi.length > 0 ? (
+        hasilPencarianTransaksi.map((trans) => (
           <View
             key={trans.id}
             className="bg-white p-4 rounded-xl shadow-xl mb-7"

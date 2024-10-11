@@ -6,10 +6,12 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
 import useCheckout from "../../hooks/useCheckout";
+import useTampilkanAlamatCheckout from "../../hooks/useTampilkanAlamatCheckout";
 
 export default function Checkout() {
   const { keranjang, formatRupiah, hitungTotalHarga, simpanCheckout } =
     useCheckout();
+  const { alamatPengguna, memuatAlamat } = useTampilkanAlamatCheckout();
 
   return (
     <View className="flex-1 bg-[#E7E8E2]">
@@ -48,8 +50,7 @@ export default function Checkout() {
             <View className="mx-5 flex-row items-center">
               <View className="w-[270px] mr-2">
                 <Text style={{ fontFamily: gayaHuruf.lexend400 }}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Dolorem, dolor!
+                  {memuatAlamat ? "Memuat alamat..." : alamatPengguna}
                 </Text>
               </View>
               <View className="w-10">
