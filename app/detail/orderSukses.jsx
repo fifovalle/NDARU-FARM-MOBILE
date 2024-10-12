@@ -19,9 +19,9 @@ export default function Checkout() {
   const backgroundOpacity = useSharedValue(0);
   const checkOpacity = useSharedValue(0);
   const scale = useSharedValue(0.5);
-  const textOpacity = useSharedValue(0); // Opasitas untuk teks
-  const chevronOpacity = useSharedValue(0); // Opasitas untuk ikon chevron
-  const backgroundPosition = useSharedValue(0); // Untuk posisi vertikal background
+  const textOpacity = useSharedValue(0);
+  const chevronOpacity = useSharedValue(0);
+  const backgroundPosition = useSharedValue(0);
 
   useEffect(() => {
     circleOpacity.value = withTiming(1, {
@@ -68,13 +68,12 @@ export default function Checkout() {
       });
     }, 1500);
 
-    // Animasi teks muncul
     setTimeout(() => {
       textOpacity.value = withTiming(1, {
         duration: 500,
         easing: Easing.out(Easing.exp),
       });
-    }, 2900); // Tunggu hingga ceklis muncul
+    }, 2900);
 
     // Animasi ikon chevron muncul
     setTimeout(() => {
@@ -82,7 +81,7 @@ export default function Checkout() {
         duration: 500,
         easing: Easing.out(Easing.exp),
       });
-    }, 2900); // Tunggu hingga teks muncul
+    }, 2900);
   }, []);
 
   const circleStyle = useAnimatedStyle(() => {
@@ -91,10 +90,10 @@ export default function Checkout() {
       width: 150,
       height: 150,
       borderRadius: 75,
-      backgroundColor: "rgba(0, 62, 0, 0.361)", // Warna lingkaran
+      backgroundColor: "rgb(255, 255, 255)",
       justifyContent: "center",
       alignItems: "center",
-      transform: [{ scale: circleOpacity.value }], // Tambahkan transform scale
+      transform: [{ scale: circleOpacity.value }],
     };
   });
 
@@ -107,7 +106,7 @@ export default function Checkout() {
       borderRadius: 50,
       justifyContent: "center",
       alignItems: "center",
-      transform: [{ translateY: backgroundPosition.value }], // Efek bounce atas-bawah
+      transform: [{ translateY: backgroundPosition.value }],
     };
   });
 

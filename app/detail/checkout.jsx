@@ -6,12 +6,10 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
 import useCheckout from "../../hooks/useCheckout";
-import useTampilkanAlamatCheckout from "../../hooks/useTampilkanAlamatCheckout";
 
 export default function Checkout() {
   const { keranjang, formatRupiah, hitungTotalHarga, simpanCheckout } =
     useCheckout();
-  const { alamatPengguna, memuatAlamat } = useTampilkanAlamatCheckout();
 
   return (
     <View className="flex-1 bg-[#E7E8E2]">
@@ -36,6 +34,7 @@ export default function Checkout() {
           <TouchableOpacity
             activeOpacity={0.7}
             className="bg-white px-4 py-2 rounded-xl shadow-xl"
+            onPress={() => router.push("../../detail/Alamat")}
           >
             <View className="flex-row items-start">
               <FontAwesome name="map-marker" size={24} color="green" />
@@ -50,7 +49,8 @@ export default function Checkout() {
             <View className="mx-5 flex-row items-center">
               <View className="w-[270px] mr-2">
                 <Text style={{ fontFamily: gayaHuruf.lexend400 }}>
-                  {memuatAlamat ? "Memuat alamat..." : alamatPengguna}
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Dolorem, dolor!
                 </Text>
               </View>
               <View className="w-10">

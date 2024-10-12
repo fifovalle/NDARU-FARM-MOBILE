@@ -26,7 +26,7 @@ export default function useProfilPengguna(segeraBergulirKeAtas) {
     const pengguna = auth().currentUser;
     if (pengguna) {
       const penggunaRef = firestore().collection("pengguna").doc(pengguna.uid);
-      penggunaRef.get().then((documentSnapshot) => {
+      const unsubscribe = penggunaRef.onSnapshot((documentSnapshot) => {
         if (documentSnapshot.exists) {
           const dataPengguna = documentSnapshot.data();
           setNamaLengkap(dataPengguna.Nama_Lengkap_Pengguna || "");
@@ -41,6 +41,8 @@ export default function useProfilPengguna(segeraBergulirKeAtas) {
           setGambarProfil(dataPengguna.Foto_Pengguna || "");
         }
       });
+
+      return () => unsubscribe();
     }
   }, []);
 
@@ -99,7 +101,7 @@ export default function useProfilPengguna(segeraBergulirKeAtas) {
 
     setMemuatGambar(true);
     if (pengguna) {
-      const referensi = storage().ref(`/gambar_pengguna/${pengguna.uid}`);
+      const referensi = storage().ref(`Foto_Pengguna/${pengguna.uid}`);
       try {
         await referensi.putFile(uri);
         const url = await referensi.getDownloadURL();

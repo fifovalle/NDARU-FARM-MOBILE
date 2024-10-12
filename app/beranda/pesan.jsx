@@ -19,6 +19,7 @@ export default function Pesan() {
   const pengarah = useRouter();
   const [kataPencarian, setKataPencarian] = useState("");
   const dataTidakAda = require("../../assets/images/dataTidakAda.png");
+  const gambarBawaan = require("../../assets/images/pengguna-bawaan.png");
 
   const ikonPencarian = require("../../assets/images/ikonCari.png");
   const dataTidakDitemukan = require("../../assets/images/dataTidakAda.png");
@@ -81,12 +82,14 @@ export default function Pesan() {
                 activeOpacity={0.6}
                 className="flex-row items-center py-2 my-4"
               >
-                <View className="w-20 h-20 bg-gray-500 rounded-full mr-3 overflow-hidden flex items-center justify-center">
+                <View className="w-20 h-20 rounded-full mr-3 overflow-hidden flex items-center justify-center bg-white">
                   <Image
-                    source={{
-                      uri: pesan.pengirim.Foto_Pengguna,
-                    }}
-                    className="w-20 h-20 object-cover"
+                    source={
+                      pesan.pengirim.Foto_Pengguna
+                        ? { uri: pesan.pengirim.Foto_Pengguna }
+                        : gambarBawaan
+                    }
+                    className="w-16 h-16 mt-5 object-cover"
                   />
                 </View>
                 <View className="flex-1">

@@ -117,7 +117,7 @@ export default function Index() {
           <View className="flex-row items-center mr-10">
             <Ionicons name="wallet" size={24} color="#447055" />
             <Text style={{ fontFamily: gayaHuruf.lexend700 }} className="ml-2">
-              Rp 10.000.000
+              Rp 1.000.000.000
             </Text>
           </View>
           <View className="border border-gray-300" />
@@ -132,7 +132,7 @@ export default function Index() {
               color="#447055"
             />
             <Text style={{ fontFamily: gayaHuruf.lexend700 }} className="ml-2">
-              Isi Saldo
+              Isi Saldo Bray
             </Text>
           </TouchableOpacity>
         </View>

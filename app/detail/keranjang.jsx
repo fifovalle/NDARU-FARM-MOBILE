@@ -16,7 +16,6 @@ import Toast from "react-native-toast-message";
 // MODUL KAMI
 import { gayaHuruf } from "../../constants/huruf";
 import useKeranjangBelanja from "../../hooks/useKeranjangBelanja";
-import usePencarianKeranjang from "../../hooks/usePencarianKeranjang";
 import {
   beralihTerpilih,
   beralihTerpilihSatuan,
@@ -32,21 +31,15 @@ export default function Keranjang() {
   const [terpilihSemua, setTerpilihSemua] = useState(false);
   const [terpilihSatuan, setTerpilihSatuan] = useState(false);
   const [kuantitas, setKuantitas] = useState("1");
-  const [kataPencarian, setKataPencarian] = useState("");
   const pengarah = useRouter();
 
   const {
-    keranjang = [],
+    keranjang,
     memuatDataKeranjang,
     hitungTotalHarga,
     formatRupiah,
     hapusProduk,
   } = useKeranjangBelanja();
-
-  const { hasilPencarianKeranjang } = usePencarianKeranjang(
-    keranjang,
-    kataPencarian
-  );
 
   return (
     <View className="flex-1 bg-[#E7E8E2]">
@@ -73,8 +66,6 @@ export default function Keranjang() {
           placeholder="Cari produk..."
           className="ml-2 flex-1"
           placeholderTextColor="gray"
-          value={kataPencarian}
-          onChangeText={setKataPencarian}
         />
       </View>
 
@@ -135,19 +126,19 @@ export default function Keranjang() {
 
           {memuatDataKeranjang ? (
             <ActivityIndicator size="large" color="#556F50" />
-          ) : hasilPencarianKeranjang.length === 0 ? (
+          ) : keranjang.length === 0 ? (
             <View className="items-center">
               <Image source={dataTidakAda} className="w-72 h-72 mb-4" />
               <Text
                 style={{ fontFamily: gayaHuruf.lexend700 }}
                 className="text-lg text-gray-600"
               >
-                Produk Tidak Ditemukan
+                Keranjang Anda Kosong
               </Text>
             </View>
           ) : (
             <>
-              {hasilPencarianKeranjang.map((keranjang, indeks) => (
+              {keranjang.map((keranjang, indeks) => (
                 <View
                   key={indeks}
                   className="flex-row items-center mb-7 justify-between"
@@ -212,12 +203,13 @@ export default function Keranjang() {
                     <TextInput
                       value={String(keranjang.Jumlah)}
                       keyboardType="numeric"
-                      className="mx-1 text-center w-10 text-gray-700"
-                      onChangeText={(text) =>
+                      className="my-auto w-1/4 text-center"
+                      editable={true}
+                      onChangeText={(teks) =>
                         tanganiPerubahanKuantitas(
+                          teks,
                           setKuantitas,
-                          keranjang.id,
-                          text
+                          keranjang.id
                         )
                       }
                     />

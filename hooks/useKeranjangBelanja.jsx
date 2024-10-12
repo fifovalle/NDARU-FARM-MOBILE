@@ -16,14 +16,12 @@ const useKeranjangBelanja = () => {
         .where("ID_Pembeli", "==", pengguna.uid)
         .onSnapshot(
           (snapshot) => {
-            setTimeout(() => {
-              const dataKeranjang = snapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-              }));
-              setKeranjang(dataKeranjang);
-              setMemuatDataKeranjang(false);
-            }, 5000);
+            const dataKeranjang = snapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }));
+            setKeranjang(dataKeranjang);
+            setMemuatDataKeranjang(false);
           },
           (error) => {
             console.error("Error mengambil data keranjang: ", error);
@@ -54,16 +52,14 @@ const useKeranjangBelanja = () => {
 
   const hapusProduk = async (id) => {
     try {
-      setTimeout(async () => {
-        await firestore().collection("keranjang").doc(id).delete();
-        Toast.show({
-          type: "success",
-          position: "top",
-          text1: "Produk berhasil dihapus!",
-          visibilityTime: 3000,
-          autoHide: true,
-        });
-      }, 5000);
+      await firestore().collection("keranjang").doc(id).delete();
+      Toast.show({
+        type: "success",
+        position: "top",
+        text1: "Produk berhasil dihapus!",
+        visibilityTime: 3000,
+        autoHide: true,
+      });
     } catch (error) {
       console.error("Error menghapus produk: ", error);
       Toast.show({

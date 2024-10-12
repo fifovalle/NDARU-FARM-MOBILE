@@ -68,7 +68,7 @@ const useCheckout = () => {
 
         await batch.commit();
 
-        router.push("beranda/transaksi");
+        router.push("detail/orderSukses");
       } catch (error) {
         console.error("Error menyimpan checkout: ", error);
       }

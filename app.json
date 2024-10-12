@@ -31,7 +31,8 @@
     "plugins": [
       "expo-router",
       "@react-native-firebase/app",
-      "@react-native-firebase/auth"
+      "@react-native-firebase/auth",
+      "@react-native-firebase/crashlytics"
     ],
     "experiments": {
       "typedRoutes": true
@@ -41,7 +42,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "5225b5b3-aecf-45af-a8e7-7a5b08e2fcef"
+        "projectId": "7dde86ec-2c80-444c-97e4-74b63da3706d"
       }
     }
   }

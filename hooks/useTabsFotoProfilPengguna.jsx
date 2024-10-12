@@ -7,24 +7,26 @@ export const useTabsFotoProfilPengguna = () => {
   const [memuatFotoPengguna, setMemuatFotoPengguna] = useState(true);
 
   useEffect(() => {
-    const tampilkanFotoProfilPengguna = async () => {
-      const pengguna = auth().currentUser;
+    const pengguna = auth().currentUser;
 
-      if (pengguna) {
-        const doc = firestore().collection("pengguna").doc(pengguna.uid);
-        const snap = await doc.get();
-
-        if (snap.exists) {
-          const data = snap.data();
-          if (data.Foto_Pengguna) {
-            setFotoPengguna({ uri: data.Foto_Pengguna });
+    if (pengguna) {
+      const unsubscribe = firestore()
+        .collection("pengguna")
+        .doc(pengguna.uid)
+        .onSnapshot((snap) => {
+          if (snap.exists) {
+            const data = snap.data();
+            if (data.Foto_Pengguna) {
+              setFotoPengguna({ uri: data.Foto_Pengguna });
+            } else {
+              setFotoPengguna(null);
+            }
           }
-        }
-      }
-      setMemuatFotoPengguna(false);
-    };
+          setMemuatFotoPengguna(false);
+        });
 
-    tampilkanFotoProfilPengguna();
+      return () => unsubscribe();
+    }
   }, []);
 
   return { fotoPengguna, memuatFotoPengguna };

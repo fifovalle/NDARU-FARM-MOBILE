@@ -139,7 +139,7 @@ export default function SayuranPopuler() {
       <View className="w-full h-20 bg-white justify-evenly items-center flex-row">
         <TouchableOpacity
           onPress={() =>
-            pengarah.push("/detail/pesan?id=" + "YvPypubl5TOhXcPJSp6bbuqq1y52")
+            pengarah.push("/detail/pesan?id=" + "H0cNLa76AGNseYz8jMJUe6zlwKI3")
           }
           activeOpacity={0.5}
           className="w-[45px] h-12 border-2 border-[#447055] rounded-lg"

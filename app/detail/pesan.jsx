@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   ActivityIndicator,
+  Keyboard,
 } from "react-native";
 import { useRouter, useGlobalSearchParams } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
@@ -34,7 +35,12 @@ export default function Pesan() {
     memuatKirimPesan,
   } = useDataPesanMasuk(id);
 
-  const { gulirSegera, tanganiPesan } = gulirOtomatisKeBawah();
+  const { gulirSegera, tanganiKirimPesan, tanganiScrollSaatMengetik } =
+    gulirOtomatisKeBawah();
+
+  useEffect(() => {
+    tanganiScrollSaatMengetik();
+  }, []);
 
   return (
     <View className="flex-1 bg-[#E7E8E2] px-2">
@@ -201,7 +207,7 @@ export default function Pesan() {
           <TouchableOpacity
             activeOpacity={0.4}
             className="p-2 mr-4"
-            onPress={() => tanganiPesan(kirimPesan, pesanBaru)}
+            onPress={() => tanganiKirimPesan(kirimPesan, pesanBaru)}
             disabled={memuatKirimPesan}
           >
             {memuatKirimPesan ? (

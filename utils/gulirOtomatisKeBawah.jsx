@@ -1,12 +1,19 @@
 import { useRef } from "react";
+import { Keyboard } from "react-native";
 
 export const gulirOtomatisKeBawah = () => {
   const gulirSegera = useRef();
 
-  const tanganiPesan = async (kirimPesan, pesan) => {
+  const tanganiKirimPesan = async (kirimPesan, pesan) => {
     await kirimPesan(pesan);
     gulirSegera.current.scrollToEnd({ animated: true });
   };
 
-  return { gulirSegera, tanganiPesan };
+  const tanganiScrollSaatMengetik = () => {
+    Keyboard.addListener("keyboardDidShow", () => {
+      gulirSegera.current?.scrollToEnd({ animated: true });
+    });
+  };
+
+  return { gulirSegera, tanganiKirimPesan, tanganiScrollSaatMengetik };
 };
